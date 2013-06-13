@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="InfoCaster.Umbraco.UrlTracker.UI.Installer.UrlTrackerInstallerService" CodeBehind="UrlTrackerInstallerService.svc.cs" %>

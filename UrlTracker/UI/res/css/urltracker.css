@@ -1,0 +1,33 @@
+﻿legend { font-size: 18px; line-height: 24px; margin-bottom: 10px; }
+table { max-width: 100%; word-break: break-all; }
+
+.asc a, .desc a { background-repeat: no-repeat; background-position: left center; padding-left: 15px; }
+.clickable { cursor: pointer; }
+.btn { margin-right: 10px; }
+.btn-create { margin-bottom: 20px; }
+.btn-switch { float: right; }
+.view-switch { position: absolute; right: 10px; top: 43px; }
+.checkboxes { text-align: center !important; }
+.checkboxes input { margin-top: 0 !important; }
+.filters { margin-bottom: 10px; }
+.filters .checkbox { margin-right: 10px; }
+
+select.input-xlarge { width: 284px; }
+.input-prepend .input-xlarge { width: 242px; }
+.controls .simple { margin-bottom: 5px; line-height: 30px; }
+.controls .wrap { margin-top: 5px; }
+
+.control-group { width: 480px; }
+.clearfix .control-group { float: left; }
+.group { margin-bottom: 10px !important; }
+.control-group label.error { margin-bottom: 0 !important; }
+.control-group.error .wrap a { color: #b94a48; }
+
+.treePickerTooltip {
+	display: none;
+	position: absolute;
+	border: 1px solid #333;
+	background-color: #fff8cb;
+	padding: 3px;
+	color: #000;
+}
