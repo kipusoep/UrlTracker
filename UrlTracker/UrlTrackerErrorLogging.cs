@@ -8,7 +8,7 @@ namespace InfoCaster.Umbraco.UrlTracker
 	/// <summary>
 	/// The Error Logger interface
 	/// </summary>
-	public interface IUrlTrackerErrorLogger
+	public interface IUrlTrackerLogger
 	{
 		/// <summary>
 		/// The Log method
@@ -25,19 +25,19 @@ namespace InfoCaster.Umbraco.UrlTracker
 	/// <summary>
 	/// The Error Logging class
 	/// </summary>
-	public static class UrlTrackerErrorLogging
+	public static class UrlTrackerLogging
 	{
 		/// <summary>
 		/// The active Error Logger instance
 		/// </summary>
-		internal static IUrlTrackerErrorLogger ErrorLogger { get; set; }
+		internal static IUrlTrackerLogger ErrorLogger { get; set; }
 		/// <summary>
-		/// Registers the provided implemented <see cref="IUrlTrackerErrorLogger"/> as active ErrorLogger
+		/// Registers the provided implemented <see cref="IUrlTrackerLogger"/> as active ErrorLogger
 		/// </summary>
-		/// <param name="errorLogger">The implemented <see cref="IUrlTrackerErrorLogger"/></param>
-		public static void RegisterLogger(IUrlTrackerErrorLogger errorLogger)
+		/// <param name="logger">The implemented <see cref="IUrlTrackerLogger"/></param>
+		public static void RegisterLogger(IUrlTrackerLogger logger)
 		{
-			ErrorLogger = errorLogger;
+			ErrorLogger = logger;
 		}
 		/// <summary>
 		/// Log a message

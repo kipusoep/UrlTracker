@@ -9,7 +9,7 @@
 	<title>Url Tracker</title>
 
 	<link rel="stylesheet" type="text/css" href="<%= Page.ClientScript.GetWebResourceUrl(typeof(UrlTrackerResources), "InfoCaster.Umbraco.UrlTracker.UI.res.css.bootstrap.min.css") %>" />
-	<link rel="stylesheet" type="text/css" href="<%= Page.ClientScript.GetWebResourceUrl(typeof(UrlTrackerResources), "InfoCaster.Umbraco.UrlTracker.UI.res.css.settings.css") %>" />
+	<link rel="stylesheet" type="text/css" href="<%= Page.ClientScript.GetWebResourceUrl(typeof(UrlTrackerResources), "InfoCaster.Umbraco.UrlTracker.UI.res.css.info.css") %>" />
 	<style type="text/css">
 		[class^="icon-"], [class*=" icon-"] { background-image: url("<%= Page.ClientScript.GetWebResourceUrl(typeof(UrlTrackerResources), "InfoCaster.Umbraco.UrlTracker.UI.res.img.glyphicons-halflings.png") %>"); }
 		.icon-white, .nav-pills > .active > a > [class^="icon-"], .nav-pills > .active > a > [class*=" icon-"], .nav-list > .active > a > [class^="icon-"], .nav-list > .active > a > [class*=" icon-"], .navbar-inverse .nav > .active > a > [class^="icon-"], .navbar-inverse .nav > .active > a > [class*=" icon-"], .dropdown-menu > li > a:hover > [class^="icon-"], .dropdown-menu > li > a:focus > [class^="icon-"], .dropdown-menu > li > a:hover > [class*=" icon-"], .dropdown-menu > li > a:focus > [class*=" icon-"], .dropdown-menu > .active > a > [class^="icon-"], .dropdown-menu > .active > a > [class*=" icon-"], .dropdown-submenu:hover > a > [class^="icon-"], .dropdown-submenu:focus > a > [class^="icon-"], .dropdown-submenu:hover > a > [class*=" icon-"], .dropdown-submenu:focus > a > [class*=" icon-"] { background-image: url("<%= Page.ClientScript.GetWebResourceUrl(typeof(UrlTrackerResources), "InfoCaster.Umbraco.UrlTracker.UI.res.img.glyphicons-halflings-white.png") %>"); }
@@ -65,16 +65,22 @@
 				<p>The Url Tracker logs requests resulting in a 404 Not Found status. Some URLs shouldn't be logged and can be set here. One URL is always ignored by default: 'favicon.ico'.</p>
 			</div>
 			<div class="tab-pane" id="qa">
-				<h4>The Url Tracker won't redirect any requests</h4>
+				<p>Some questions and answers. This section will be expanded when people start asking more questions on the forum ;-)</p>
+				<h4>Help, the Url Tracker won't redirect any requests?</h4>
 				<p>Please enable logging in the <a onclick="$('#infoTabs a[href=\'#settings\']').tab('show');">settings</a> and <a href="http://our.umbraco.org/projects/developer-tools/301-url-tracker/version-2" target="_blank">post the information on the forum</a>.</p>
+				<h4>Can I log exceptions and debug info myself?</h4>
+				<p>Yes that's possible. By default exceptions/debug info will be logged (depending on configuration) to log4net and/or the umbracoLog table, but it's possible to register your own logger. Just add your implementation of the IUrlTrackerLogger by using InfoCaster.Umbraco.UrlTracker.UrlTrackerLogging.RegisterLogger(logger);</p>
+				<h4>I have added hostnames to my root nodes, but I can't select a root node in the Url Tracker?</h4>
+				<p>Please ensure the application pool has been recycled after adding new hostnames.</p>
 			</div>
 			<div class="tab-pane" id="changeLog">
 				<ul>
 					<li>
-						Version 2.0
+						Version 2.0 beta
 						<ul>
 							<li>Initial release, completely rebuilt the package</li>
 							<li>Renamed 301 URL Tracker to Url Tracker</li>
+							<li>The package is now a single assembly</li>
 						</ul>
 					</li>
 				</ul>

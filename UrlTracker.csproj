@@ -54,6 +54,9 @@
     <Reference Include="interfaces">
       <HintPath>lib\interfaces.dll</HintPath>
     </Reference>
+    <Reference Include="log4net">
+      <HintPath>lib\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
@@ -127,7 +130,7 @@
     <EmbeddedResource Include="UrlTracker\UI\UserControls\NotFoundView.ascx" />
     <EmbeddedResource Include="UrlTracker\UI\UserControls\CreateView.ascx" />
     <EmbeddedResource Include="UrlTracker\UI\UserControls\CustomView.ascx" />
-    <EmbeddedResource Include="UrlTracker\UI\res\css\settings.css" />
+    <EmbeddedResource Include="UrlTracker\UI\res\css\info.css" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

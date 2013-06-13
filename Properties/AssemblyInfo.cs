@@ -40,7 +40,7 @@ using System.Web.UI;
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.css.bootstrap.css", "text/css")]
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.css.bootstrap.min.css", "text/css")]
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.css.installer.css", "text/css")]
-[assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.css.settings.css", "text/css")]
+[assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.css.info.css", "text/css")]
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.css.urltracker.css", "text/css")]
 
 // IMG
