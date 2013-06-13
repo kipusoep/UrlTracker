@@ -1,0 +1,388 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{8B0DC6BA-E027-4DAA-94F4-B71C6F0C3C9E}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>InfoCaster.Umbraco</RootNamespace>
+    <AssemblyName>InfoCaster.Umbraco.UrlTracker</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <UseIISExpress>false</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <TargetFrameworkProfile />
+    <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="businesslogic, Version=1.0.4869.17900, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\businesslogic.dll</HintPath>
+    </Reference>
+    <Reference Include="ClientDependency.Core, Version=1.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\ClientDependency.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="cms, Version=1.0.4869.17900, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\cms.dll</HintPath>
+    </Reference>
+    <Reference Include="controls, Version=1.0.4869.17901, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\controls.dll</HintPath>
+    </Reference>
+    <Reference Include="CookComputing.XmlRpcV2, Version=2.5.0.0, Culture=neutral, PublicKeyToken=a7d6e17aa302004d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\CookComputing.XmlRpcV2.dll</HintPath>
+    </Reference>
+    <Reference Include="Examine, Version=0.1.48.2941, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Examine.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.4.5.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="interfaces, Version=1.0.4869.17899, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Lucene.Net, Version=2.9.4.1, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Lucene.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationBlocks.Data, Version=1.0.1559.20655, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Microsoft.ApplicationBlocks.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Helpers, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Microsoft.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data, Version=5.1.2.2, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Our.Umbraco.uGoLive, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Our.Umbraco.uGoLive.dll</HintPath>
+    </Reference>
+    <Reference Include="Our.Umbraco.uGoLive.47x, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Our.Umbraco.uGoLive.47x.dll</HintPath>
+    </Reference>
+    <Reference Include="Our.Umbraco.uGoLive.Checks, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Our.Umbraco.uGoLive.Checks.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLCE4Umbraco, Version=1.0.4869.17900, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\SQLCE4Umbraco.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\System.Data.SqlServerCe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SqlServerCe.Entity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\System.Data.SqlServerCe.Entity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="TidyNet, Version=1.0.0.0, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\TidyNet.dll</HintPath>
+    </Reference>
+    <Reference Include="umbraco, Version=1.0.4869.17901, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\umbraco.dll</HintPath>
+    </Reference>
+    <Reference Include="Umbraco.Core, Version=1.0.4869.17899, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Umbraco.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="umbraco.DataLayer, Version=1.0.4869.17900, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\umbraco.DataLayer.dll</HintPath>
+    </Reference>
+    <Reference Include="umbraco.editorControls, Version=1.0.4869.17910, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\umbraco.editorControls.dll</HintPath>
+    </Reference>
+    <Reference Include="umbraco.MacroEngines, Version=1.0.4869.17911, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\umbraco.MacroEngines.dll</HintPath>
+    </Reference>
+    <Reference Include="umbraco.macroRenderings, Version=1.0.4869.17901, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\umbraco.macroRenderings.dll</HintPath>
+    </Reference>
+    <Reference Include="umbraco.providers, Version=1.0.4869.17901, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\umbraco.providers.dll</HintPath>
+    </Reference>
+    <Reference Include="Umbraco.Web.UI, Version=1.0.4869.17903, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Umbraco.Web.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="umbraco.webservices, Version=1.0.4869.17911, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\umbraco.webservices.dll</HintPath>
+    </Reference>
+    <Reference Include="umbraco.XmlSerializers, Version=1.0.4869.17901, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\umbraco.XmlSerializers.dll</HintPath>
+    </Reference>
+    <Reference Include="UmbracoExamine, Version=0.1.42.2941, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\UmbracoExamine.dll</HintPath>
+    </Reference>
+    <Reference Include="UrlRewritingNet.UrlRewriter, Version=2.0.60829.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\UrlRewritingNet.UrlRewriter.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="UrlTracker\SQL\create-table.sql" />
+    <EmbeddedResource Include="UrlTracker\UI\Installer\UrlTrackerInstaller.ascx" />
+    <EmbeddedResource Include="UrlTracker\UI\Installer\UrlTrackerInstallerService.svc" />
+    <EmbeddedResource Include="UrlTracker\UI\res\css\bootstrap.css" />
+    <EmbeddedResource Include="UrlTracker\UI\res\css\bootstrap.min.css" />
+    <EmbeddedResource Include="UrlTracker\UI\res\css\installer.css" />
+    <EmbeddedResource Include="UrlTracker\UI\res\css\urltracker.css" />
+    <EmbeddedResource Include="UrlTracker\UI\res\img\asc-hover.png" />
+    <EmbeddedResource Include="UrlTracker\UI\res\img\asc.png" />
+    <EmbeddedResource Include="UrlTracker\UI\res\img\cross.png" />
+    <EmbeddedResource Include="UrlTracker\UI\res\img\desc-hover.png" />
+    <EmbeddedResource Include="UrlTracker\UI\res\img\desc.png" />
+    <EmbeddedResource Include="UrlTracker\UI\res\img\edit.png" />
+    <EmbeddedResource Include="UrlTracker\UI\res\img\glyphicons-halflings-white.png" />
+    <EmbeddedResource Include="UrlTracker\UI\res\img\glyphicons-halflings.png" />
+    <EmbeddedResource Include="UrlTracker\UI\res\img\info.png" />
+    <EmbeddedResource Include="UrlTracker\UI\res\img\loading-orange.gif" />
+    <EmbeddedResource Include="UrlTracker\UI\res\img\logo.png" />
+    <EmbeddedResource Include="UrlTracker\UI\res\img\trash.png" />
+    <EmbeddedResource Include="UrlTracker\UI\res\js\bootstrap.js" />
+    <EmbeddedResource Include="UrlTracker\UI\res\js\info.js" />
+    <EmbeddedResource Include="UrlTracker\UI\res\js\installer.js" />
+    <EmbeddedResource Include="UrlTracker\UI\res\js\jquery.validate.additional-methods.js" />
+    <EmbeddedResource Include="UrlTracker\UI\res\js\jquery.validate.additional-methods.min.js" />
+    <EmbeddedResource Include="UrlTracker\UI\res\js\bootstrap.min.js" />
+    <EmbeddedResource Include="UrlTracker\UI\res\js\jquery.validate.js" />
+    <EmbeddedResource Include="UrlTracker\UI\res\js\jquery.validate.min.js" />
+    <EmbeddedResource Include="UrlTracker\UI\res\js\main.js" />
+    <EmbeddedResource Include="UrlTracker\UI\UrlTrackerInfo.aspx" />
+    <EmbeddedResource Include="UrlTracker\UI\UrlTrackerManagerWrapper.ascx" />
+    <EmbeddedResource Include="UrlTracker\UI\UrlTrackerManager.aspx" />
+    <EmbeddedResource Include="UrlTracker\UI\UserControls\AutoView.ascx" />
+    <EmbeddedResource Include="UrlTracker\UI\UserControls\AdvancedView.ascx" />
+    <EmbeddedResource Include="UrlTracker\UI\UserControls\NotFoundView.ascx" />
+    <EmbeddedResource Include="UrlTracker\UI\UserControls\CreateView.ascx" />
+    <EmbeddedResource Include="UrlTracker\UI\UserControls\CustomView.ascx" />
+    <EmbeddedResource Include="UrlTracker\UI\res\css\settings.css" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UrlTracker\DataType\UrlTrackerDataEditor.cs" />
+    <Compile Include="UrlTracker\DataType\UrlTrackerDataType.cs" />
+    <Compile Include="UrlTracker\DataType\UrlTrackerPrevalueEditor.cs" />
+    <Compile Include="UrlTracker\Extensions\ISqlHelperExtensions.cs" />
+    <Compile Include="UrlTracker\Helpers\EmbeddedResourcesHelper.cs" />
+    <Compile Include="UrlTracker\Models\OldUrlTrackerModel.cs" />
+    <Compile Include="UrlTracker\Providers\EmbeddedResourcesVirtualPathProvider.cs" />
+    <Compile Include="UrlTracker\UI\Installer\UrlTrackerInstaller.ascx.cs">
+      <DependentUpon>UrlTrackerInstaller.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UrlTracker\Models\UrlTrackerDomain.cs" />
+    <Compile Include="UrlTracker\UI\Installer\UrlTrackerInstaller.ascx.designer.cs">
+      <DependentUpon>UrlTrackerInstaller.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="UrlTracker\UI\Installer\UrlTrackerInstallerService.svc.cs">
+      <DependentUpon>UrlTrackerInstallerService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="UrlTracker\UI\UrlTrackerInfo.aspx.cs">
+      <DependentUpon>UrlTrackerInfo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UrlTracker\UI\UrlTrackerInfo.aspx.designer.cs">
+      <DependentUpon>UrlTrackerInfo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UrlTracker\UI\UrlTrackerManagerWrapper.ascx.cs">
+      <DependentUpon>UrlTrackerManagerWrapper.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UrlTracker\UI\UrlTrackerManagerWrapper.ascx.designer.cs">
+      <DependentUpon>UrlTrackerManagerWrapper.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="UrlTracker\UI\UrlTrackerManager.aspx.cs">
+      <DependentUpon>UrlTrackerManager.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UrlTracker\UI\UrlTrackerManager.aspx.designer.cs">
+      <DependentUpon>UrlTrackerManager.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UrlTracker\UI\UserControls\AutoView.ascx.cs">
+      <DependentUpon>AutoView.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UrlTracker\UI\UserControls\AutoView.ascx.designer.cs">
+      <DependentUpon>AutoView.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="UrlTracker\UI\UserControls\AdvancedView.ascx.cs">
+      <DependentUpon>AdvancedView.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UrlTracker\UI\UserControls\AdvancedView.ascx.designer.cs">
+      <DependentUpon>AdvancedView.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="UrlTracker\UI\UserControls\NotFoundView.ascx.cs">
+      <DependentUpon>NotFoundView.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UrlTracker\UI\UserControls\NotFoundView.ascx.designer.cs">
+      <DependentUpon>NotFoundView.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="UrlTracker\UI\UserControls\CreateView.ascx.cs">
+      <DependentUpon>CreateView.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UrlTracker\UI\UserControls\CreateView.ascx.designer.cs">
+      <DependentUpon>CreateView.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="UrlTracker\UI\UserControls\CustomView.ascx.cs">
+      <DependentUpon>CustomView.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UrlTracker\UI\UserControls\CustomView.ascx.designer.cs">
+      <DependentUpon>CustomView.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="UrlTracker\UI\UserControls\IUrlTrackerView.cs" />
+    <Compile Include="UrlTracker\Helpers\UmbracoHelper.cs" />
+    <Compile Include="UrlTracker\Helpers\UrlTrackerLoggingHelper.cs" />
+    <Compile Include="UrlTracker\UrlTrackerErrorLogging.cs" />
+    <Compile Include="UrlTracker\Extensions\INodeExtensions.cs" />
+    <Compile Include="UrlTracker\Extensions\NameValueCollectionExtension.cs" />
+    <Compile Include="UrlTracker\Models\UrlTrackerModel.cs" />
+    <Compile Include="UrlTracker\Modules\UrlTrackerModule.cs" />
+    <Compile Include="UrlTracker\UrlTrackerApplicationBase.cs" />
+    <Compile Include="UrlTracker\Models\AutoTrackingTypes.cs" />
+    <Compile Include="UrlTracker\Helpers\UrlTrackerHelper.cs" />
+    <Compile Include="UrlTracker\Repositories\UrlTrackerRepository.cs" />
+    <Compile Include="UrlTracker\UrlTrackerPreApplicationStart.cs" />
+    <Compile Include="UrlTracker\UrlTrackerResources.cs" />
+    <Compile Include="UrlTracker\UrlTrackerSettings.cs" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>42367</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://urltracker.local</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
