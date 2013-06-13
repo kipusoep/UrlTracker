@@ -3,7 +3,7 @@ var serviceUrl = "/Umbraco/UrlTracker/InfoCaster.Umbraco.UrlTracker.UI.Installer
 var $urlTrackerLoader, $loadingIcon;
 $(function () {
 	$urlTrackerLoader = $("#urlTrackerLoader");
-	$loadingIcon = $("#loadingIcon");
+	$loadingIcon = $("#circularG");
 	if ($urlTrackerLoader.length) {
 
 		// Step 1; install DB

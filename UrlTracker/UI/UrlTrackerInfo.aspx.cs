@@ -9,9 +9,5 @@ namespace InfoCaster.Umbraco.UrlTracker.UI
 {
 	public partial class UrlTrackerInfo : System.Web.UI.Page
 	{
-		protected void Page_Load(object sender, EventArgs e)
-		{
-
-		}
 	}
 }

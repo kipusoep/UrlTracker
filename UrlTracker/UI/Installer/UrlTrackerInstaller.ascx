@@ -14,7 +14,25 @@
 			<p>Please wait while the Url Tracker executes the final installation tasks...</p>
 			<div id="urlTrackerLoader">
 			</div>
-			<img src="<%= Page.ClientScript.GetWebResourceUrl(typeof(UrlTrackerResources), "InfoCaster.Umbraco.UrlTracker.UI.res.img.loading-orange.gif") %>" alt="Loading" id="loadingIcon" />
+			<div id="circularG">
+				<div id="circularG_1" class="circularG">
+				</div>
+				<div id="circularG_2" class="circularG">
+				</div>
+				<div id="circularG_3" class="circularG">
+				</div>
+				<div id="circularG_4" class="circularG">
+				</div>
+				<div id="circularG_5" class="circularG">
+				</div>
+				<div id="circularG_6" class="circularG">
+				</div>
+				<div id="circularG_7" class="circularG">
+				</div>
+				<div id="circularG_8" class="circularG">
+				</div>
+			</div>
+			<%--<img src="<%= Page.ClientScript.GetWebResourceUrl(typeof(UrlTrackerResources), "InfoCaster.Umbraco.UrlTracker.UI.res.img.loading-orange.gif") %>" alt="Loading" id="loadingIcon" />--%>
 		</div>
 	</div>
 </umb:PropertyPanel>

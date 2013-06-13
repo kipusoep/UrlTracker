@@ -1,1 +1,6 @@
 .svn
+*.suo
+*.user
+bin
+obj
+roadmap.txt
