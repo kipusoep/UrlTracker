@@ -38,6 +38,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
 			{
 				response.Clear();
 				response.Write(UrlTrackerSettings.HttpModuleCheck);
+				response.StatusCode = 200;
 				return;
 			}
 
@@ -97,7 +98,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
 							Node n = new Node(redirectNodeId);
 							if (n != null && n.Name != null && n.Id > 0)
 							{
-								redirectUrl = umbraco.library.NiceUrl(redirectNodeId);
+								redirectUrl = umbraco.library.NiceUrl(redirectNodeId).StartsWith("http") ? umbraco.library.NiceUrl(redirectNodeId) : string.Format("{0}://{1}{2}", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Host, umbraco.library.NiceUrl(redirectNodeId));
 								if (redirectUrl.StartsWith("http"))
 								{
 									Uri redirectUri = new Uri(redirectUrl);

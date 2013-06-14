@@ -13,6 +13,16 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
 		public string Name { get; set; }
 
 		public Node Node { get { return new Node(NodeId); } }
+		public string UrlWithDomain
+		{
+			get
+			{
+				string url = Node.NiceUrl;
+				if (!url.StartsWith("http"))
+					url = string.Format("{0}://{1}{2}", HttpContext.Current != null ? HttpContext.Current.Request.Url.Scheme : "http", Name, url);
+				return url;
+			}
+		}
 
 		public UrlTrackerDomain() { }
 

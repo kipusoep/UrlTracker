@@ -47,9 +47,6 @@ namespace InfoCaster.Umbraco.UrlTracker.UI
 				gvNotFound.Sort("NotFoundCount", SortDirection.Descending);
 			}
 
-			if (mvSwitchButtons.GetActiveView() == vwSwitchButtonsNotFound)
-				mvSwitchButtons.Visible = UrlTrackerRepository.HasNotFoundEntries();
-
 			pnlBreadcrumb.Visible = false;
 
 			if (icAutoView == null)
@@ -83,6 +80,20 @@ namespace InfoCaster.Umbraco.UrlTracker.UI
 
 			liDetails.Visible = mvUrlTracker.GetActiveView() == vwUrlTrackerDetail;
 			liNew.Visible = mvUrlTracker.GetActiveView() == vwUrlTrackerNew;
+
+			bool hasNotFoundEntries = UrlTrackerRepository.HasNotFoundEntries();
+			ltlNotFoundText.Visible = hasNotFoundEntries;
+			if (mvSwitchButtons.GetActiveView() == vwSwitchButtonsNotFound)
+			{
+				mvSwitchButtons.Visible = hasNotFoundEntries;
+				lbDeleteSelected.Visible = gvUrlTracker.Rows.Count > 0;
+			}
+			else
+				lbDeleteSelected.Visible = gvNotFound.Rows.Count > 0;
+
+			mvUrlTrackerEntries.SetActiveView(vwUrlTrackerEntriesTable);
+			if (gvUrlTracker.Rows.Count == 0)
+				mvUrlTrackerEntries.SetActiveView(vwUrlTrackerEntriesNone);
 		}
 
 		protected void GridView_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -127,11 +138,18 @@ namespace InfoCaster.Umbraco.UrlTracker.UI
 				lbUrlTrackerView_Click(this, EventArgs.Empty);
 				mvSwitchButtons.Visible = false;
 			}
+
+			gvUrlTracker.DataBind();
+			if (gvUrlTracker.Rows.Count == 0)
+			{
+				lbDeleteSelected.Visible = false;
+			}
 		}
 
 		protected void ShowOverview(object sender, EventArgs e)
 		{
 			mvUrlTracker.SetActiveView(vwUrlTrackerOverview);
+			gvUrlTracker.DataBind();
 		}
 
 		protected void lbNotFoundView_Click(object sender, EventArgs e)
@@ -139,13 +157,15 @@ namespace InfoCaster.Umbraco.UrlTracker.UI
 			mvSwitchButtons.SetActiveView(vwSwitchButtonsUrlTracker);
 			mvGridViews.SetActiveView(vwGridViewsNotFound);
 			gvNotFound.DataBind();
+			lbCreate.Visible = false;
 		}
 
 		protected void lbUrlTrackerView_Click(object sender, EventArgs e)
 		{
 			mvSwitchButtons.SetActiveView(vwSwitchButtonsNotFound);
 			mvGridViews.SetActiveView(vwGridViewsUrlTracker);
-			gvNotFound.DataBind();
+			gvUrlTracker.DataBind();
+			lbCreate.Visible = true;
 		}
 
 		protected void lbSave_Click(object sender, EventArgs e)
@@ -154,7 +174,7 @@ namespace InfoCaster.Umbraco.UrlTracker.UI
 				icAdvancedView.Save();
 			else
 				GetActiveView().Save();
-			pnlBreadcrumb.Visible = true;
+			pnlBreadcrumb.Visible = false;
 			ResetViews();
 			mvUrlTracker.SetActiveView(vwUrlTrackerOverview);
 			gvUrlTracker.DataBind();
@@ -186,6 +206,7 @@ namespace InfoCaster.Umbraco.UrlTracker.UI
 			activeView.LoadView();
 			mvViewSwitcher.SetActiveView(vwViewSwitcherAdvanced);
 			pnlBreadcrumb.Visible = true;
+			mvViewSwitcher.Visible = true;
 			if (activeView == icNotFoundView)
 				mvViewSwitcher.Visible = false;
 		}

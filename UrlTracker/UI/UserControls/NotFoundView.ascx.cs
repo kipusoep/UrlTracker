@@ -8,7 +8,6 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using umbraco.NodeFactory;
-using UriUtility = Umbraco.Web.UriUtility;
 
 namespace InfoCaster.Umbraco.UrlTracker.UI.UserControls
 {
@@ -45,7 +44,7 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.UserControls
 				lnkRootNode.NavigateUrl = string.Format("javascript:parent.UmbClientMgr.mainTree().syncTree('{1}', false);", redirectRootNode.Id, redirectRootNode.Path);
 			}
 			
-			Uri oldUri = UriUtility.UriFromUmbraco(new Uri(string.Concat(domain.Node.NiceUrl, UrlTrackerModel.OldUrl)));
+			Uri oldUri = new Uri(string.Concat(domain.UrlWithDomain, UrlTrackerModel.OldUrl));
 			lnkOldUrl.Text = string.Format("{0} <i class=\"icon-share\"></i>", oldUri.AbsolutePath.StartsWith("/") ? oldUri.AbsolutePath.Substring(1) : oldUri.AbsolutePath);
 			lnkOldUrl.NavigateUrl = oldUri.ToString();
 		}

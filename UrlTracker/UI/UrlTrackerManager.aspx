@@ -21,7 +21,8 @@
 			.desc a:hover { background-image: url("<%= Page.ClientScript.GetWebResourceUrl(typeof(UrlTrackerResources), "InfoCaster.Umbraco.UrlTracker.UI.res.img.desc-hover.png") %>"); }
 	</style>
 
-	<script type="text/javascript" src="/umbraco_client/ui/jquery.js"></script>
+	<script type="text/javascript" src="<%= Page.ClientScript.GetWebResourceUrl(typeof(UrlTrackerResources), "InfoCaster.Umbraco.UrlTracker.UI.res.js.jquery-1.10.1.min.js") %>"></script>
+	<script type="text/javascript" src="<%= Page.ClientScript.GetWebResourceUrl(typeof(UrlTrackerResources), "InfoCaster.Umbraco.UrlTracker.UI.res.js.jquery-migrate-1.2.1.min.js") %>"></script>
 	<script type="text/javascript" src="<%= Page.ClientScript.GetWebResourceUrl(typeof(UrlTrackerResources), "InfoCaster.Umbraco.UrlTracker.UI.res.js.bootstrap.min.js") %>"></script>
 	<script type="text/javascript" src="<%= Page.ClientScript.GetWebResourceUrl(typeof(UrlTrackerResources), "InfoCaster.Umbraco.UrlTracker.UI.res.js.jquery.validate.js") %>"></script>
 	<script type="text/javascript" src="<%= Page.ClientScript.GetWebResourceUrl(typeof(UrlTrackerResources), "InfoCaster.Umbraco.UrlTracker.UI.res.js.jquery.validate.additional-methods.js") %>"></script>
@@ -65,43 +66,54 @@
 									<asp:CheckBox runat="server" ID="cbShowNotFoundEntries" AutoPostBack="true" OnCheckedChanged="cbShowNotFoundEntries_CheckedChanged" /> Show not found entries
 								</label>
 							</div>--%>
-							<asp:LinkButton runat="server" ID="lbCreate" OnClick="lbCreate_Click" CssClass="btn btn-primary btn-create"><i class="icon-file icon-white"></i> Create</asp:LinkButton>
-							<asp:MultiView runat="server" ID="mvSwitchButtons" ActiveViewIndex="0">
-								<asp:View runat="server" ID="vwSwitchButtonsNotFound">
-									<asp:LinkButton runat="server" ID="lbNotFoundView" OnClick="lbNotFoundView_Click" CssClass="btn btn-switch"><i class="icon-search"></i> 404 Not Found view</asp:LinkButton>
-								</asp:View>
-								<asp:View runat="server" ID="vwSwitchButtonsUrlTracker">
-									<asp:LinkButton runat="server" ID="lbUrlTrackerView" OnClick="lbUrlTrackerView_Click" CssClass="btn btn-switch"><i class="icon-home"></i> Url Tracker view</asp:LinkButton>
-								</asp:View>
-							</asp:MultiView>
+							<div class="clearfix">
+								<asp:LinkButton runat="server" ID="lbCreate" OnClick="lbCreate_Click" CssClass="btn btn-primary btn-top"><i class="icon-file icon-white"></i> Create</asp:LinkButton>
+								<asp:MultiView runat="server" ID="mvSwitchButtons" ActiveViewIndex="0">
+									<asp:View runat="server" ID="vwSwitchButtonsNotFound">
+										<asp:LinkButton runat="server" ID="lbNotFoundView" OnClick="lbNotFoundView_Click" CssClass="btn btn-switch btn-top"><i class="icon-search"></i> 404 Not Found view</asp:LinkButton>
+									</asp:View>
+									<asp:View runat="server" ID="vwSwitchButtonsUrlTracker">
+										<asp:LinkButton runat="server" ID="lbUrlTrackerView" OnClick="lbUrlTrackerView_Click" CssClass="btn btn-switch btn-top"><i class="icon-home"></i> Url Tracker view</asp:LinkButton>
+									</asp:View>
+								</asp:MultiView>
+							</div>
 							<asp:MultiView runat="server" ID="mvGridViews" ActiveViewIndex="0">
 								<asp:View runat="server" ID="vwGridViewsUrlTracker">
-									<asp:GridView runat="server" ID="gvUrlTracker" CssClass="table table-striped table-bordered table-hover" AutoGenerateColumns="False" DataSourceID="odsUrlTrackerEntries" AllowPaging="True" AllowSorting="true" GridLines="None" CellSpacing="-1" DataKeyNames="Id" PageSize="15" OnSelectedIndexChanged="GridView_SelectedIndexChanged" OnRowDataBound="GridView_RowDataBound">
-										<SortedAscendingHeaderStyle CssClass="asc" />
-										<SortedDescendingHeaderStyle CssClass="desc" />
-										<Columns>
-											<asp:TemplateField HeaderStyle-CssClass="checkboxes" ItemStyle-CssClass="checkboxes" HeaderStyle-Width="13">
-												<HeaderTemplate>
-													<input type="checkbox" id="cbSelectAll" />
-												</HeaderTemplate>
-												<ItemTemplate>
-													<asp:CheckBox ID="cbSelect" runat="server" />
-													<asp:HiddenField runat="server" ID="hfId" />
-												</ItemTemplate>
-											</asp:TemplateField>
-											<asp:BoundField DataField="RedirectRootNodeName" HeaderText="Site" SortExpression="RedirectRootNodeName" />
-											<asp:BoundField DataField="CalculatedOldUrl" HeaderText="Old URL / Regex" SortExpression="CalculatedOldUrl" />
-											<asp:BoundField DataField="CalculatedRedirectUrl" HeaderText="New URL" SortExpression="CalculatedRedirectUrl" />
-											<asp:BoundField DataField="Notes" HeaderText="Notes" SortExpression="Notes" />
-											<asp:BoundField DataField="Inserted" HeaderText="Created" SortExpression="Inserted" />
-											<asp:TemplateField HeaderStyle-Width="36">
-												<ItemTemplate>
-													<asp:ImageButton runat="server" ID="lbSelect" CommandName="Select" AlternateText="Edit" />
-													<asp:ImageButton runat="server" ID="lbDelete" CommandName="Delete" AlternateText="Delete" OnClientClick="return confirm('Are you sure you want to delete this entry?');" />
-												</ItemTemplate>
-											</asp:TemplateField>
-										</Columns>
-									</asp:GridView>
+									<asp:MultiView runat="server" ID="mvUrlTrackerEntries" ActiveViewIndex="0">
+										<asp:View runat="server" ID="vwUrlTrackerEntriesTable">
+											<asp:GridView runat="server" ID="gvUrlTracker" CssClass="table table-striped table-bordered table-hover" AutoGenerateColumns="False" DataSourceID="odsUrlTrackerEntries" AllowPaging="True" AllowSorting="true" GridLines="None" CellSpacing="-1" DataKeyNames="Id" PageSize="15" OnSelectedIndexChanged="GridView_SelectedIndexChanged" OnRowDataBound="GridView_RowDataBound">
+												<SortedAscendingHeaderStyle CssClass="asc" />
+												<SortedDescendingHeaderStyle CssClass="desc" />
+												<Columns>
+													<asp:TemplateField HeaderStyle-CssClass="checkboxes" ItemStyle-CssClass="checkboxes" HeaderStyle-Width="13">
+														<HeaderTemplate>
+															<input type="checkbox" id="cbSelectAll" />
+														</HeaderTemplate>
+														<ItemTemplate>
+															<asp:CheckBox ID="cbSelect" runat="server" />
+															<asp:HiddenField runat="server" ID="hfId" />
+														</ItemTemplate>
+													</asp:TemplateField>
+													<asp:BoundField DataField="RedirectRootNodeName" HeaderText="Site" SortExpression="RedirectRootNodeName" />
+													<asp:BoundField DataField="CalculatedOldUrl" HeaderText="Old URL / Regex" SortExpression="CalculatedOldUrl" />
+													<asp:BoundField DataField="CalculatedRedirectUrl" HeaderText="New URL" SortExpression="CalculatedRedirectUrl" />
+													<asp:BoundField DataField="Notes" HeaderText="Notes" SortExpression="Notes" />
+													<asp:BoundField DataField="Inserted" HeaderText="Created" SortExpression="Inserted" />
+													<asp:TemplateField HeaderStyle-Width="36">
+														<ItemTemplate>
+															<asp:ImageButton runat="server" ID="lbSelect" CommandName="Select" AlternateText="Edit" />
+															<asp:ImageButton runat="server" ID="lbDelete" CommandName="Delete" AlternateText="Delete" OnClientClick="return confirm('Are you sure you want to delete this entry?');" />
+														</ItemTemplate>
+													</asp:TemplateField>
+												</Columns>
+											</asp:GridView>
+										</asp:View>
+										<asp:View runat="server" ID="vwUrlTrackerEntriesNone">
+											<p class="info">
+												There are no entries yet. You can create an entry with the Create button<asp:Literal runat="server" ID="ltlNotFoundText" Visible="false" Text=", or have a look at the logged 404 Not Found entries with the 404 Not Found view button" />.
+											</p>
+										</asp:View>
+									</asp:MultiView>
 								</asp:View>
 								<asp:View runat="server" ID="vwGridViewsNotFound">
 									<asp:GridView runat="server" ID="gvNotFound" CssClass="table table-striped table-bordered table-hover" AutoGenerateColumns="False" DataSourceID="odsNotFoundEntries" AllowPaging="True" AllowSorting="true" GridLines="None" CellSpacing="-1" DataKeyNames="OldUrl" PageSize="15" OnSelectedIndexChanged="GridView_SelectedIndexChanged" OnRowDataBound="GridView_RowDataBound" OnRowDeleted="gvNotFound_RowDeleted">
@@ -118,7 +130,7 @@
 												</ItemTemplate>
 											</asp:TemplateField>
 											<asp:BoundField DataField="RedirectRootNodeName" HeaderText="Site" SortExpression="RedirectRootNodeName" />
-											<asp:BoundField DataField="CalculatedOldUrl" HeaderText="URL" SortExpression="CalculatedOldUrl" />
+											<asp:BoundField DataField="OldUrl" HeaderText="URL" SortExpression="OldUrl" />
 											<asp:BoundField DataField="NotFoundCount" HeaderText="Occurrences" SortExpression="NotFoundCount" />
 											<asp:BoundField DataField="Referrer" HeaderText="Most important referrer" SortExpression="Referrer" />
 											<asp:BoundField DataField="Inserted" HeaderText="Last occurred" SortExpression="Inserted" />

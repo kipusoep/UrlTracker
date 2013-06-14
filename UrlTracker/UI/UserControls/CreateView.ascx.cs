@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using umbraco.controls;
+using umbraco.NodeFactory;
 
 namespace InfoCaster.Umbraco.UrlTracker.UI.UserControls
 {
@@ -47,7 +48,7 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.UserControls
 		{
 			List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains();
 
-			UrlTrackerRepository.AddUrlTrackerEntry(new UrlTrackerModel(tbOldUrl.Text, tbOldUrlQueryString.Text, tbOldRegex.Text, domains.Count > 1 ? int.Parse(ddlRootNode.SelectedValue) : domains.Single().NodeId, !string.IsNullOrEmpty(cpRedirectNode.Value) ? (int?)int.Parse(cpRedirectNode.Value) : null, tbRedirectUrl.Text, rbPermanent.Checked ? 301 : 302, cbRedirectPassthroughQueryString.Checked, tbNotes.Text));
+			UrlTrackerRepository.AddUrlTrackerEntry(new UrlTrackerModel(UrlTrackerHelper.ResolveShortestUrl(tbOldUrl.Text), tbOldUrlQueryString.Text, tbOldRegex.Text, domains.Count > 1 ? int.Parse(ddlRootNode.SelectedValue) : domains.Any() ? domains.Single().NodeId : new Node(-1).ChildrenAsList.First().Id, !string.IsNullOrEmpty(cpRedirectNode.Value) ? (int?)int.Parse(cpRedirectNode.Value) : null, tbRedirectUrl.Text, rbPermanent.Checked ? 301 : 302, cbRedirectPassthroughQueryString.Checked, tbNotes.Text));
 
 			if (ddlRootNode.SelectedIndex != -1)
 				ddlRootNode.SelectedIndex = 0;

@@ -60,8 +60,9 @@ using System.Web.UI;
 // JS
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.js.bootstrap.js", "text/javascript")]
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.js.bootstrap.min.js", "text/javascript")]
-[assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.js.info.js", "text/javascript")]
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.js.installer.js", "text/javascript")]
+[assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.js.jquery-1.10.1.min.js", "text/javascript")]
+[assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.js.jquery-migrate-1.2.1.min.js", "text/javascript")]
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.js.jquery.validate.additional-methods.js", "text/javascript")]
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.js.jquery.validate.additional-methods.min.js", "text/javascript")]
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.js.jquery.validate.js", "text/javascript")]

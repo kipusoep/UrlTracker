@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InfoCaster.Umbraco.UrlTracker.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -34,13 +35,41 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
 		#endregion
 
 		#region Calculated properties
+		public string CalculatedOldUrlWithoutQuery
+		{
+			get
+			{
+				if (CalculatedOldUrl.StartsWith("Regex:"))
+					return CalculatedOldUrl;
+				return CalculatedOldUrl.Contains('?') ? CalculatedOldUrl.Substring(0, CalculatedOldUrl.IndexOf('?')) : CalculatedOldUrl;
+			}
+		}
 		public string CalculatedOldUrl
+		{
+			get
+			{
+				if (CalculatedOldUrlWithDomain.StartsWith("Regex:"))
+					return CalculatedOldUrlWithDomain;
+				Uri calculatedOldUrlWithDomain = new Uri(CalculatedOldUrlWithDomain);
+				string pathAndQuery = calculatedOldUrlWithDomain.PathAndQuery;
+				return pathAndQuery.StartsWith("/") ? pathAndQuery.Substring(1) : pathAndQuery;
+			}
+		}
+		public string CalculatedOldUrlWithDomain
 		{
 			get
 			{
 				if (!string.IsNullOrEmpty(OldRegex) && string.IsNullOrEmpty(OldUrl))
 					return string.Concat("Regex: ", OldRegex);
-				return string.Format("{0}{1}{2}", OldUrl, !string.IsNullOrEmpty(OldUrlQueryString) ? "?" : string.Empty, OldUrlQueryString);
+
+				UrlTrackerDomain domain = null;
+				Node redirectRootNode = new Node(RedirectRootNodeId);
+				List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains();
+				domain = domains.SingleOrDefault(x => x.NodeId == redirectRootNode.Id);
+				if (domain == null)
+					domain = new UrlTrackerDomain(-1, redirectRootNode.Id, HttpContext.Current.Request.Url.Host);
+
+				return string.Format("{0}{1}{2}", new Uri(string.Concat(domain.UrlWithDomain, !domain.UrlWithDomain.EndsWith("/") && !OldUrl.StartsWith("/") ? "/" : string.Empty, UrlTrackerHelper.ResolveUmbracoUrl(OldUrl))), !string.IsNullOrEmpty(OldUrlQueryString) ? "?" : string.Empty, OldUrlQueryString);
 			}
 		}
 		public string CalculatedRedirectUrl
@@ -50,9 +79,11 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
 				string calculatedRedirectUrl = !string.IsNullOrEmpty(RedirectUrl) ?
 					RedirectUrl :
 					RedirectNodeId.HasValue ?
-						new Node(RedirectNodeId.Value).NiceUrl != "#" ? new Uri(new Node(RedirectNodeId.Value).NiceUrl).AbsolutePath :
+						!new Node(RedirectNodeId.Value).NiceUrl.EndsWith("#") ? new Uri(
+							umbraco.library.NiceUrl(RedirectNodeId.Value).StartsWith("http") ? umbraco.library.NiceUrl(RedirectNodeId.Value) : string.Format("{0}://{1}{2}", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Host, umbraco.library.NiceUrl(RedirectNodeId.Value))
+						).AbsolutePath :
 						string.Empty :
-						string.Empty;
+					string.Empty;
 				return calculatedRedirectUrl.StartsWith("/") && calculatedRedirectUrl != "/" ? calculatedRedirectUrl.Substring(1) : calculatedRedirectUrl;
 			}
 		}

@@ -5,7 +5,9 @@ using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Web;
+using System.Web.Hosting;
 
 [assembly: System.Web.PreApplicationStartMethod(typeof(UrlTrackerPreApplicationStart), "RegisterModule")]
 namespace InfoCaster.Umbraco.UrlTracker
@@ -15,7 +17,7 @@ namespace InfoCaster.Umbraco.UrlTracker
 		public static void RegisterModule()
 		{
 			DynamicModuleUtility.RegisterModule(typeof(UrlTrackerModule));
-			System.Web.Hosting.HostingEnvironment.RegisterVirtualPathProvider(new EmbeddedResourcesVirtualPathProvider());
+			HostingEnvironment.RegisterVirtualPathProvider(new EmbeddedResourcesVirtualPathProvider());
 		}
 	}
 }

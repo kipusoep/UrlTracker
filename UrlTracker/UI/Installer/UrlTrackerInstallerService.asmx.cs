@@ -4,26 +4,28 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.ServiceModel.Activation;
-using System.ServiceModel.Web;
-using System.Text;
 using System.Threading;
 using System.Web;
 using System.Web.Script.Serialization;
+using System.Web.Script.Services;
+using System.Web.Services;
 using System.Xml.Linq;
 
 namespace InfoCaster.Umbraco.UrlTracker.UI.Installer
 {
-	[ServiceContract(Namespace = "InfoCaster.Umbraco.UrlTracker")]
-	[AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
-	public class UrlTrackerInstallerService
+	/// <summary>
+	/// Summary description for TestService
+	/// </summary>
+	[WebService(Namespace = "http://InfoCaster.Umbraco.UrlTracker/")]
+	[WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
+	[System.ComponentModel.ToolboxItem(false)]
+	[System.Web.Script.Services.ScriptService]
+	public class UrlTrackerInstallerService : System.Web.Services.WebService
 	{
 		static JavaScriptSerializer _javaScriptSerializer = new JavaScriptSerializer();
 
-		[OperationContract]
-		[WebGet]
+		[WebMethod]
+		[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
 		public string InstallTable()
 		{
 			try
@@ -38,8 +40,8 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.Installer
 			return string.Empty;
 		}
 
-		[OperationContract]
-		[WebGet]
+		[WebMethod]
+		[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
 		public string InstallDashboard()
 		{
 			try
@@ -55,13 +57,13 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.Installer
 					throw new Exception("Unable to add dashboard: StartupDashboardSection not found in ~/config/dashboard.config");
 
 				List<XElement> tabs = startupDashboardSectionElement.Elements("tab").ToList();
-				if(!tabs.Any())
+				if (!tabs.Any())
 					throw new Exception("Unable to add dashboard: No existing tabs found within the StartupDashboardSection");
 
 				List<XElement> urlTrackerTabs = tabs.Where(x => x.Attribute("caption").Value == "Url Tracker").ToList();
 				if (urlTrackerTabs.Any())
 				{
-					foreach(XElement tab in urlTrackerTabs)
+					foreach (XElement tab in urlTrackerTabs)
 					{
 						List<XElement> urlTrackerTabControls = tab.Elements("control").ToList();
 						if (urlTrackerTabControls.Any(x => x.Value == "/Umbraco/UrlTracker/InfoCaster.Umbraco.UrlTracker.UI.UrlTrackerManagerWrapper.ascx"))
@@ -89,8 +91,8 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.Installer
 			return string.Empty;
 		}
 
-		[OperationContract]
-		[WebGet]
+		[WebMethod]
+		[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
 		public string CheckHttpModule()
 		{
 			try
@@ -112,8 +114,8 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.Installer
 			}
 		}
 
-		[OperationContract]
-		[WebGet]
+		[WebMethod]
+		[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
 		public string HasOldVersionInstalled()
 		{
 			try
@@ -127,8 +129,8 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.Installer
 			}
 		}
 
-		[OperationContract]
-		[WebGet]
+		[WebMethod]
+		[ScriptMethod(ResponseFormat = ResponseFormat.Json)]
 		public string MigrateData()
 		{
 			try
@@ -140,12 +142,12 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.Installer
 			{
 				return HandleException(ex);
 			}
-			
+
 		}
 
 		string HandleException(Exception ex)
 		{
-			if(ex.InnerException != null)
+			if (ex.InnerException != null)
 				return string.Format("error: {0} ({1})", ex.Message, ex.InnerException.Message);
 			return string.Concat("error: ", ex.Message);
 		}

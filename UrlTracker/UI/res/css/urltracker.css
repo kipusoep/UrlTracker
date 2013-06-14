@@ -1,10 +1,20 @@
 ﻿legend { font-size: 18px; line-height: 24px; margin-bottom: 10px; }
 table { max-width: 100%; word-break: break-all; }
 
+.error, .warning, .success, .info { padding: 10px; }
+.info {margin-bottom:.5em;border:2px solid #ddd;background:#BDE5F8;color:#00529B;border-color:#00529B;}
+.info a {color:#00529B;}
+.info p {margin: 0.6em 0 !important;}
+
+legend + .clearfix {
+  margin-top: 20px;
+  -webkit-margin-top-collapse: separate;
+}
+
 .asc a, .desc a { background-repeat: no-repeat; background-position: left center; padding-left: 15px; }
 .clickable { cursor: pointer; }
 .btn { margin-right: 10px; }
-.btn-create { margin-bottom: 20px; }
+.btn-top { margin-bottom: 20px; float: left; }
 .btn-switch { float: right; }
 .view-switch { position: absolute; right: 10px; top: 43px; }
 .checkboxes { text-align: center !important; }

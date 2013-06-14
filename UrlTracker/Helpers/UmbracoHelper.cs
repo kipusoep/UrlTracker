@@ -7,8 +7,8 @@ using umbraco;
 using umbraco.BusinessLogic;
 using umbraco.cms.businesslogic.web;
 using umbraco.DataLayer;
+using umbraco.IO;
 using umbraco.NodeFactory;
-using Umbraco.Core.IO;
 
 namespace InfoCaster.Umbraco.UrlTracker.Helpers
 {
@@ -37,8 +37,6 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
 						// store references to strings to determine changes
 						_reservedPathsCache = GlobalSettings.ReservedPaths;
 						_reservedUrlsCache = GlobalSettings.ReservedUrls;
-
-						string _root = SystemDirectories.Root.Trim().ToLower();
 
 						// add URLs and paths to a new list
 						StartsWithContainer _newReservedList = new StartsWithContainer();

@@ -1,5 +1,4 @@
-﻿/// <reference path="/umbraco_client/ui/jquery.js"/>
-function pageLoad() {
+﻿function pageLoad() {
 	$("*[data-toggle='tooltip']").tooltip({ container: "body", html: true });
 
 	$(".wrap input[type='hidden']").addClass("redirect-to").addClass("redirect-to-node");

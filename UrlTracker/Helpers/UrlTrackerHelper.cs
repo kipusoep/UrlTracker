@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using umbraco;
 
 namespace InfoCaster.Umbraco.UrlTracker.Helpers
 {
@@ -21,6 +22,25 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
 				url = url.Substring(0, url.Length - "/".Length);
 			if (url.EndsWith(".aspx"))
 				url = url.Substring(0, url.Length - ".aspx".Length);
+			return url;
+		}
+
+		public static string ResolveUmbracoUrl(string url)
+		{
+			if (url.StartsWith("http://") || url.StartsWith("https://"))
+			{
+				Uri uri = new Uri(url);
+				url = uri.PathAndQuery;
+			}
+
+			if (url != "/")
+			{
+				if (!GlobalSettings.UseDirectoryUrls && !url.EndsWith(".aspx"))
+					url += ".aspx";
+				else if (UmbracoSettings.AddTrailingSlash && !url.EndsWith("/"))
+					url += "/";
+			}
+
 			return url;
 		}
 	}
