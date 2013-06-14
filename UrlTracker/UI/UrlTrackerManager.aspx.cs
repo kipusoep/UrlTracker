@@ -186,6 +186,8 @@ namespace InfoCaster.Umbraco.UrlTracker.UI
 			activeView.LoadView();
 			mvViewSwitcher.SetActiveView(vwViewSwitcherAdvanced);
 			pnlBreadcrumb.Visible = true;
+			if (activeView == icNotFoundView)
+				mvViewSwitcher.Visible = false;
 		}
 
 		protected void lbDeleteSelected_Click(object sender, EventArgs e)

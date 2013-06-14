@@ -62,7 +62,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
 				string urlWithoutQueryString = url;
 				if (InfoCaster.Umbraco.UrlTracker.Helpers.UmbracoHelper.IsReservedPathOrUrl(url))
 				{
-					UrlTrackerLoggingHelper.LogInformation("UrlTracker HttpModule | URL is an umbraco reserver path or url, ignore request");
+					UrlTrackerLoggingHelper.LogInformation("UrlTracker HttpModule | URL is an umbraco reserved path or url, ignore request");
 					return;
 				}
 

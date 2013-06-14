@@ -19,11 +19,13 @@ You can also create your own redirects, based on a simple URL or using a Regex p
 
 ## Roadmap ##
 - Datatype
+- Better validation (already existing etc.)
+- Filtering
+- Searching
 - Regex capturing groups
-- Translation
-- SQLCE/Azure support?
-- Older browsers testing
-- Support UrlRewriting?
+- Translation support
+- Support UrlRewriting if possible
+- SQLCE/Azure support (if it doesn't work yet)
 
 ## Upgrading from v1 (301 URL Tracker) ##
 1. Back-up the existing infocaster301 database table (schema **and** data)

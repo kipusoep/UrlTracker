@@ -20,7 +20,7 @@ namespace InfoCaster.Umbraco.UrlTracker
 		public const string Regex = "<b>or</b> Regex";
 		public const string RegexStandalone = "Regex";
 		public const string RegexWatermark = "^index\\.php\\?id=([0-9]+)$";
-		public const string RegexInfo = "The input for Regex matching is the path without leading slash.<br />(click to open RegExr)";
+		public const string RegexInfo = "The input for Regex matching is the path AND query string, without leading slash.<br />(click to open RegExr)";
 		public const string OldUrlQueryString = "Old URL query string";
 		public const string OldUrlQueryStringWatermark = "id=1&param=value";
 		public const string OldUrlQueryStringInfo = "The query string to match";

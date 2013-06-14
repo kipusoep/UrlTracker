@@ -90,11 +90,13 @@
 				<p>Features planned for future versions:</p>
 				<ul>
 					<li>Datatype</li>
+					<li>Better validation (already existing etc.)</li>
+					<li>Filtering</li>
+					<li>Searching</li>
 					<li>Regex capturing groups</li>
-					<li>Translation</li>
-					<li>SQLCE/Azure support?</li>
-					<li>Older browsers testing</li>
-					<li>Support UrlRewriting?</li>
+					<li>Translation support</li>
+					<li>Support UrlRewriting if possible</li>
+					<li>SQLCE/Azure support (if it doesn't work yet)</li>
 				</ul>
 			</div>
 		</div>
