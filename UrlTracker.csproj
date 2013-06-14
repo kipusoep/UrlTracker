@@ -111,7 +111,6 @@
     <EmbeddedResource Include="UrlTracker\UI\res\img\glyphicons-halflings-white.png" />
     <EmbeddedResource Include="UrlTracker\UI\res\img\glyphicons-halflings.png" />
     <EmbeddedResource Include="UrlTracker\UI\res\img\info.png" />
-    <EmbeddedResource Include="UrlTracker\UI\res\img\logo.png" />
     <EmbeddedResource Include="UrlTracker\UI\res\img\trash.png" />
     <EmbeddedResource Include="UrlTracker\UI\res\js\bootstrap.js" />
     <EmbeddedResource Include="UrlTracker\UI\res\js\info.js" />
@@ -223,6 +222,10 @@
     <Compile Include="UrlTracker\UrlTrackerPreApplicationStart.cs" />
     <Compile Include="UrlTracker\UrlTrackerResources.cs" />
     <Compile Include="UrlTracker\UrlTrackerSettings.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="UrlTracker\UI\res\img\urltracker-icon.png" />
+    <EmbeddedResource Include="UrlTracker\UI\res\img\urltracker.png" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

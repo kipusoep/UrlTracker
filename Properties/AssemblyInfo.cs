@@ -53,8 +53,9 @@ using System.Web.UI;
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.img.glyphicons-halflings-white.png", "image/png")]
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.img.glyphicons-halflings.png", "image/png")]
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.img.info.png", "image/png")]
-[assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.img.logo.png", "image/png")]
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.img.trash.png", "image/png")]
+[assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.img.urltracker-icon.png", "image/png")]
+[assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.img.urltracker.png", "image/png")]
 
 // JS
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.js.bootstrap.js", "text/javascript")]

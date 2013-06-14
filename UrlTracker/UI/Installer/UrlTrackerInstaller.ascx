@@ -10,7 +10,7 @@
 	<div class="installer">
 		<div class="dashboardWrapper">
 			<h2>Url Tracker</h2>
-			<img src="<%= Page.ClientScript.GetWebResourceUrl(typeof(UrlTrackerResources), "InfoCaster.Umbraco.UrlTracker.UI.res.img.logo.png") %>" alt="UrlTracker" class="dashboardIcon" />
+			<img src="<%= Page.ClientScript.GetWebResourceUrl(typeof(UrlTrackerResources), "InfoCaster.Umbraco.UrlTracker.UI.res.img.urltracker-icon.png") %>" alt="UrlTracker" class="dashboardIcon" />
 			<p>Please wait while the Url Tracker executes the final installation tasks...</p>
 			<div id="urlTrackerLoader">
 			</div>
@@ -32,7 +32,6 @@
 				<div id="circularG_8" class="circularG">
 				</div>
 			</div>
-			<%--<img src="<%= Page.ClientScript.GetWebResourceUrl(typeof(UrlTrackerResources), "InfoCaster.Umbraco.UrlTracker.UI.res.img.loading-orange.gif") %>" alt="Loading" id="loadingIcon" />--%>
 		</div>
 	</div>
 </umb:PropertyPanel>

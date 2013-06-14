@@ -26,6 +26,7 @@
 			<li><a href="#settings" data-toggle="tab">Settings</a></li>
 			<li><a href="#qa" data-toggle="tab">Q&A</a></li>
 			<li><a href="#changeLog" data-toggle="tab">Changelog</a></li>
+			<li><a href="#roadmap" data-toggle="tab">Roadmap</a></li>
 		</ul>
  
 		<div class="tab-content">
@@ -83,6 +84,17 @@
 							<li>The package is now a single assembly</li>
 						</ul>
 					</li>
+				</ul>
+			</div>
+			<div class="tab-pane" id="roadmap">
+				<p>Features planned for future versions:</p>
+				<ul>
+					<li>Datatype</li>
+					<li>Regex capturing groups</li>
+					<li>Translation</li>
+					<li>SQLCE/Azure support?</li>
+					<li>Older browsers testing</li>
+					<li>Support UrlRewriting?</li>
 				</ul>
 			</div>
 		</div>

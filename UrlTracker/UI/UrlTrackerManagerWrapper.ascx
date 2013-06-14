@@ -4,8 +4,8 @@
 <%@ Import Namespace="InfoCaster.Umbraco.UrlTracker" %>
 
 <div class="dashboardWrapper">
-	<h2>Url Tracker</h2><a style="position: absolute; top: 14px; right: 14px;" target="urltracker" href="<%= UrlTrackerResources.UrlTrackerInfoUrl %>"><img src="<%= Page.ClientScript.GetWebResourceUrl(typeof(UrlTrackerResources), "InfoCaster.Umbraco.UrlTracker.UI.res.img.info.png") %>" alt="Info" /></a>
-	<img src="<%= Page.ClientScript.GetWebResourceUrl(typeof(UrlTrackerResources), "InfoCaster.Umbraco.UrlTracker.UI.res.img.logo.png") %>" alt="UrlTracker" class="dashboardIcon" />
+	<h2>Url Tracker</h2><a style="position: absolute; top: 10px; right: 14px;" target="urltracker" href="<%= UrlTrackerResources.UrlTrackerInfoUrl %>"><img src="<%= Page.ClientScript.GetWebResourceUrl(typeof(UrlTrackerResources), "InfoCaster.Umbraco.UrlTracker.UI.res.img.info.png") %>" alt="Info" /></a>
+	<img src="<%= Page.ClientScript.GetWebResourceUrl(typeof(UrlTrackerResources), "InfoCaster.Umbraco.UrlTracker.UI.res.img.urltracker-icon.png") %>" alt="UrlTracker" class="dashboardIcon" />
 	<script type="text/javascript">
 		//<![CDATA[
 		var $urlTrackerIframe;
