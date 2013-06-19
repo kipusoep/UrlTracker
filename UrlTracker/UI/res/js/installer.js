@@ -157,7 +157,8 @@ function removeLoadingIcon() {
 }
 
 function showFinishedMessage() {
-	$urlTrackerLoader.append($("<p />").css("font-weight", "bold").text("All done :-) Happy Url Tracking!"));
+	$urlTrackerLoader.append($("<p />").css("font-weight", "bold").html("All done :-)<br />The Url Tracker interface can be found as a dashboard in the Content section.<br />Go to Content and look on the right for a tab called Url Tracker."));
+	$urlTrackerLoader.append($("<p />").css("font-weight", "bold").text("Happy Url Tracking!"));
 	removeLoadingIcon();
 }
 

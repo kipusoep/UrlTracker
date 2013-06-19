@@ -17,7 +17,7 @@
 			<div class="control-group group">
 				<label class="control-label" for="<%= tbOldUrl.ClientID %>"><%= UrlTrackerResources.OldUrl %> <i class="icon-question-sign" data-toggle="tooltip" title="<%= UrlTrackerResources.OldUrlInfo %>"></i></label>
 				<div class="controls">
-					<asp:TextBox runat="server" ID="tbOldUrl" CssClass="input-xlarge old-url" />
+					<asp:TextBox runat="server" ID="tbOldUrl" CssClass="input-xlarge old-url" /> <a target="_blank" href="<%= UrlTrackerModel.CalculatedOldUrlWithDomain %>" class="icon-share"></a>
 				</div>
 			</div>
 			<div class="control-group">

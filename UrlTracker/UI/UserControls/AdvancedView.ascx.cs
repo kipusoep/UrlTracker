@@ -41,9 +41,15 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.UserControls
 				pnlRootNode.Visible = false;
 
 			ddlRootNode.SelectedValue = UrlTrackerModel.RedirectRootNodeId.ToString();
-			tbOldUrl.Text = UrlTrackerModel.CalculatedOldUrlWithoutQuery;
-			tbOldUrlQueryString.Text = UrlTrackerModel.OldUrlQueryString;
-			tbOldRegex.Text = UrlTrackerModel.OldRegex;
+			if (!string.IsNullOrEmpty(UrlTrackerModel.OldRegex) && string.IsNullOrEmpty(UrlTrackerModel.OldUrl))
+			{
+				tbOldRegex.Text = UrlTrackerModel.OldRegex;
+			}
+			else
+			{
+				tbOldUrl.Text = UrlTrackerModel.CalculatedOldUrl;
+				tbOldUrlQueryString.Text = UrlTrackerModel.OldUrlQueryString;
+			}
 			if (UrlTrackerModel.RedirectNodeId.HasValue)
 				cpRedirectNode.Value = UrlTrackerModel.RedirectNodeId.Value.ToString();
 			tbRedirectUrl.Text = UrlTrackerModel.RedirectUrl;

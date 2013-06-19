@@ -27,6 +27,7 @@
 			<li><a href="#qa" data-toggle="tab">Q&A</a></li>
 			<li><a href="#changeLog" data-toggle="tab">Changelog</a></li>
 			<li><a href="#roadmap" data-toggle="tab">Roadmap</a></li>
+			<li><a href="#credits" data-toggle="tab">Credits</a></li>
 		</ul>
  
 		<div class="tab-content">
@@ -96,7 +97,15 @@
 					<li>Regex capturing groups</li>
 					<li>Translation support</li>
 					<li>Support UrlRewriting if possible</li>
-					<li>SQLCE/Azure support (if it doesn't work yet)</li>
+					<li>SQLCE/Azure support (if it doesn't work yet, untested)</li>
+				</ul>
+			</div>
+			<div class="tab-pane" id="credits">
+				<p>Special thanks to:</p>
+				<ul>
+					<li>InfoCaster - Being able to combine 'work' with package development and thanks to colleagues for inspiration.</li>
+					<li>Richard Soeteman - Richard came up with the idea for a package which keeps track of URLs of umbraco nodes.</li>
+					<li>The uComponents project - For inspiring me to create a single-assembly package solution.</li>
 				</ul>
 			</div>
 		</div>

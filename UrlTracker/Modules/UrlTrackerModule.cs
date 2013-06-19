@@ -85,7 +85,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
 				bool redirectPassThroughQueryString = true;
 
 				// Normal matching
-				string query = "SELECT * FROM icUrlTracker WHERE Is404 = 0 AND RedirectRootNodeId = @redirectRootNodeId AND (OldUrl = @url OR OldUrl = @shortestUrl) ORDER BY OldUrlQueryString DESC";
+				string query = "SELECT * FROM icUrlTracker WHERE Is404 = 0 AND (RedirectRootNodeId = @redirectRootNodeId OR RedirectRootNodeId IS NULL) AND (OldUrl = @url OR OldUrl = @shortestUrl) ORDER BY OldUrlQueryString DESC";
 				using (IRecordsReader reader = _sqlHelper.ExecuteReader(query, _sqlHelper.CreateParameter("redirectRootNodeId", rootNodeId), _sqlHelper.CreateParameter("url", urlWithoutQueryString), _sqlHelper.CreateParameter("shortestUrl", shortestUrl)))
 				{
 					while (reader.Read())

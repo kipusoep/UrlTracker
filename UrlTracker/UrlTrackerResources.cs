@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Web;
+using umbraco;
 
 namespace InfoCaster.Umbraco.UrlTracker
 {
@@ -14,7 +15,7 @@ namespace InfoCaster.Umbraco.UrlTracker
 		public const string RootNode = "Root node";
 		public const string RootNodeInfo = "The root node defines for which domain this redirect is meant";
 		public const string OldUrl = "Old URL";
-		public const string OldUrlWatermark = "some/page";
+		public static readonly string OldUrlWatermark = string.Concat("some/page", !GlobalSettings.UseDirectoryUrls ? ".aspx" : UmbracoSettings.AddTrailingSlash ? "/" : string.Empty);
 		public const string OldUrlInfo = "The URL path without leading slash and query string, which you'd like to redirect";
 		public const string OldUrlTestInfo = "Click this link to test the redirect (opens in new window)";
 		public const string Regex = "<b>or</b> Regex";
@@ -28,7 +29,7 @@ namespace InfoCaster.Umbraco.UrlTracker
 		public const string RedirectNodeInfo = "The node to redirect to";
 		public const string RedirectUrl = "<b>or</b> redirect URL";
 		public const string RedirectUrlStandalone = "Redirect URL";
-		public const string RedirectUrlWatermark = "some/page";
+		public static readonly string RedirectUrlWatermark = string.Concat("some/page", !GlobalSettings.UseDirectoryUrls ? ".aspx" : UmbracoSettings.AddTrailingSlash ? "/" : string.Empty);
 		public const string RedirectUrlInfo = "The URL to redirect to";
 		public const string RedirectType = "Redirect type";
 		public const string RedirectTypeInfo = "Permanent redirects will be cached by browsers and search engines will update old entries with the new URL";

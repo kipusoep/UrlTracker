@@ -27,7 +27,7 @@ select.input-xlarge { width: 284px; }
 .controls .simple { margin-bottom: 5px; line-height: 30px; }
 .controls .wrap { margin-top: 5px; }
 
-.control-group { width: 480px; }
+.control-group { width: 485px; }
 .clearfix .control-group { float: left; }
 .group { margin-bottom: 10px !important; }
 .control-group label.error { margin-bottom: 0 !important; }

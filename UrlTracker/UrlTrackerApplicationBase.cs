@@ -1,10 +1,12 @@
 ﻿using InfoCaster.Umbraco.UrlTracker.Extensions;
+using InfoCaster.Umbraco.UrlTracker.Helpers;
 using InfoCaster.Umbraco.UrlTracker.Models;
 using InfoCaster.Umbraco.UrlTracker.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using umbraco;
 using umbraco.BasePages;
 using umbraco.BusinessLogic;
 using umbraco.cms.businesslogic;
@@ -22,6 +24,7 @@ namespace InfoCaster.Umbraco.UrlTracker
 			{
 				Document.BeforeMove += Document_BeforeMove;
 				Document.BeforePublish += Document_BeforePublish;
+				content.BeforeClearDocumentCache += content_BeforeClearDocumentCache;
 				Document.BeforeDelete += Document_BeforeDelete;
 			}
 		}
@@ -89,6 +92,22 @@ namespace InfoCaster.Umbraco.UrlTracker
 			catch (Exception ex)
 			{
 				ex.LogException();
+			}
+#endif
+		}
+
+		void content_BeforeClearDocumentCache(Document doc, DocumentCacheEventArgs e)
+		{
+#if !DEBUG
+			try
+#endif
+			{
+				UrlTrackerRepository.AddGoneEntryByNodeId(doc.Id);
+			}
+#if !DEBUG
+			catch (Exception ex)
+			{
+				ex.LogException(doc.Id);
 			}
 #endif
 		}
