@@ -19,7 +19,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
 			{
 				string url = Node.NiceUrl;
 				if (!url.StartsWith("http"))
-					url = string.Format("{0}://{1}{2}{3}", HttpContext.Current != null ? HttpContext.Current.Request.Url.Scheme : "http", Name,  url);
+					url = string.Format("{0}://{1}{2}", HttpContext.Current != null ? HttpContext.Current.Request.Url.Scheme : "http", Name,  url);
 				return url;
 			}
 		}
