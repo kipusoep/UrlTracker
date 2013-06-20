@@ -99,7 +99,7 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.Installer
 			{
 				Wait();
 				Uri currentUri = HttpContext.Current.Request.Url;
-				WebRequest request = WebRequest.Create(string.Format("{0}://{1}?{2}=1", currentUri.Scheme, currentUri.Host, UrlTrackerSettings.HttpModuleCheck));
+				WebRequest request = WebRequest.Create(string.Format("{0}://{1}:{2}?{3}=1", currentUri.Scheme, currentUri.Host, currentUri.Port, UrlTrackerSettings.HttpModuleCheck));
 				using (WebResponse response = request.GetResponse())
 				using (Stream responseStream = response.GetResponseStream())
 				{
