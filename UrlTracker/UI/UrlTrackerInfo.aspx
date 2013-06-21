@@ -78,7 +78,26 @@
 			<div class="tab-pane" id="changeLog">
 				<ul>
 					<li>
-						Version 2.0 beta
+						2.0.3-beta [2013/06/21]
+						<ul>
+							<li>[Bugfix] Enabling logging on umbraco versions including log4net threw ysod</li>
+						</ul>
+					</li>
+					<li>
+						2.0.2-beta [2013/06/20]
+						<ul>
+							<li>[Bugfix] Ports other than 80 didn't work with the Http Module check in the installer</li>
+							<li>[Bugfix] String.Format in UrlTrackerDomain.UrlWithDomain was wrongly formatted</li>
+						</ul>
+					</li>
+					<li>
+						2.0.1-beta [2013/06/20]
+						<ul>
+							<li>[Bugfix] Multiple hostnames assigned to a node threw an exception</li>
+						</ul>
+					</li>
+					<li>
+						2.0-beta [2013/06/19]
 						<ul>
 							<li>Initial release, completely rebuilt the package</li>
 							<li>Renamed 301 URL Tracker to Url Tracker</li>

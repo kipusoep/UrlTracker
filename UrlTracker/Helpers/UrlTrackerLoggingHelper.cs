@@ -50,18 +50,18 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
 				_log4netAssembly = AppDomain.CurrentDomain.GetAssemblies().SingleOrDefault(x => x.FullName.StartsWith("log4net"));
 			if (_log4netAssembly != null)
 			{
-				Type logManagerType = _log4netAssembly.GetType("LogManager");
-				MethodInfo getLoggerMethod = logManagerType.GetMethod("GetLogger");
+				Type logManagerType = _log4netAssembly.GetType("log4net.LogManager");
+				MethodInfo getLoggerMethod = logManagerType.GetMethod("GetLogger", new Type[] { typeof(System.Type) });
 				object iLog = getLoggerMethod.Invoke(null, new[] { MethodBase.GetCurrentMethod().DeclaringType });
-				Type iLogType = _log4netAssembly.GetType("ILog");
+				Type iLogType = _log4netAssembly.GetType("log4net.ILog");
 				if (exception != null)
 				{
-					MethodInfo errorMethod = logManagerType.GetMethod("Error");
+					MethodInfo errorMethod = iLogType.GetMethod("Error", new Type[] { typeof(object), typeof(Exception) });
 					errorMethod.Invoke(iLog, new[] { null, exception });
 				}
 				else
 				{
-					MethodInfo debugMethod = logManagerType.GetMethod("Error");
+					MethodInfo debugMethod = iLogType.GetMethod("Debug", new Type[] { typeof(object) });
 					debugMethod.Invoke(iLog, new[] { message });
 				}
 			}
