@@ -78,7 +78,26 @@
 			<div class="tab-pane" id="changeLog">
 				<ul>
 					<li>
-						Version 2.0 beta
+						2.0.3-beta [2013/06/21]
+						<ul>
+							<li>[Bugfix] Enabling logging on umbraco versions including log4net threw ysod</li>
+						</ul>
+					</li>
+					<li>
+						2.0.2-beta [2013/06/20]
+						<ul>
+							<li>[Bugfix] Ports other than 80 didn't work with the Http Module check in the installer</li>
+							<li>[Bugfix] String.Format in UrlTrackerDomain.UrlWithDomain was wrongly formatted</li>
+						</ul>
+					</li>
+					<li>
+						2.0.1-beta [2013/06/20]
+						<ul>
+							<li>[Bugfix] Multiple hostnames assigned to a node threw an exception</li>
+						</ul>
+					</li>
+					<li>
+						2.0-beta [2013/06/19]
 						<ul>
 							<li>Initial release, completely rebuilt the package</li>
 							<li>Renamed 301 URL Tracker to Url Tracker</li>
@@ -103,9 +122,9 @@
 			<div class="tab-pane" id="credits">
 				<p>Special thanks to:</p>
 				<ul>
-					<li>InfoCaster - Being able to combine 'work' with package development and thanks to colleagues for inspiration.</li>
-					<li>Richard Soeteman - Richard came up with the idea for a package which keeps track of URLs of umbraco nodes.</li>
-					<li>The uComponents project - For inspiring me to create a single-assembly package solution.</li>
+					<li><b>InfoCaster</b> | Being able to combine 'work' with package development and thanks to colleagues for inspiration.</li>
+					<li><b>Richard Soeteman</b> | Richard came up with the idea for a package which keeps track of URLs of umbraco nodes.</li>
+					<li><b>The uComponents project</b> | For inspiring me to create a single-assembly package solution.</li>
 				</ul>
 			</div>
 		</div>
