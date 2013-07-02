@@ -108,6 +108,13 @@ namespace InfoCaster.Umbraco.UrlTracker.UI
 				{
 					cells[i].Attributes["onclick"] = Page.ClientScript.GetPostBackEventReference(gridView, "Select$" + e.Row.RowIndex.ToString());
 					cells[i].CssClass += " clickable";
+					DataControlFieldCell dataControlFieldCell = cells[i] as DataControlFieldCell;
+					if (dataControlFieldCell != null)
+					{
+						BoundField boundField = dataControlFieldCell.ContainingField as BoundField;
+						if (boundField != null && boundField.DataField == "Referrer")
+							cells[i].CssClass += " max";
+					}
 				}
 				ImageButton lbSelect = (ImageButton)cells.Last().FindControl("lbSelect");
 				lbSelect.ImageUrl = Page.ClientScript.GetWebResourceUrl(typeof(UrlTrackerResources), "InfoCaster.Umbraco.UrlTracker.UI.res.img.edit.png");

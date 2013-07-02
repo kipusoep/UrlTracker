@@ -65,6 +65,9 @@
 				<h4>urlTracker:404UrlsToIgnore</h4>
 				<h5>comma-seperated string (empty)</h5>
 				<p>The Url Tracker logs requests resulting in a 404 Not Found status. Some URLs shouldn't be logged and can be set here. One URL is always ignored by default: 'favicon.ico'.</p>
+				<h4>urlTracker:trackingDisabled</h4>
+				<h5>boolean (false)</h5>
+				<p>Set to true to disable tracking URL changes.</p>
 			</div>
 			<div class="tab-pane" id="qa">
 				<p>Some questions and answers. This section will be expanded when people start asking more questions on the forum ;-)</p>
@@ -77,6 +80,19 @@
 			</div>
 			<div class="tab-pane" id="changeLog">
 				<ul>
+					<li>
+						2.1.0 [2013/07/02]
+						<ul>
+							<li>[Feature] Implemented support for SQL CE</li>
+							<li>[Feature] Added a setting to disable url tracking (urlTracker:trackingDisabled)</li>
+						</ul>
+					</li>
+					<li>
+						2.0.4-beta [2013/07/02]
+						<ul>
+							<li>[Feature] Added better exception handling for the installer</li>
+						</ul>
+					</li>
 					<li>
 						2.0.3-beta [2013/06/21]
 						<ul>

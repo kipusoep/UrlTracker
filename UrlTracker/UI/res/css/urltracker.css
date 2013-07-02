@@ -20,7 +20,8 @@ legend + .clearfix {
 .checkboxes { text-align: center !important; }
 .checkboxes input { margin-top: 0 !important; }
 .filters { margin-bottom: 10px; }
-.filters .checkbox { margin-right: 10px; }
+.filters .checkbox { margin-right-: 10px; }
+td.max { max-width: 100px; }
 
 select.input-xlarge { width: 284px; }
 .input-prepend .input-xlarge { width: 242px; }

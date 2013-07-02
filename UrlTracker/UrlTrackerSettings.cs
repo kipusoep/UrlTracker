@@ -80,9 +80,34 @@ namespace InfoCaster.Umbraco.UrlTracker
 				return _notFoundUrlsToIgnore;
 			}
 		}
+		/// <summary>
+		/// Returns wether or not tracking URL changes is disabled
+		/// </summary>
+		/// <remarks>
+		/// appSetting: 'urlTracker:trackingDisabled'
+		/// </remarks>
+		public static bool IsTrackingDisabled
+		{
+			get
+			{
+				if (!_isTrackingDisabled.HasValue)
+				{
+					bool isTrackingDisabled = false;
+					if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["urlTracker:trackingDisabled"]))
+					{
+						bool parsedAppSetting;
+						if (bool.TryParse(ConfigurationManager.AppSettings["urlTracker:trackingDisabled"], out parsedAppSetting))
+							isTrackingDisabled = parsedAppSetting;
+					}
+					_isTrackingDisabled = isTrackingDisabled;
+				}
+				return _isTrackingDisabled.Value;
+			}
+		}
 
 		static bool? _isDisabled;
 		static bool? _enableLogging;
 		static string[] _notFoundUrlsToIgnore;
+		static bool? _isTrackingDisabled;
 	}
 }

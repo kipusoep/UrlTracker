@@ -17,6 +17,10 @@ You can also create your own redirects, based on a simple URL or using a Regex p
 *   Supports **multiple websites** in a single umbraco instance
 
 ## Changelog ##
+*   2.1.0 [2013/07/02] 
+    *   [Feature] Implemented support for SQL CE
+*   2.0.4-beta [2013/07/02] 
+    *   [Feature] Added better exception handling for the installer
 *   2.0.3-beta [2013/06/21] 
     *   [Bugfix] Enabling logging on umbraco versions including log4net threw ysod
 *   2.0.2-beta [2013/06/20] 

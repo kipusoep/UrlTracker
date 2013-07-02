@@ -322,7 +322,9 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
 			if (UrlTrackerRepository.GetUrlTrackerTableExists())
 				throw new Exception("Table already exists.");
 
-			string createTableQuery = EmbeddedResourcesHelper.GetString("InfoCaster.Umbraco.UrlTracker.SQL.create-table.sql");
+			string createTableQuery = EmbeddedResourcesHelper.GetString("InfoCaster.Umbraco.UrlTracker.SQL.create-table-1.sql");
+			_sqlHelper.ExecuteNonQuery(createTableQuery);
+			createTableQuery = EmbeddedResourcesHelper.GetString("InfoCaster.Umbraco.UrlTracker.SQL.create-table-2.sql");
 			_sqlHelper.ExecuteNonQuery(createTableQuery);
 		}
 

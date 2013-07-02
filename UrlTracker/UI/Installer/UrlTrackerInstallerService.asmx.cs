@@ -52,8 +52,18 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.Installer
 				string dashboardConfigPath = HttpContext.Current.Server.MapPath("~/config/dashboard.config");
 				using (StreamReader streamReader = File.OpenText(dashboardConfigPath))
 					dashboardConfig = streamReader.ReadToEnd();
+				if (string.IsNullOrEmpty(dashboardConfig))
+					throw new Exception("Unable to add dashboard: Couldn't read current ~/config/dashboard.config, permissions issue?");
 				XDocument dashboardDoc = XDocument.Parse(dashboardConfig, LoadOptions.PreserveWhitespace);
-				XElement startupDashboardSectionElement = dashboardDoc.Element("dashBoard").Elements("section").SingleOrDefault(x => x.Attribute("alias").Value == "StartupDashboardSection");
+				if (dashboardDoc == null)
+					throw new Exception("Unable to add dashboard: Unable to parse current ~/config/dashboard.config file, invalid XML?");
+				XElement dashBoardElement = dashboardDoc.Element("dashBoard");
+				if (dashBoardElement == null)
+					throw new Exception("Unable to add dashboard: dashBoard element not found in ~/config/dashboard.config file");
+				List<XElement> sectionElements = dashBoardElement.Elements("section").ToList();
+				if (sectionElements == null || !sectionElements.Any())
+					throw new Exception("Unable to add dashboard: No section elements found in ~/config/dashboard.config file");
+				XElement startupDashboardSectionElement = sectionElements.SingleOrDefault(x => x.Attribute("alias").Value == "StartupDashboardSection");
 				if (startupDashboardSectionElement == null)
 					throw new Exception("Unable to add dashboard: StartupDashboardSection not found in ~/config/dashboard.config");
 

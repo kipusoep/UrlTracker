@@ -26,7 +26,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\</OutputPath>
+    <OutputPath>..\..\InfoCaster\svn\instances\Umb\bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -100,7 +100,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="UrlTracker\SQL\create-table.sql" />
+    <EmbeddedResource Include="UrlTracker\SQL\create-table-1.sql" />
     <EmbeddedResource Include="UrlTracker\UI\Installer\UrlTrackerInstaller.ascx" />
     <EmbeddedResource Include="UrlTracker\UI\res\css\bootstrap.css" />
     <EmbeddedResource Include="UrlTracker\UI\res\css\bootstrap.min.css" />
@@ -239,6 +239,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="UrlTracker\UI\res\js\jquery-migrate-1.2.1.min.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="UrlTracker\SQL\create-table-2.sql" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

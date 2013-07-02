@@ -20,7 +20,7 @@ namespace InfoCaster.Umbraco.UrlTracker
 	{
 		public UrlTrackerApplicationBase()
 		{
-			if (!UrlTrackerSettings.IsDisabled)
+			if (!UrlTrackerSettings.IsDisabled && !UrlTrackerSettings.IsTrackingDisabled)
 			{
 				Document.BeforeMove += Document_BeforeMove;
 				Document.BeforePublish += Document_BeforePublish;
