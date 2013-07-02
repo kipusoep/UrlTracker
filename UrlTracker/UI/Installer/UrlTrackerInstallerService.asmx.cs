@@ -1,6 +1,7 @@
 ﻿using InfoCaster.Umbraco.UrlTracker.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -147,9 +148,15 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.Installer
 
 		string HandleException(Exception ex)
 		{
+			string exceptionString = "error: ";
 			if (ex.InnerException != null)
-				return string.Format("error: {0} ({1})", ex.Message, ex.InnerException.Message);
-			return string.Concat("error: ", ex.Message);
+				exceptionString += string.Format("{0} ({1})", ex.Message, ex.InnerException.Message);
+			else
+				exceptionString += ex.Message;
+
+			StackTrace stackTrace = new StackTrace(true);
+			exceptionString += " | Stacktrace: " + stackTrace.ToString().Replace("\r", string.Empty).Replace("\n", "<br />");
+			return exceptionString;
 		}
 
 		void Wait()

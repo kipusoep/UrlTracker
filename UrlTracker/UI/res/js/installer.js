@@ -128,19 +128,26 @@ $(function () {
 
 function showErrorOrSuccess(errorPrefix, message, successText) {
 	if (message.startsWith("error: ")) {
-		$urlTrackerLoader.append($("<p />").addClass("error").text(errorPrefix + " " + message.substring("error: ".length)));
+		$urlTrackerLoader.append($("<p />").addClass("error").css("font-weight", "bold").text(errorPrefix + " " + message.substring("error: ".length)));
 	} else {
-		$urlTrackerLoader.append($("<p />").addClass("success").text(successText));
+		$urlTrackerLoader.append($("<p />").addClass("success").css("font-weight", "bold").text(successText));
 	}
 }
 
 function showInfoErrorOrSuccess(errorPrefix, infoPrefix, message, infoError, successText) {
 	if (message.startsWith("error: ")) {
 		var message = message.substring("error: ".length);
-		var isInfo = infoError == message;
-		$urlTrackerLoader.append($("<p />").addClass(isInfo ? "info" : "error").text((isInfo ? infoPrefix : errorPrefix) + " " + message));
+		var isInfo = message.startsWith(infoError);
+		var stackTrace = "";
+		if (message.indexOf(" | Stacktrace: ") > -1) {
+			stackTrace = message.substring(message.indexOf(" | Stacktrace: ") + " | Stacktrace: ".length);
+			message = message.substring(0, message.indexOf(" | Stacktrace: "));
+		}
+		$urlTrackerLoader.append($("<p />").addClass(isInfo ? "info" : "error").css("font-weight", "bold").html((isInfo ? infoPrefix : errorPrefix) + " " + message));
+		if (stackTrace != "" && !isInfo)
+			$urlTrackerLoader.append($("<p />").addClass(isInfo ? "info" : "error").html("Well, this is awkward... It seems an error has occurred :-(<br />Please <a href=\"http://our.umbraco.org/projects/developer-tools/301-url-tracker/version-2\" target=\"_blank\">post a topic at the forum</a>, including the message above, some information about your setup and the stacktrace below:<br /><br />Stacktrace: <br />" + stackTrace));
 	} else {
-		$urlTrackerLoader.append($("<p />").addClass("success").text(successText));
+		$urlTrackerLoader.append($("<p />").addClass("success").css("font-weight", "bold").html(successText));
 	}
 }
 
