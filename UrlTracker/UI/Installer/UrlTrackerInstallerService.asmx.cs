@@ -63,7 +63,7 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.Installer
 				List<XElement> sectionElements = dashBoardElement.Elements("section").ToList();
 				if (sectionElements == null || !sectionElements.Any())
 					throw new Exception("Unable to add dashboard: No section elements found in ~/config/dashboard.config file");
-				XElement startupDashboardSectionElement = sectionElements.SingleOrDefault(x => x.Attribute("alias").Value == "StartupDashboardSection");
+				XElement startupDashboardSectionElement = sectionElements.SingleOrDefault(x => x.Attribute("alias") != null && x.Attribute("alias").Value == "StartupDashboardSection");
 				if (startupDashboardSectionElement == null)
 					throw new Exception("Unable to add dashboard: StartupDashboardSection not found in ~/config/dashboard.config");
 

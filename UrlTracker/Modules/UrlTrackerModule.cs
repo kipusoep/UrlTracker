@@ -1,6 +1,7 @@
 ﻿using InfoCaster.Umbraco.UrlTracker.Extensions;
 using InfoCaster.Umbraco.UrlTracker.Helpers;
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -8,6 +9,7 @@ using System.Web;
 using umbraco.BusinessLogic;
 using umbraco.cms.businesslogic.web;
 using umbraco.DataLayer;
+using umbraco.interfaces;
 using umbraco.NodeFactory;
 using UmbracoHelper = InfoCaster.Umbraco.UrlTracker.Helpers.UmbracoHelper;
 
@@ -77,7 +79,13 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
 
 				int rootNodeId = Domain.GetRootFromDomain(host);
 				if (rootNodeId == -1)
-					rootNodeId = new Node(-1).ChildrenAsList.First().Id;
+				{
+					rootNodeId = -1;
+					List<INode> children = new Node(rootNodeId).ChildrenAsList;
+					if (children != null && children.Any())
+						rootNodeId = children.First().Id;
+
+				}
 				UrlTrackerLoggingHelper.LogInformation("UrlTracker HttpModule | Current request's rootNodeId: {0}", rootNodeId);
 
 				string redirectUrl = null;

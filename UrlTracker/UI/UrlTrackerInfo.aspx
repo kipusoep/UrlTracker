@@ -81,6 +81,12 @@
 			<div class="tab-pane" id="changeLog">
 				<ul>
 					<li>
+						2.1.1 [2013/07/03]
+						<ul>
+							<li>[Bugfix] Implemented an extra check for the installation of the dashboard</li>
+						</ul>
+					</li>
+					<li>
 						2.1.0 [2013/07/02]
 						<ul>
 							<li>[Feature] Implemented support for SQL CE</li>

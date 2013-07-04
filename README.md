@@ -17,6 +17,8 @@ You can also create your own redirects, based on a simple URL or using a Regex p
 *   Supports **multiple websites** in a single umbraco instance
 
 ## Changelog ##
+*   2.1.1 [2013/07/03] 
+    *   [Bugfix] Implemented an extra check for the installation of the dashboard
 *   2.1.0 [2013/07/02] 
     *   [Feature] Implemented support for SQL CE
     *   [Feature] Added a setting to disable url tracking (urlTracker:trackingDisabled)
