@@ -73,7 +73,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
 				if (urlHasQueryString)
 					urlWithoutQueryString = url.Substring(0, url.IndexOf('?'));
 
-				string shortestUrl = UrlTrackerHelper.ResolveShortestUrl(url);
+				string shortestUrl = UrlTrackerHelper.ResolveShortestUrl(urlWithoutQueryString);
 
 				string host = request.Url.Host;
 

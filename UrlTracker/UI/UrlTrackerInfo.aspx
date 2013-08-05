@@ -81,6 +81,13 @@
 			<div class="tab-pane" id="changeLog">
 				<ul>
 					<li>
+						2.1.3 [2013/08/05]
+						<ul>
+							<li>[Bugfix] Redirects from URLs with non-aspx extensions were displayed with '.aspx' appended at the end</li>
+							<li>[Bugfix] Redirects with querystring passthrough failed sometimes</li>
+						</ul>
+					</li>
+					<li>
 						2.1.1 [2013/07/03]
 						<ul>
 							<li>[Bugfix] Implemented an extra check for the installation of the dashboard</li>

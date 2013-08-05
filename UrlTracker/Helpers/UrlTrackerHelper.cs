@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using umbraco;
 
@@ -8,6 +9,8 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
 {
 	public static class UrlTrackerHelper
 	{
+		static readonly Regex _urlWithDotRegex = new Regex("\\S+\\.\\S+");
+
 		public static string ResolveShortestUrl(string url)
 		{
 			if (url.StartsWith("http://") || url.StartsWith("https://"))
@@ -33,7 +36,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
 				url = uri.PathAndQuery;
 			}
 
-			if (url != "/")
+			if (url != "/" && !_urlWithDotRegex.IsMatch(url))
 			{
 				if (!GlobalSettings.UseDirectoryUrls && !url.EndsWith(".aspx"))
 					url += ".aspx";

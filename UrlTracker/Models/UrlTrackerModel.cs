@@ -59,6 +59,8 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
 		{
 			get
 			{
+				if (string.IsNullOrEmpty(OldRegex) && string.IsNullOrEmpty(OldUrl))
+					throw new InvalidOperationException("Both OldRegex and OldUrl are empty, which is invalid. Please correct this by removing any entries where the OldUrl and OldRegex columns are empty.");
 				if (!string.IsNullOrEmpty(OldRegex) && string.IsNullOrEmpty(OldUrl))
 					return string.Concat("Regex: ", OldRegex);
 
