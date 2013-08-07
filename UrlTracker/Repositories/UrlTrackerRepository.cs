@@ -16,6 +16,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
 	public static class UrlTrackerRepository
 	{
 		static ISqlHelper _sqlHelper { get { return Application.SqlHelper; } }
+		static readonly Uri _baseUri = new Uri("http://www.example.org");
 
 		#region Add
 		public static bool AddUrlMapping(Document doc, int rootNodeId, string url, AutoTrackingTypes type, bool isChild = false)
@@ -361,7 +362,10 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
 					Uri oldUri = null;
 					if (!oldUrlTrackerEntry.IsRegex)
 					{
-						oldUri = new Uri(string.Concat(!oldUrl.StartsWith("http") ? "http://www.example.org" : string.Empty, !oldUrl.StartsWith("/") ? "/" : string.Empty, oldUrl));
+						if (!oldUrl.StartsWith("http"))
+							oldUri = new Uri(_baseUri, oldUrl);
+						else
+							oldUri = new Uri(oldUrl);
 						oldUrl = UrlTrackerHelper.ResolveShortestUrl(oldUri.AbsolutePath);
 					}
 					else

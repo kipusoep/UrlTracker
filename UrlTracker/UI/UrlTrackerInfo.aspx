@@ -81,6 +81,12 @@
 			<div class="tab-pane" id="changeLog">
 				<ul>
 					<li>
+						2.1.4 [2013/08/07]
+						<ul>
+							<li>[Bugfix] Migrating data from v1 to v2 resulted in an error when there were absolute OldUrls in the DB table</li>
+						</ul>
+					</li>
+					<li>
 						2.1.3 [2013/08/05]
 						<ul>
 							<li>[Bugfix] Redirects from URLs with non-aspx extensions were displayed with '.aspx' appended at the end</li>

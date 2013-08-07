@@ -17,6 +17,8 @@ You can also create your own redirects, based on a simple URL or using a Regex p
 *   Supports **multiple websites** in a single umbraco instance
 
 ## Changelog ##
+*   2.1.4  [2013/08/07]
+	*	[Bugfix] Migrating data from v1 to v2 resulted in an error when there were absolute OldUrls in the DB table
 *   2.1.3  [2013/08/05]
 	*	[Bugfix] Redirects from URLs with non-aspx extensions were displayed with '.aspx' appended at the end
 	*	[Bugfix] Redirects with querystring passthrough failed sometimes
