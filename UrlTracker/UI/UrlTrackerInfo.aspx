@@ -81,6 +81,12 @@
 			<div class="tab-pane" id="changeLog">
 				<ul>
 					<li>
+						2.1.6 [2013/08/16]
+						<ul>
+							<li>[Bugfix] Fixed two small bugs (http module)</li>
+						</ul>
+					</li>
+					<li>
 						2.1.4 [2013/08/07]
 						<ul>
 							<li>[Bugfix] Migrating data from v1 to v2 resulted in an error when there were absolute OldUrls in the DB table</li>
