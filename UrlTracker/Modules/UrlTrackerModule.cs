@@ -69,7 +69,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
 					return;
 				}
 
-				bool urlHasQueryString = request.QueryString.HasKeys();
+				bool urlHasQueryString = request.QueryString.HasKeys() && url.Contains('?');
 				if (urlHasQueryString)
 					urlWithoutQueryString = url.Substring(0, url.IndexOf('?'));
 
@@ -136,7 +136,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
 						if ((urlHasQueryString || oldUrlQueryString != null) && (oldUrlQueryString != null && !request.QueryString.CollectionEquals(oldUrlQueryString)))
 						{
 							UrlTrackerLoggingHelper.LogInformation("UrlTracker HttpModule | Aborting; query strings don't match");
-							return;
+							continue;
 						}
 
 						redirectHttpCode = reader.GetInt("RedirectHttpCode");
@@ -224,7 +224,10 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
 						query += "1, @referrer)";
 						_sqlHelper.ExecuteNonQuery(query, _sqlHelper.CreateParameter("oldUrl", urlWithoutQueryString), _sqlHelper.CreateParameter("redirectRootNodeId", rootNodeId), _sqlHelper.CreateParameter("oldUrlQueryString", request.QueryString.ToString()), _sqlHelper.CreateParameter("referrer", request.UrlReferrer != null ? (object)request.UrlReferrer.ToString() : DBNull.Value));
 					}
-					UrlTrackerLoggingHelper.LogInformation("UrlTracker HttpModule | No match found, url is configured to be ignored: {0}", urlWithoutQueryString);
+					if (UrlTrackerSettings.NotFoundUrlsToIgnore.Contains(urlWithoutQueryString))
+						UrlTrackerLoggingHelper.LogInformation("UrlTracker HttpModule | No match found, url is configured to be ignored: {0}", urlWithoutQueryString);
+					else if (UmbracoHelper.IsReservedPathOrUrl(urlWithoutQueryString))
+						UrlTrackerLoggingHelper.LogInformation("UrlTracker HttpModule | No match found, url is ignored because it's an umbraco reserved URL or path: {0}", urlWithoutQueryString);
 				}
 			}
 			else
