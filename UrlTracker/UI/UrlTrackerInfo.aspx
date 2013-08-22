@@ -81,6 +81,13 @@
 			<div class="tab-pane" id="changeLog">
 				<ul>
 					<li>
+						2.2.0 [2013/08/22]
+						<ul>
+							<li>[Feature] Added filtering and searching</li>
+							<li>[Feature] Improved error handling</li>
+						</ul>
+					</li>
+					<li>
 						2.1.6 [2013/08/16]
 						<ul>
 							<li>[Bugfix] Fixed two small bugs (http module)</li>

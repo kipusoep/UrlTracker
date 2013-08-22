@@ -17,6 +17,9 @@ You can also create your own redirects, based on a simple URL or using a Regex p
 *   Supports **multiple websites** in a single umbraco instance
 
 ## Changelog ##
+*	2.2.0 [2013/08/22]
+	*	[Feature] Added filtering and searching
+	*	[Feature] Improved error handling
 *	2.1.6 [2013/08/16]
 	*	[Bugfix] Fixed two small bugs (http module)
 *   2.1.4  [2013/08/07]
