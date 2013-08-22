@@ -1,4 +1,5 @@
-﻿function pageLoad() {
+﻿var $tbSearch;
+function pageLoad() {
 	$("*[data-toggle='tooltip']").tooltip({ container: "body", html: true });
 
 	$(".wrap input[type='hidden']").addClass("redirect-to").addClass("redirect-to-node");
@@ -116,6 +117,46 @@
 			$(".table input[type='checkbox']").prop("checked", $cbSelectAll.is(":checked"));
 		});
 	}
+
+	$tbSearch = $("#tbSearch");
+	if ($tbSearch.length) {
+		var onchange = $tbSearch.attr("onchange");
+		$tbSearch.removeAttr("onkeypress").focus();
+		if (!$tbSearch.isBound("keydown", tbSearchOnKeyDown))
+			$tbSearch.on("keydown", tbSearchOnKeyDown);
+		if (!$tbSearch.isBound("keyup", tbSearchOnKeyUp))
+			$tbSearch.on("keyup", tbSearchOnKeyUp);
+	}
+
+	Sys.WebForms.PageRequestManager.getInstance().add_endRequest(endRequestHandler);
+}
+
+function endRequestHandler(sender, args) {
+	if (args.get_error() != undefined)
+		alert(args.get_error());
+}
+
+var tbSearchOnChange, tbSearchTimeout;
+function tbSearchOnKeyDown(e) {
+	if (e.keyCode == 13)
+		e.preventDefault();
+	else {
+		if (typeof tbSearchOnChange == "undefined") {
+			tbSearchOnChange = $tbSearch.attr("onchange");
+			$tbSearch.removeAttr("onchange");
+		}
+		if (typeof tbSearchTimeout != "undefined" && tbSearchTimeout)
+			clearTimeout(tbSearchTimeout);
+		tbSearchTimeout = setTimeout(function () {
+			eval(tbSearchOnChange);
+		}, 500);
+	}
+}
+
+function tbSearchOnKeyUp(e) {
+	if (e.keyCode == 27) { // Esc
+		$tbSearch.val("").trigger("keydown");
+	}
 }
 
 function validateAndSubmit(evt) {
@@ -175,3 +216,20 @@ jQuery.validator.addMethod("exactly_from_group", function (value, element, optio
 	}
 	return validOrNot;
 }, jQuery.format("Please fill exactly {0} of these fields."));
+
+jQuery.fn.isBound = function (type, fn) {
+	if (typeof this.data('events') == "undefined")
+		return false;
+
+	var data = this.data('events')[type];
+	if (data === undefined || data.length === 0)
+		return false;
+
+	var bound = false;
+	$.each(data, function (ix, el) {
+		if (el.handler == fn)
+			bound = true;
+	});
+	
+	return bound;
+};

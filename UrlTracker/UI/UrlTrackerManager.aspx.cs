@@ -3,6 +3,7 @@ using InfoCaster.Umbraco.UrlTracker.Repositories;
 using InfoCaster.Umbraco.UrlTracker.UI.UserControls;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
@@ -23,11 +24,24 @@ namespace InfoCaster.Umbraco.UrlTracker.UI
 		protected CreateView icCreateView;
 
 		ContentPicker _contentPicker = new ContentPicker();
+		bool _gridviewFiltered = false;
+		bool _isNotFoundView { get { return mvSwitchButtons.GetActiveView() == vwSwitchButtonsUrlTracker; } }
+		bool _earlyErrorDetected { get { return mvUrlTrackerError.GetActiveView() == vwUrlTrackerErrorMessage; } }
 
 		protected UrlTrackerModel UrlTrackerModel
 		{
 			get { return ViewState["DE916296-47D7-4878-BBFC-83FE0F146FDB"] as UrlTrackerModel ?? null; }
 			set { ViewState["DE916296-47D7-4878-BBFC-83FE0F146FDB"] = value; }
+		}
+
+		protected void scriptManager_AsyncPostBackError(object sender, AsyncPostBackErrorEventArgs e)
+		{
+			if (e.Exception != null && e.Exception.InnerException != null)
+			{
+				scriptManager.AsyncPostBackErrorMessage = e.Exception.InnerException.Message;
+				if (e.Exception.InnerException.InnerException != null)
+					scriptManager.AsyncPostBackErrorMessage = string.Concat(scriptManager.AsyncPostBackErrorMessage, " | (inner exception: ", e.Exception.InnerException.InnerException.Message, ")");
+			}
 		}
 
 		protected override void OnInit(EventArgs e)
@@ -43,25 +57,37 @@ namespace InfoCaster.Umbraco.UrlTracker.UI
 
 			if (!IsPostBack)
 			{
+				List<int> invalidRowIds;
+				if (UrlTrackerRepository.HasInvalidEntries(out invalidRowIds))
+				{
+					ltlError.Text = string.Format(UrlTrackerResources.ErrorMessageOldUrlAndOldRegexEmpty, string.Join(", ", invalidRowIds));
+					lbDeleteErrorRows.Text = UrlTrackerResources.ErrorMessageOldUrlAndOldRegexEmptyButton;
+					mvUrlTrackerError.SetActiveView(vwUrlTrackerErrorMessage);
+					odsUrlTrackerEntries.Selecting += odsUrlTrackerEntries_Selecting;
+				}
+
 				gvUrlTracker.Sort("Inserted", SortDirection.Descending);
 				gvNotFound.Sort("NotFoundCount", SortDirection.Descending);
 			}
 
-			pnlBreadcrumb.Visible = false;
-
-			if (icAutoView == null)
+			if (!_earlyErrorDetected)
 			{
-				icAutoView = (AutoView)LoadControl("/Umbraco/UrlTracker/InfoCaster.Umbraco.UrlTracker.UI.UserControls.AutoView.ascx");
-				icCustomView = (CustomView)LoadControl("/Umbraco/UrlTracker/InfoCaster.Umbraco.UrlTracker.UI.UserControls.CustomView.ascx");
-				icNotFoundView = (NotFoundView)LoadControl("/Umbraco/UrlTracker/InfoCaster.Umbraco.UrlTracker.UI.UserControls.NotFoundView.ascx");
-				icAdvancedView = (AdvancedView)LoadControl("/Umbraco/UrlTracker/InfoCaster.Umbraco.UrlTracker.UI.UserControls.AdvancedView.ascx");
-				icCreateView = (CreateView)LoadControl("/Umbraco/UrlTracker/InfoCaster.Umbraco.UrlTracker.UI.UserControls.CreateView.ascx");
+				pnlBreadcrumb.Visible = false;
 
-				pnlEditValidationGroup.Controls.AddAt(0, icAutoView);
-				pnlEditValidationGroup.Controls.AddAt(1, icCustomView);
-				pnlEditValidationGroup.Controls.AddAt(2, icNotFoundView);
-				pnlEditValidationGroup.Controls.AddAt(3, icAdvancedView);
-				pnlCreateValidationGroup.Controls.AddAt(0, icCreateView);
+				if (icAutoView == null)
+				{
+					icAutoView = (AutoView)LoadControl("/Umbraco/UrlTracker/InfoCaster.Umbraco.UrlTracker.UI.UserControls.AutoView.ascx");
+					icCustomView = (CustomView)LoadControl("/Umbraco/UrlTracker/InfoCaster.Umbraco.UrlTracker.UI.UserControls.CustomView.ascx");
+					icNotFoundView = (NotFoundView)LoadControl("/Umbraco/UrlTracker/InfoCaster.Umbraco.UrlTracker.UI.UserControls.NotFoundView.ascx");
+					icAdvancedView = (AdvancedView)LoadControl("/Umbraco/UrlTracker/InfoCaster.Umbraco.UrlTracker.UI.UserControls.AdvancedView.ascx");
+					icCreateView = (CreateView)LoadControl("/Umbraco/UrlTracker/InfoCaster.Umbraco.UrlTracker.UI.UserControls.CreateView.ascx");
+
+					pnlEditValidationGroup.Controls.AddAt(0, icAutoView);
+					pnlEditValidationGroup.Controls.AddAt(1, icCustomView);
+					pnlEditValidationGroup.Controls.AddAt(2, icNotFoundView);
+					pnlEditValidationGroup.Controls.AddAt(3, icAdvancedView);
+					pnlCreateValidationGroup.Controls.AddAt(0, icCreateView);
+				}
 			}
 		}
 
@@ -69,31 +95,42 @@ namespace InfoCaster.Umbraco.UrlTracker.UI
 		{
 			base.OnLoad(e);
 
-			IUrlTrackerView activeView = GetActiveView();
-			if (activeView != null)
-				activeView.UrlTrackerModel = icAdvancedView.UrlTrackerModel = UrlTrackerModel;
+			if (!_earlyErrorDetected)
+			{
+				IUrlTrackerView activeView = GetActiveView();
+				if (activeView != null)
+					activeView.UrlTrackerModel = icAdvancedView.UrlTrackerModel = UrlTrackerModel;
+			}
 		}
 
 		protected override void OnPreRender(EventArgs e)
 		{
 			base.OnPreRender(e);
 
-			liDetails.Visible = mvUrlTracker.GetActiveView() == vwUrlTrackerDetail;
-			liNew.Visible = mvUrlTracker.GetActiveView() == vwUrlTrackerNew;
-
-			bool hasNotFoundEntries = UrlTrackerRepository.HasNotFoundEntries();
-			ltlNotFoundText.Visible = hasNotFoundEntries;
-			if (mvSwitchButtons.GetActiveView() == vwSwitchButtonsNotFound)
+			if (!_earlyErrorDetected)
 			{
-				mvSwitchButtons.Visible = hasNotFoundEntries;
-				lbDeleteSelected.Visible = gvUrlTracker.Rows.Count > 0;
-			}
-			else
-				lbDeleteSelected.Visible = gvNotFound.Rows.Count > 0;
+				liDetails.Visible = mvUrlTracker.GetActiveView() == vwUrlTrackerDetail;
+				liNew.Visible = mvUrlTracker.GetActiveView() == vwUrlTrackerNew;
 
-			mvUrlTrackerEntries.SetActiveView(vwUrlTrackerEntriesTable);
-			if (gvUrlTracker.Rows.Count == 0)
-				mvUrlTrackerEntries.SetActiveView(vwUrlTrackerEntriesNone);
+				bool hasNotFoundEntries = UrlTrackerRepository.HasNotFoundEntries();
+				ltlNotFoundText.Visible = hasNotFoundEntries;
+				if (_isNotFoundView)
+				{
+					mvSwitchButtons.Visible = hasNotFoundEntries;
+					lbDeleteSelected.Visible = gvUrlTracker.Rows.Count > 0;
+				}
+				else
+					lbDeleteSelected.Visible = gvNotFound.Rows.Count > 0;
+
+				mvUrlTrackerEntries.SetActiveView(vwUrlTrackerEntriesTable);
+				if (gvUrlTracker.Rows.Count == 0 && !_gridviewFiltered)
+					mvUrlTrackerEntries.SetActiveView(vwUrlTrackerEntriesNone);
+			}
+		}
+
+		void odsUrlTrackerEntries_Selecting(object sender, ObjectDataSourceSelectingEventArgs e)
+		{
+			e.Cancel = true;
 		}
 
 		protected void GridView_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -153,6 +190,50 @@ namespace InfoCaster.Umbraco.UrlTracker.UI
 			}
 		}
 
+		protected void cbFilters_CheckedChanged(object sender, EventArgs e)
+		{
+			Filter();
+		}
+
+		protected void tbSearch_TextChanged(object sender, EventArgs e)
+		{
+			Filter();
+		}
+
+		void Filter()
+		{
+			Parameter showAutoEntriesParameter = new Parameter("showAutoEntries", DbType.Boolean, cbShowAutoEntries.Checked.ToString());
+			Parameter showCustomEntriesParameter = new Parameter("showCustomEntries", DbType.Boolean, cbShowCustomEntries.Checked.ToString());
+			Parameter showRegexEntriesParameter = new Parameter("showRegexEntries", DbType.Boolean, cbShowRegexEntries.Checked.ToString());
+			Parameter searchParameter = new Parameter("keyword", DbType.String, tbSearch.Text);
+
+			if (!_isNotFoundView)
+			{
+				odsUrlTrackerEntries.SelectParameters.Clear();
+				odsUrlTrackerEntries.SelectParameters.Add(showAutoEntriesParameter);
+				odsUrlTrackerEntries.SelectParameters.Add(showCustomEntriesParameter);
+				odsUrlTrackerEntries.SelectParameters.Add(showRegexEntriesParameter);
+				odsUrlTrackerEntries.SelectParameters.Add(searchParameter);
+
+				gvUrlTracker.DataBind();
+				mvUrlTrackerFilter.SetActiveView(vwUrlTrackerFilterGrid);
+				if (gvUrlTracker.Rows.Count == 0)
+					mvUrlTrackerFilter.SetActiveView(vwUrlTrackerFilterNoResults);
+			}
+			else
+			{
+				odsNotFoundEntries.SelectParameters.Clear();
+				odsNotFoundEntries.SelectParameters.Add(searchParameter);
+
+				gvNotFound.DataBind();
+				mvNotFoundFilter.SetActiveView(vwNotFoundFilterGrid);
+				if (gvNotFound.Rows.Count == 0)
+					mvNotFoundFilter.SetActiveView(vwNotFoundFilterNoResults);
+			}
+
+			_gridviewFiltered = true;
+		}
+
 		protected void ShowOverview(object sender, EventArgs e)
 		{
 			mvUrlTracker.SetActiveView(vwUrlTrackerOverview);
@@ -165,6 +246,7 @@ namespace InfoCaster.Umbraco.UrlTracker.UI
 			mvGridViews.SetActiveView(vwGridViewsNotFound);
 			gvNotFound.DataBind();
 			lbCreate.Visible = false;
+			pnlFilters.Visible = false;
 		}
 
 		protected void lbUrlTrackerView_Click(object sender, EventArgs e)
@@ -173,6 +255,7 @@ namespace InfoCaster.Umbraco.UrlTracker.UI
 			mvGridViews.SetActiveView(vwGridViewsUrlTracker);
 			gvUrlTracker.DataBind();
 			lbCreate.Visible = true;
+			pnlFilters.Visible = true;
 		}
 
 		protected void lbSave_Click(object sender, EventArgs e)
@@ -258,6 +341,14 @@ namespace InfoCaster.Umbraco.UrlTracker.UI
 			ResetViews();
 			mvUrlTracker.SetActiveView(vwUrlTrackerOverview);
 			gvUrlTracker.DataBind();
+		}
+
+		protected void lbDeleteErrorRows_Click(object sender, EventArgs e)
+		{
+			List<int> invalidRowIds;
+			if (UrlTrackerRepository.HasInvalidEntries(out invalidRowIds))
+				invalidRowIds.ForEach(x => { UrlTrackerRepository.DeleteUrlTrackerEntry(x); });
+			Response.Redirect(Request.RawUrl);
 		}
 
 		void LoadDetail(object dataKey)

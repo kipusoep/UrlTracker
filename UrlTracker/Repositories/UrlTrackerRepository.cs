@@ -9,6 +9,7 @@ using System.Web;
 using umbraco.BusinessLogic;
 using umbraco.cms.businesslogic.web;
 using umbraco.DataLayer;
+using umbraco.DataLayer.SqlHelpers.SqlServer;
 using umbraco.NodeFactory;
 
 namespace InfoCaster.Umbraco.UrlTracker.Repositories
@@ -155,17 +156,55 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
 			return GetNotFoundEntries().Single(x => x.OldUrl == url);
 		}
 
-		public static List<UrlTrackerModel> GetUrlTrackerEntries(int? maximumRows, int? startRowIndex, string sortExpression = "", bool _404 = false, bool include410Gone = false)
+		public static List<UrlTrackerModel> GetUrlTrackerEntries(int? maximumRows, int? startRowIndex, string sortExpression = "", bool _404 = false, bool include410Gone = false, bool showAutoEntries = true, bool showCustomEntries = true, bool showRegexEntries = true, string keyword = "")
 		{
 			List<UrlTrackerModel> urlTrackerEntries = new List<UrlTrackerModel>();
+			int intKeyword = 0;
 
 			string query = "SELECT * FROM icUrlTracker WHERE Is404 = @is404 AND RedirectHttpCode != @redirectHttpCode";
-			using (IRecordsReader reader = _sqlHelper.ExecuteReader(query, _sqlHelper.CreateParameter("is404", _404 ? 1 : 0), _sqlHelper.CreateParameter("redirectHttpCode", include410Gone ? 0 : 410)))
+			if (!string.IsNullOrEmpty(keyword))
+			{
+				query = string.Concat(query, " AND (OldUrl LIKE '%' + @keyword + '%' OR OldUrlQueryString LIKE '%' + @keyword + '%' OR OldRegex LIKE '%' + @keyword + '%' OR RedirectUrl LIKE '%' + @keyword + '%' OR Notes LIKE '%' + @keyword + '%'");
+				if (int.TryParse(keyword, out intKeyword))
+					query = string.Concat(query, " OR RedirectNodeId = @intKeyword");
+				query = string.Concat(query, ")");
+			}
+			List<IParameter> parameters = new List<IParameter>
+			{
+				_sqlHelper.CreateParameter("is404", _404 ? 1 : 0),
+				_sqlHelper.CreateParameter("redirectHttpCode", include410Gone ? 0 : 410)
+			};
+			if (!string.IsNullOrEmpty(keyword))
+				parameters.Add(_sqlHelper.CreateParameter("keyword", keyword));
+			if (intKeyword != 0)
+				parameters.Add(_sqlHelper.CreateParameter("intKeyword", intKeyword));
+			using (IRecordsReader reader = _sqlHelper.ExecuteReader(query, parameters.ToArray()))
 			{
 				while (reader.Read())
 				{
 					urlTrackerEntries.Add(new UrlTrackerModel(reader.GetInt("Id"), reader.GetString("OldUrl"), reader.GetString("OldUrlQueryString"), reader.GetString("OldRegex"), reader.GetInt("RedirectRootNodeId"), reader.Get<int?>("RedirectNodeId"), reader.GetString("RedirectUrl"), reader.GetInt("RedirectHttpCode"), reader.GetBoolean("RedirectPassThroughQueryString"), reader.GetString("Notes"), reader.GetBoolean("Is404"), reader.GetString("Referrer"), reader.GetDateTime("Inserted")));
 				}
+			}
+
+			if (!showAutoEntries || !showCustomEntries || !showRegexEntries || !string.IsNullOrEmpty(keyword))
+			{
+				IEnumerable<UrlTrackerModel> filteredUrlTrackerEntries = urlTrackerEntries;
+				if (!showAutoEntries)
+					filteredUrlTrackerEntries = filteredUrlTrackerEntries.Where(x => x.ViewType != UrlTrackerViewTypes.Auto);
+				if (!showCustomEntries)
+					filteredUrlTrackerEntries = filteredUrlTrackerEntries.Where(x => x.ViewType != UrlTrackerViewTypes.Custom || (showRegexEntries ? string.IsNullOrEmpty(x.OldUrl) : false));
+				if (!showRegexEntries)
+					filteredUrlTrackerEntries = filteredUrlTrackerEntries.Where(x => !string.IsNullOrEmpty(x.OldUrl));
+				//if (!string.IsNullOrEmpty(keyword))
+				//{
+				//	filteredUrlTrackerEntries = filteredUrlTrackerEntries.Where(x =>
+				//		(x.CalculatedOldUrl != null && x.CalculatedOldUrl.ToLower().Contains(keyword)) ||
+				//		(x.CalculatedRedirectUrl != null && x.CalculatedRedirectUrl.ToLower().Contains(keyword)) ||
+				//		(x.OldRegex != null && x.OldRegex.ToLower().Contains(keyword)) ||
+				//		(x.Notes != null && x.Notes.ToLower().Contains(keyword))
+				//	);
+				//}
+				urlTrackerEntries = filteredUrlTrackerEntries.ToList();
 			}
 
 			if (!string.IsNullOrEmpty(sortExpression))
@@ -216,7 +255,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
 			return urlTrackerEntries;
 		}
 
-		public static List<UrlTrackerModel> GetNotFoundEntries(int? maximumRows, int? startRowIndex, string sortExpression = "")
+		public static List<UrlTrackerModel> GetNotFoundEntries(int? maximumRows, int? startRowIndex, string sortExpression = "", string keyword = "")
 		{
 			List<UrlTrackerModel> notFoundEntries = new List<UrlTrackerModel>();
 			List<UrlTrackerModel> urlTrackerEntries = GetUrlTrackerEntries(maximumRows, startRowIndex, sortExpression, true);
@@ -233,6 +272,19 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
 				notFoundEntry.UrlTrackerModel.Referrer = notFoundEntry.Referrer;
 				notFoundEntry.UrlTrackerModel.Inserted = notFoundEntry.Inserted;
 				notFoundEntries.Add(notFoundEntry.UrlTrackerModel);
+			}
+
+			if (!string.IsNullOrEmpty(keyword))
+			{
+				IEnumerable<UrlTrackerModel> filteredNotFoundEntries = notFoundEntries;
+				if (!string.IsNullOrEmpty(keyword))
+				{
+					filteredNotFoundEntries = filteredNotFoundEntries.Where(x =>
+						(x.CalculatedOldUrl != null && x.CalculatedOldUrl.ToLower().Contains(keyword)) ||
+						(x.Referrer != null && x.Referrer.ToLower().Contains(keyword))
+					);
+				}
+				notFoundEntries = filteredNotFoundEntries.ToList();
 			}
 
 			if (!string.IsNullOrEmpty(sortExpression))
@@ -270,12 +322,22 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
 			return notFoundEntries;
 		}
 
+		public static List<UrlTrackerModel> GetUrlTrackerEntries(string sortExpression = "", bool showAutoEntries = true, bool showCustomEntries = true, bool showRegexEntries = true, string keyword = "")
+		{
+			return GetUrlTrackerEntries(null, null, sortExpression, showAutoEntries: showAutoEntries, showCustomEntries: showCustomEntries, showRegexEntries: showRegexEntries, keyword: keyword);
+		}
+
 		public static List<UrlTrackerModel> GetUrlTrackerEntries(string sortExpression)
 		{
 			return GetUrlTrackerEntries(null, null, sortExpression);
 		}
 
-		public static List<UrlTrackerModel> GetNotFoundEntries(string sortExpression = "")
+		public static List<UrlTrackerModel> GetNotFoundEntries(string sortExpression, string keyword = "")
+		{
+			return GetNotFoundEntries(null, null, sortExpression, keyword);
+		}
+
+		public static List<UrlTrackerModel> GetNotFoundEntries(string sortExpression)
 		{
 			return GetNotFoundEntries(null, null, sortExpression);
 		}
@@ -399,6 +461,22 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
 			}
 
 			return newUrlTrackerEntriesCount;
+		}
+
+		public static bool HasInvalidEntries(out List<int> invalidRowIds)
+		{
+			invalidRowIds = new List<int>();
+			bool hasInvalidEntries = false;
+			string query = "SELECT Id FROM icUrlTracker WHERE OldUrl IS NULL AND OldRegex IS NULL";
+			using (IRecordsReader reader = _sqlHelper.ExecuteReader(query))
+			{
+				while (reader.Read())
+				{
+					hasInvalidEntries = true;
+					invalidRowIds.Add(reader.GetInt("Id"));
+				}
+			}
+			return hasInvalidEntries;
 		}
 		#endregion
 	}

@@ -49,6 +49,24 @@ namespace InfoCaster.Umbraco.UrlTracker.UI {
         protected global::System.Web.UI.WebControls.ObjectDataSource odsNotFoundEntries;
         
         /// <summary>
+        /// mvUrlTrackerError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.MultiView mvUrlTrackerError;
+        
+        /// <summary>
+        /// vwUrlTrackerErrorNormal control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View vwUrlTrackerErrorNormal;
+        
+        /// <summary>
         /// upUrlTracker control.
         /// </summary>
         /// <remarks>
@@ -166,6 +184,60 @@ namespace InfoCaster.Umbraco.UrlTracker.UI {
         protected global::System.Web.UI.WebControls.LinkButton lbUrlTrackerView;
         
         /// <summary>
+        /// tbSearch control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbSearch;
+        
+        /// <summary>
+        /// pnlFilters control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlFilters;
+        
+        /// <summary>
+        /// cbShowAutoEntries control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox cbShowAutoEntries;
+        
+        /// <summary>
+        /// cbShowCustomEntries control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox cbShowCustomEntries;
+        
+        /// <summary>
+        /// cbShowRegexEntries control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox cbShowRegexEntries;
+        
+        /// <summary>
+        /// upUrlTrackerGrid control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel upUrlTrackerGrid;
+        
+        /// <summary>
         /// mvGridViews control.
         /// </summary>
         /// <remarks>
@@ -202,6 +274,24 @@ namespace InfoCaster.Umbraco.UrlTracker.UI {
         protected global::System.Web.UI.WebControls.View vwUrlTrackerEntriesTable;
         
         /// <summary>
+        /// mvUrlTrackerFilter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.MultiView mvUrlTrackerFilter;
+        
+        /// <summary>
+        /// vwUrlTrackerFilterGrid control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View vwUrlTrackerFilterGrid;
+        
+        /// <summary>
         /// gvUrlTracker control.
         /// </summary>
         /// <remarks>
@@ -209,6 +299,15 @@ namespace InfoCaster.Umbraco.UrlTracker.UI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gvUrlTracker;
+        
+        /// <summary>
+        /// vwUrlTrackerFilterNoResults control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View vwUrlTrackerFilterNoResults;
         
         /// <summary>
         /// vwUrlTrackerEntriesNone control.
@@ -238,6 +337,24 @@ namespace InfoCaster.Umbraco.UrlTracker.UI {
         protected global::System.Web.UI.WebControls.View vwGridViewsNotFound;
         
         /// <summary>
+        /// mvNotFoundFilter control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.MultiView mvNotFoundFilter;
+        
+        /// <summary>
+        /// vwNotFoundFilterGrid control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View vwNotFoundFilterGrid;
+        
+        /// <summary>
         /// gvNotFound control.
         /// </summary>
         /// <remarks>
@@ -245,6 +362,15 @@ namespace InfoCaster.Umbraco.UrlTracker.UI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gvNotFound;
+        
+        /// <summary>
+        /// vwNotFoundFilterNoResults control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View vwNotFoundFilterNoResults;
         
         /// <summary>
         /// lbDeleteSelected control.
@@ -389,5 +515,32 @@ namespace InfoCaster.Umbraco.UrlTracker.UI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnCreateDummy;
+        
+        /// <summary>
+        /// vwUrlTrackerErrorMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View vwUrlTrackerErrorMessage;
+        
+        /// <summary>
+        /// ltlError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal ltlError;
+        
+        /// <summary>
+        /// lbDeleteErrorRows control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lbDeleteErrorRows;
     }
 }
