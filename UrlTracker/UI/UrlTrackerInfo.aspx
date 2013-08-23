@@ -81,6 +81,13 @@
 			<div class="tab-pane" id="changeLog">
 				<ul>
 					<li>
+						2.2.2 [2013/08/23]
+						<ul>
+							<li>[Feature] Added regex capturing groups support (use '$n', where n is the capturing group number starting from 1)</li>
+							<li>[Feature] Added response from HttpModule if it 'fails' in the installer (debugging purposes)</li>
+						</ul>
+					</li>
+					<li>
 						2.2.0 [2013/08/22]
 						<ul>
 							<li>[Feature] Added filtering and searching</li>
@@ -159,12 +166,8 @@
 				<ul>
 					<li>Datatype</li>
 					<li>Better validation (already existing etc.)</li>
-					<li>Filtering</li>
-					<li>Searching</li>
-					<li>Regex capturing groups</li>
-					<li>Translation support</li>
 					<li>Support UrlRewriting if possible</li>
-					<li>SQLCE/Azure support (if it doesn't work yet, untested)</li>
+					<li>Azure support (if it doesn't work yet, untested)</li>
 				</ul>
 			</div>
 			<div class="tab-pane" id="credits">

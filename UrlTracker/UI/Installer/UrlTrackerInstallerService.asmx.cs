@@ -109,15 +109,17 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.Installer
 			try
 			{
 				Wait();
+				string responseText;
 				Uri currentUri = HttpContext.Current.Request.Url;
 				WebRequest request = WebRequest.Create(string.Format("{0}://{1}:{2}?{3}=1", currentUri.Scheme, currentUri.Host, currentUri.Port, UrlTrackerSettings.HttpModuleCheck));
 				using (WebResponse response = request.GetResponse())
 				using (Stream responseStream = response.GetResponseStream())
 				{
-					if (new StreamReader(responseStream).ReadToEnd() == UrlTrackerSettings.HttpModuleCheck)
+					responseText = new StreamReader(responseStream).ReadToEnd();
+					if (responseText.Trim().ToUpper() == UrlTrackerSettings.HttpModuleCheck.Trim().ToUpper())
 						return string.Empty;
 				}
-				throw new Exception("The Http Module isn't responding.");
+				throw new Exception(string.Format("The Http Module isn't responding, response was: '{0}'", responseText));
 			}
 			catch (Exception ex)
 			{

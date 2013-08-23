@@ -18,6 +18,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
 	public class UrlTrackerModule : IHttpModule
 	{
 		static ISqlHelper _sqlHelper { get { return Application.SqlHelper; } }
+		static Regex _capturingGroupsRegex = new Regex("\\$\\d+");
 
 		#region IHttpModule Members
 		public void Dispose() { }
@@ -41,6 +42,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
 				response.Clear();
 				response.Write(UrlTrackerSettings.HttpModuleCheck);
 				response.StatusCode = 200;
+				response.End();
 				return;
 			}
 
@@ -124,7 +126,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
 						}
 
 						redirectPassThroughQueryString = reader.GetBoolean("RedirectPassThroughQueryString");
-						UrlTrackerLoggingHelper.LogInformation("UrlTracker HttpModule | PassThroughQueryString is enabled");
+						UrlTrackerLoggingHelper.LogInformation("UrlTracker HttpModule | PassThroughQueryString is {0}", redirectPassThroughQueryString ? "enabled" : "disabled");
 
 						NameValueCollection oldUrlQueryString = null;
 						if (!reader.IsNull("OldUrlQueryString"))
@@ -174,6 +176,14 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
 								{
 									redirectUrl = reader.GetString("RedirectUrl");
 									UrlTrackerLoggingHelper.LogInformation("UrlTracker HttpModule | Redirect url set to: {0}", redirectUrl);
+
+									if (_capturingGroupsRegex.IsMatch(redirectUrl))
+									{
+										UrlTrackerLoggingHelper.LogInformation("UrlTracker HttpModule | Found regex capturing groups in the redirect url");
+										redirectUrl = regex.Replace(url, redirectUrl);
+
+										UrlTrackerLoggingHelper.LogInformation("UrlTracker HttpModule | Redirect url changed to: {0} (because of regex capturing groups)", redirectUrl);
+									}
 								}
 
 								redirectPassThroughQueryString = reader.GetBoolean("RedirectPassThroughQueryString");

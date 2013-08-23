@@ -17,6 +17,9 @@ You can also create your own redirects, based on a simple URL or using a Regex p
 *   Supports **multiple websites** in a single umbraco instance
 
 ## Changelog ##
+*	2.2.2 [2013/08/23]
+	*	[Feature] Added regex capturing groups support (use '$n', where n is the capturing group number starting from 1)
+	*	[Feature] Added response from HttpModule if it 'fails' in the installer (debugging purposes)
 *	2.2.0 [2013/08/22]
 	*	[Feature] Added filtering and searching
 	*	[Feature] Improved error handling
@@ -49,12 +52,8 @@ You can also create your own redirects, based on a simple URL or using a Regex p
 ## Roadmap ##
 *   Datatype
 *   Better validation (already existing etc.)
-*   Filtering
-*   Searching
-*   Regex capturing groups
-*   Translation support
 *   Support UrlRewriting if possible
-*   SQLCE/Azure support (if it doesn't work yet, untested)
+*   Azure support (if it doesn't work yet, untested)
 
 ## Upgrading from v1 (301 URL Tracker) ##
 1.   Back-up the existing infocaster301 database table (schema **and** data)
