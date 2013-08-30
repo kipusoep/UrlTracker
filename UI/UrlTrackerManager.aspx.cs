@@ -113,18 +113,19 @@ namespace InfoCaster.Umbraco.UrlTracker.UI
 				liNew.Visible = mvUrlTracker.GetActiveView() == vwUrlTrackerNew;
 
 				bool hasNotFoundEntries = UrlTrackerRepository.HasNotFoundEntries();
-				ltlNotFoundText.Visible = hasNotFoundEntries;
+				ltlNotFoundText.Visible = mvSwitchButtons.Visible = hasNotFoundEntries;
 				if (_isNotFoundView)
-				{
-					mvSwitchButtons.Visible = hasNotFoundEntries;
 					lbDeleteSelected.Visible = gvUrlTracker.Rows.Count > 0;
-				}
 				else
 					lbDeleteSelected.Visible = gvNotFound.Rows.Count > 0;
 
 				mvUrlTrackerEntries.SetActiveView(vwUrlTrackerEntriesTable);
+				pnlFilter.Visible = true;
 				if (gvUrlTracker.Rows.Count == 0 && !_gridviewFiltered)
+				{
 					mvUrlTrackerEntries.SetActiveView(vwUrlTrackerEntriesNone);
+					pnlFilter.Visible = false;
+				}
 			}
 		}
 

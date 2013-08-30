@@ -85,7 +85,7 @@
 											</asp:View>
 										</asp:MultiView>
 									</div>
-									<div class="form-inline filters clearfix">
+									<asp:Panel runat="server" ID="pnlFilter" CssClass="form-inline filters clearfix">
 										<label class="search">
 											<asp:TextBox runat="server" ID="tbSearch" ClientIDMode="Static" AutoPostBack="true" OnTextChanged="tbSearch_TextChanged" placeholder="Search" AutoCompleteType="None" autocomplete="off" />
 										</label>
@@ -101,7 +101,7 @@
 												<asp:CheckBox runat="server" ID="cbShowRegexEntries" Checked="true" AutoPostBack="true" OnCheckedChanged="cbFilters_CheckedChanged" /> Custom regex entries
 											</label>
 										</asp:Panel>
-									</div>
+									</asp:Panel>
 									<asp:UpdatePanel runat="server" ID="upUrlTrackerGrid" UpdateMode="Conditional" ChildrenAsTriggers="false">
 										<Triggers>
 											<asp:AsyncPostBackTrigger ControlID="tbSearch" />

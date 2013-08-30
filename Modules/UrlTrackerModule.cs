@@ -27,7 +27,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
 		{
 			context.EndRequest += context_EndRequest;
 
-			UrlTrackerLoggingHelper.LogInformation("UrlTracker HttpModule | Subscribed to EndRequest event");
+			UrlTrackerLoggingHelper.LogInformation("UrlTracker HttpModule | Subscribed to PostReleaseRequestState event");
 		}
 		#endregion
 
@@ -46,7 +46,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
 				return;
 			}
 
-			UrlTrackerLoggingHelper.LogInformation("UrlTracker HttpModule | EndRequest start");
+			UrlTrackerLoggingHelper.LogInformation("UrlTracker HttpModule | PostReleaseRequestState start");
 
 			if (UrlTrackerSettings.IsDisabled)
 			{
@@ -54,15 +54,15 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
 				return;
 			}
 
+			string url = request.RawUrl;
+			if (url.StartsWith("/"))
+				url = url.Substring(1);
+
+			UrlTrackerLoggingHelper.LogInformation("UrlTracker HttpModule | Incoming URL is: {0}", url);
+
 			if (response.StatusCode == 404)
 			{
 				UrlTrackerLoggingHelper.LogInformation("UrlTracker HttpModule | Response statusCode is 404, continue URL matching");
-
-				string url = request.RawUrl;
-				if (url.StartsWith("/"))
-					url = url.Substring(1);
-
-				UrlTrackerLoggingHelper.LogInformation("UrlTracker HttpModule | Incoming URL is: {0}", url);
 
 				string urlWithoutQueryString = url;
 				if (InfoCaster.Umbraco.UrlTracker.Helpers.UmbracoHelper.IsReservedPathOrUrl(url))
@@ -243,7 +243,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
 			else
 				UrlTrackerLoggingHelper.LogInformation("UrlTracker HttpModule | Response statuscode is not 404, UrlTracker won't do anything");
 
-			UrlTrackerLoggingHelper.LogInformation("UrlTracker HttpModule | EndRequest end");
+			UrlTrackerLoggingHelper.LogInformation("UrlTracker HttpModule | PostReleaseRequestState end");
 		}
 	}
 }

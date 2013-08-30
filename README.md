@@ -17,6 +17,8 @@ You can also create your own redirects, based on a simple URL or using a Regex p
 *   Supports **multiple websites** in a single umbraco instance
 
 ## Changelog ##
+*	2.2.3 [2013/08/30]
+	* [Bugfix] Sometimes the installer was stuck at "Installing database table" (VirtualPathProvider issue)
 *	2.2.2 [2013/08/23]
 	*	[Feature] Added regex capturing groups support (use '$n', where n is the capturing group number starting from 1)
 	*	[Feature] Added response from HttpModule if it 'fails' in the installer (debugging purposes)

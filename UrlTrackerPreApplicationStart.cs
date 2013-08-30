@@ -9,14 +9,14 @@ using System.ServiceModel;
 using System.Web;
 using System.Web.Hosting;
 
-[assembly: System.Web.PreApplicationStartMethod(typeof(UrlTrackerPreApplicationStart), "RegisterModule")]
+[assembly: System.Web.PreApplicationStartMethod(typeof(UrlTrackerPreApplicationStart), "PreApplicationStart")]
 namespace InfoCaster.Umbraco.UrlTracker
 {
 	public class UrlTrackerPreApplicationStart
 	{
-		public static void RegisterModule()
+		public static void PreApplicationStart()
 		{
-			DynamicModuleUtility.RegisterModule(typeof(UrlTrackerModule));
+			Microsoft.Web.Infrastructure.DynamicModuleHelper.DynamicModuleUtility.RegisterModule(typeof(UrlTrackerModule));
 			HostingEnvironment.RegisterVirtualPathProvider(new EmbeddedResourcesVirtualPathProvider());
 		}
 	}

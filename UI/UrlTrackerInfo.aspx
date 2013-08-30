@@ -81,6 +81,12 @@
 			<div class="tab-pane" id="changeLog">
 				<ul>
 					<li>
+						2.2.3 [2013/08/30]
+						<ul>
+							<li>[Bugfix] Sometimes the installer was stuck at "Installing database table" (VirtualPathProvider issue)</li>
+						</ul>
+					</li>
+					<li>
 						2.2.2 [2013/08/23]
 						<ul>
 							<li>[Feature] Added regex capturing groups support (use '$n', where n is the capturing group number starting from 1)</li>

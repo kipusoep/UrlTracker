@@ -11,7 +11,7 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>InfoCaster.Umbraco</RootNamespace>
+    <RootNamespace>InfoCaster.Umbraco.UrlTracker</RootNamespace>
     <AssemblyName>InfoCaster.Umbraco.UrlTracker</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <UseIISExpress>false</UseIISExpress>
@@ -100,148 +100,148 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="UrlTracker\SQL\create-table-1.sql" />
-    <EmbeddedResource Include="UrlTracker\UI\Installer\UrlTrackerInstaller.ascx" />
-    <EmbeddedResource Include="UrlTracker\UI\res\css\bootstrap.css" />
-    <EmbeddedResource Include="UrlTracker\UI\res\css\bootstrap.min.css" />
-    <EmbeddedResource Include="UrlTracker\UI\res\css\installer.css" />
-    <EmbeddedResource Include="UrlTracker\UI\res\css\urltracker.css" />
-    <EmbeddedResource Include="UrlTracker\UI\res\img\asc-hover.png" />
-    <EmbeddedResource Include="UrlTracker\UI\res\img\asc.png" />
-    <EmbeddedResource Include="UrlTracker\UI\res\img\cross.png" />
-    <EmbeddedResource Include="UrlTracker\UI\res\img\desc-hover.png" />
-    <EmbeddedResource Include="UrlTracker\UI\res\img\desc.png" />
-    <EmbeddedResource Include="UrlTracker\UI\res\img\edit.png" />
-    <EmbeddedResource Include="UrlTracker\UI\res\img\glyphicons-halflings-white.png" />
-    <EmbeddedResource Include="UrlTracker\UI\res\img\glyphicons-halflings.png" />
-    <EmbeddedResource Include="UrlTracker\UI\res\img\info.png" />
-    <EmbeddedResource Include="UrlTracker\UI\res\img\trash.png" />
-    <EmbeddedResource Include="UrlTracker\UI\res\js\bootstrap.js" />
-    <EmbeddedResource Include="UrlTracker\UI\res\js\installer.js" />
-    <EmbeddedResource Include="UrlTracker\UI\res\js\jquery.validate.additional-methods.js" />
-    <EmbeddedResource Include="UrlTracker\UI\res\js\jquery.validate.additional-methods.min.js" />
-    <EmbeddedResource Include="UrlTracker\UI\res\js\bootstrap.min.js" />
-    <EmbeddedResource Include="UrlTracker\UI\res\js\jquery.validate.js" />
-    <EmbeddedResource Include="UrlTracker\UI\res\js\jquery.validate.min.js" />
-    <EmbeddedResource Include="UrlTracker\UI\res\js\main.js" />
-    <EmbeddedResource Include="UrlTracker\UI\UrlTrackerInfo.aspx" />
-    <EmbeddedResource Include="UrlTracker\UI\UrlTrackerManagerWrapper.ascx" />
-    <EmbeddedResource Include="UrlTracker\UI\UrlTrackerManager.aspx" />
-    <EmbeddedResource Include="UrlTracker\UI\UserControls\AutoView.ascx" />
-    <EmbeddedResource Include="UrlTracker\UI\UserControls\AdvancedView.ascx" />
-    <EmbeddedResource Include="UrlTracker\UI\UserControls\NotFoundView.ascx" />
-    <EmbeddedResource Include="UrlTracker\UI\UserControls\CreateView.ascx" />
-    <EmbeddedResource Include="UrlTracker\UI\UserControls\CustomView.ascx" />
-    <EmbeddedResource Include="UrlTracker\UI\res\css\info.css" />
+    <EmbeddedResource Include="SQL\create-table-1.sql" />
+    <EmbeddedResource Include="UI\Installer\UrlTrackerInstaller.ascx" />
+    <EmbeddedResource Include="UI\res\css\bootstrap.css" />
+    <EmbeddedResource Include="UI\res\css\bootstrap.min.css" />
+    <EmbeddedResource Include="UI\res\css\installer.css" />
+    <EmbeddedResource Include="UI\res\css\urltracker.css" />
+    <EmbeddedResource Include="UI\res\img\asc-hover.png" />
+    <EmbeddedResource Include="UI\res\img\asc.png" />
+    <EmbeddedResource Include="UI\res\img\cross.png" />
+    <EmbeddedResource Include="UI\res\img\desc-hover.png" />
+    <EmbeddedResource Include="UI\res\img\desc.png" />
+    <EmbeddedResource Include="UI\res\img\edit.png" />
+    <EmbeddedResource Include="UI\res\img\glyphicons-halflings-white.png" />
+    <EmbeddedResource Include="UI\res\img\glyphicons-halflings.png" />
+    <EmbeddedResource Include="UI\res\img\info.png" />
+    <EmbeddedResource Include="UI\res\img\trash.png" />
+    <EmbeddedResource Include="UI\res\js\bootstrap.js" />
+    <EmbeddedResource Include="UI\res\js\installer.js" />
+    <EmbeddedResource Include="UI\res\js\jquery.validate.additional-methods.js" />
+    <EmbeddedResource Include="UI\res\js\jquery.validate.additional-methods.min.js" />
+    <EmbeddedResource Include="UI\res\js\bootstrap.min.js" />
+    <EmbeddedResource Include="UI\res\js\jquery.validate.js" />
+    <EmbeddedResource Include="UI\res\js\jquery.validate.min.js" />
+    <EmbeddedResource Include="UI\res\js\main.js" />
+    <EmbeddedResource Include="UI\UrlTrackerInfo.aspx" />
+    <EmbeddedResource Include="UI\UrlTrackerManagerWrapper.ascx" />
+    <EmbeddedResource Include="UI\UrlTrackerManager.aspx" />
+    <EmbeddedResource Include="UI\UserControls\AutoView.ascx" />
+    <EmbeddedResource Include="UI\UserControls\AdvancedView.ascx" />
+    <EmbeddedResource Include="UI\UserControls\NotFoundView.ascx" />
+    <EmbeddedResource Include="UI\UserControls\CreateView.ascx" />
+    <EmbeddedResource Include="UI\UserControls\CustomView.ascx" />
+    <EmbeddedResource Include="UI\res\css\info.css" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UrlTracker\DataType\UrlTrackerDataEditor.cs" />
-    <Compile Include="UrlTracker\DataType\UrlTrackerDataType.cs" />
-    <Compile Include="UrlTracker\DataType\UrlTrackerPrevalueEditor.cs" />
-    <Compile Include="UrlTracker\Extensions\ISqlHelperExtensions.cs" />
-    <Compile Include="UrlTracker\Helpers\EmbeddedResourcesHelper.cs" />
-    <Compile Include="UrlTracker\Models\OldUrlTrackerModel.cs" />
-    <Compile Include="UrlTracker\Providers\EmbeddedResourcesVirtualPathProvider.cs" />
-    <Compile Include="UrlTracker\UI\Installer\UrlTrackerInstallerService.asmx.cs">
+    <Compile Include="DataType\UrlTrackerDataEditor.cs" />
+    <Compile Include="DataType\UrlTrackerDataType.cs" />
+    <Compile Include="DataType\UrlTrackerPrevalueEditor.cs" />
+    <Compile Include="Extensions\ISqlHelperExtensions.cs" />
+    <Compile Include="Helpers\EmbeddedResourcesHelper.cs" />
+    <Compile Include="Models\OldUrlTrackerModel.cs" />
+    <Compile Include="Providers\EmbeddedResourcesVirtualPathProvider.cs" />
+    <Compile Include="UI\Installer\UrlTrackerInstallerService.asmx.cs">
       <DependentUpon>UrlTrackerInstallerService.asmx</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UrlTracker\UI\Installer\UrlTrackerInstaller.ascx.cs">
+    <Compile Include="UI\Installer\UrlTrackerInstaller.ascx.cs">
       <DependentUpon>UrlTrackerInstaller.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="UrlTracker\Models\UrlTrackerDomain.cs" />
-    <Compile Include="UrlTracker\UI\Installer\UrlTrackerInstaller.ascx.designer.cs">
+    <Compile Include="Models\UrlTrackerDomain.cs" />
+    <Compile Include="UI\Installer\UrlTrackerInstaller.ascx.designer.cs">
       <DependentUpon>UrlTrackerInstaller.ascx</DependentUpon>
     </Compile>
-    <Compile Include="UrlTracker\UI\UrlTrackerInfo.aspx.cs">
+    <Compile Include="UI\UrlTrackerInfo.aspx.cs">
       <DependentUpon>UrlTrackerInfo.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="UrlTracker\UI\UrlTrackerInfo.aspx.designer.cs">
+    <Compile Include="UI\UrlTrackerInfo.aspx.designer.cs">
       <DependentUpon>UrlTrackerInfo.aspx</DependentUpon>
     </Compile>
-    <Compile Include="UrlTracker\UI\UrlTrackerManagerWrapper.ascx.cs">
+    <Compile Include="UI\UrlTrackerManagerWrapper.ascx.cs">
       <DependentUpon>UrlTrackerManagerWrapper.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="UrlTracker\UI\UrlTrackerManagerWrapper.ascx.designer.cs">
+    <Compile Include="UI\UrlTrackerManagerWrapper.ascx.designer.cs">
       <DependentUpon>UrlTrackerManagerWrapper.ascx</DependentUpon>
     </Compile>
-    <Compile Include="UrlTracker\UI\UrlTrackerManager.aspx.cs">
+    <Compile Include="UI\UrlTrackerManager.aspx.cs">
       <DependentUpon>UrlTrackerManager.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="UrlTracker\UI\UrlTrackerManager.aspx.designer.cs">
+    <Compile Include="UI\UrlTrackerManager.aspx.designer.cs">
       <DependentUpon>UrlTrackerManager.aspx</DependentUpon>
     </Compile>
-    <Compile Include="UrlTracker\UI\UserControls\AutoView.ascx.cs">
+    <Compile Include="UI\UserControls\AutoView.ascx.cs">
       <DependentUpon>AutoView.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="UrlTracker\UI\UserControls\AutoView.ascx.designer.cs">
+    <Compile Include="UI\UserControls\AutoView.ascx.designer.cs">
       <DependentUpon>AutoView.ascx</DependentUpon>
     </Compile>
-    <Compile Include="UrlTracker\UI\UserControls\AdvancedView.ascx.cs">
+    <Compile Include="UI\UserControls\AdvancedView.ascx.cs">
       <DependentUpon>AdvancedView.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="UrlTracker\UI\UserControls\AdvancedView.ascx.designer.cs">
+    <Compile Include="UI\UserControls\AdvancedView.ascx.designer.cs">
       <DependentUpon>AdvancedView.ascx</DependentUpon>
     </Compile>
-    <Compile Include="UrlTracker\UI\UserControls\NotFoundView.ascx.cs">
+    <Compile Include="UI\UserControls\NotFoundView.ascx.cs">
       <DependentUpon>NotFoundView.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="UrlTracker\UI\UserControls\NotFoundView.ascx.designer.cs">
+    <Compile Include="UI\UserControls\NotFoundView.ascx.designer.cs">
       <DependentUpon>NotFoundView.ascx</DependentUpon>
     </Compile>
-    <Compile Include="UrlTracker\UI\UserControls\CreateView.ascx.cs">
+    <Compile Include="UI\UserControls\CreateView.ascx.cs">
       <DependentUpon>CreateView.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="UrlTracker\UI\UserControls\CreateView.ascx.designer.cs">
+    <Compile Include="UI\UserControls\CreateView.ascx.designer.cs">
       <DependentUpon>CreateView.ascx</DependentUpon>
     </Compile>
-    <Compile Include="UrlTracker\UI\UserControls\CustomView.ascx.cs">
+    <Compile Include="UI\UserControls\CustomView.ascx.cs">
       <DependentUpon>CustomView.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="UrlTracker\UI\UserControls\CustomView.ascx.designer.cs">
+    <Compile Include="UI\UserControls\CustomView.ascx.designer.cs">
       <DependentUpon>CustomView.ascx</DependentUpon>
     </Compile>
-    <Compile Include="UrlTracker\UI\UserControls\IUrlTrackerView.cs" />
-    <Compile Include="UrlTracker\Helpers\UmbracoHelper.cs" />
-    <Compile Include="UrlTracker\Helpers\UrlTrackerLoggingHelper.cs" />
-    <Compile Include="UrlTracker\UrlTrackerErrorLogging.cs" />
-    <Compile Include="UrlTracker\Extensions\INodeExtensions.cs" />
-    <Compile Include="UrlTracker\Extensions\NameValueCollectionExtension.cs" />
-    <Compile Include="UrlTracker\Models\UrlTrackerModel.cs" />
-    <Compile Include="UrlTracker\Modules\UrlTrackerModule.cs" />
-    <Compile Include="UrlTracker\UrlTrackerApplicationBase.cs" />
-    <Compile Include="UrlTracker\Models\AutoTrackingTypes.cs" />
-    <Compile Include="UrlTracker\Helpers\UrlTrackerHelper.cs" />
-    <Compile Include="UrlTracker\Repositories\UrlTrackerRepository.cs" />
-    <Compile Include="UrlTracker\UrlTrackerPreApplicationStart.cs" />
-    <Compile Include="UrlTracker\UrlTrackerResources.cs" />
-    <Compile Include="UrlTracker\UrlTrackerSettings.cs" />
+    <Compile Include="UI\UserControls\IUrlTrackerView.cs" />
+    <Compile Include="Helpers\UmbracoHelper.cs" />
+    <Compile Include="Helpers\UrlTrackerLoggingHelper.cs" />
+    <Compile Include="UrlTrackerErrorLogging.cs" />
+    <Compile Include="Extensions\INodeExtensions.cs" />
+    <Compile Include="Extensions\NameValueCollectionExtension.cs" />
+    <Compile Include="Models\UrlTrackerModel.cs" />
+    <Compile Include="Modules\UrlTrackerModule.cs" />
+    <Compile Include="UrlTrackerApplicationBase.cs" />
+    <Compile Include="Models\AutoTrackingTypes.cs" />
+    <Compile Include="Helpers\UrlTrackerHelper.cs" />
+    <Compile Include="Repositories\UrlTrackerRepository.cs" />
+    <Compile Include="UrlTrackerPreApplicationStart.cs" />
+    <Compile Include="UrlTrackerResources.cs" />
+    <Compile Include="UrlTrackerSettings.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="UrlTracker\UI\res\img\urltracker-icon.png" />
-    <EmbeddedResource Include="UrlTracker\UI\res\img\urltracker.png" />
+    <EmbeddedResource Include="UI\res\img\urltracker-icon.png" />
+    <EmbeddedResource Include="UI\res\img\urltracker.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="UrlTracker\UI\Installer\UrlTrackerInstallerService.asmx" />
+    <EmbeddedResource Include="UI\Installer\UrlTrackerInstallerService.asmx" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="UrlTracker\UI\res\js\jquery-1.10.1.min.js" />
+    <EmbeddedResource Include="UI\res\js\jquery-1.10.1.min.js" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="UrlTracker\UI\res\js\jquery-migrate-1.2.1.min.js" />
+    <EmbeddedResource Include="UI\res\js\jquery-migrate-1.2.1.min.js" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="UrlTracker\SQL\create-table-2.sql" />
+    <EmbeddedResource Include="SQL\create-table-2.sql" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
