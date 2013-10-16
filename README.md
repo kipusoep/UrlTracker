@@ -17,6 +17,8 @@ You can also create your own redirects, based on a simple URL or using a Regex p
 *   Supports **multiple websites** in a single umbraco instance
 
 ## Changelog ##
+*	2.2.4 [2013/10/16]
+	* [Bugfix] There was an issue with multiple entries with the same old url, but different querystrings
 *	2.2.3 [2013/08/30]
 	* [Bugfix] Sometimes the installer was stuck at "Installing database table" (VirtualPathProvider issue)
 *	2.2.2 [2013/08/23]
