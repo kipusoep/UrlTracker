@@ -213,7 +213,7 @@
     </Compile>
     <Compile Include="UI\UserControls\IUrlTrackerView.cs" />
     <Compile Include="Helpers\UmbracoHelper.cs" />
-    <Compile Include="Helpers\UrlTrackerLoggingHelper.cs" />
+    <Compile Include="Helpers\LoggingHelper.cs" />
     <Compile Include="UrlTrackerErrorLogging.cs" />
     <Compile Include="Extensions\INodeExtensions.cs" />
     <Compile Include="Extensions\NameValueCollectionExtension.cs" />

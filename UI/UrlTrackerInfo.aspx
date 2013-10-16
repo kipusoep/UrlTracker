@@ -81,9 +81,10 @@
             <div class="tab-pane" id="changeLog">
                 <ul>
                     <li>
-                        2.2.4 [2013/10/16]
+                        2.2.5 [2013/10/16]
                         <ul>
                             <li>[Bugfix] There was an issue with multiple entries with the same old url, but different querystrings</li>
+                            <li>[Bugfix] When multiple versions of log4net exist in the bin folder, the UrlTracker would crash</li>
                         </ul>
                     </li>
                     <li>
