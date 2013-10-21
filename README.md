@@ -17,6 +17,8 @@ You can also create your own redirects, based on a simple URL or using a Regex p
 *   Supports **multiple websites** in a single umbraco instance
 
 ## Changelog ##
+*	2.2.6 [2013/10/21]
+	* [Bugfix] There were some issues with umbraco 6.1.x and static file extensions (like .html)
 *	2.2.5 [2013/10/16]
 	* [Bugfix] There was an issue with multiple entries with the same old url, but different querystrings
 	* [Bugfix] When multiple versions of log4net exist in the bin folder, the UrlTracker would crash

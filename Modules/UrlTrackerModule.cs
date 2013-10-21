@@ -11,6 +11,7 @@ using umbraco.cms.businesslogic.web;
 using umbraco.DataLayer;
 using umbraco.interfaces;
 using umbraco.NodeFactory;
+using Umbraco.Web;
 using UmbracoHelper = InfoCaster.Umbraco.UrlTracker.Helpers.UmbracoHelper;
 
 namespace InfoCaster.Umbraco.UrlTracker.Modules
@@ -108,7 +109,8 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                             Node n = new Node(redirectNodeId);
                             if (n != null && n.Name != null && n.Id > 0)
                             {
-                                redirectUrl = umbraco.library.NiceUrl(redirectNodeId).StartsWith("http") ? umbraco.library.NiceUrl(redirectNodeId) : string.Format("{0}://{1}{2}{3}", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Host, HttpContext.Current.Request.Url.Port != 80 ? string.Concat(":", HttpContext.Current.Request.Url.Port) : string.Empty, umbraco.library.NiceUrl(redirectNodeId));
+								string tempUrl = UmbracoHelper.GetUrl(redirectNodeId);
+								redirectUrl = tempUrl.StartsWith("http") ? tempUrl : string.Format("{0}://{1}{2}{3}", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Host, HttpContext.Current.Request.Url.Port != 80 ? string.Concat(":", HttpContext.Current.Request.Url.Port) : string.Empty, tempUrl);
                                 if (redirectUrl.StartsWith("http"))
                                 {
                                     Uri redirectUri = new Uri(redirectUrl);
@@ -171,7 +173,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                                     Node n = new Node(redirectNodeId);
                                     if (n != null && n.Name != null && n.Id > 0)
                                     {
-                                        redirectUrl = umbraco.library.NiceUrl(redirectNodeId);
+										redirectUrl = UmbracoHelper.GetUrl(redirectNodeId);
                                         LoggingHelper.LogInformation("UrlTracker HttpModule | Redirect url set to: {0}", redirectUrl);
                                     }
                                     else

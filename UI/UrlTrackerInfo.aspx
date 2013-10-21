@@ -81,6 +81,12 @@
             <div class="tab-pane" id="changeLog">
                 <ul>
                     <li>
+                        2.2.6 [2013/10/21]
+                        <ul>
+                            <li>[Bugfix] There were some issues with umbraco 6.1.x and static file extensions (like .html)</li>
+                        </ul>
+                    </li>
+                    <li>
                         2.2.5 [2013/10/16]
                         <ul>
                             <li>[Bugfix] There was an issue with multiple entries with the same old url, but different querystrings</li>

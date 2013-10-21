@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using umbraco;
 using umbraco.BusinessLogic;
@@ -9,6 +10,7 @@ using umbraco.cms.businesslogic.web;
 using umbraco.DataLayer;
 using umbraco.IO;
 using umbraco.NodeFactory;
+using Umbraco.Core;
 
 namespace InfoCaster.Umbraco.UrlTracker.Helpers
 {
@@ -18,6 +20,9 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
 		static volatile string _reservedUrlsCache;
 		static string _reservedPathsCache;
 		static StartsWithContainer _reservedList = new StartsWithContainer();
+
+		static Assembly _umbracoAssembly;
+		static bool _umbracoAssemblyInitialized = false;
 
 		/// <summary>
 		/// Determines whether the specified URL is reserved or is inside a reserved path.
@@ -96,6 +101,49 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
 		internal static string GetUmbracoUrlSuffix()
 		{
 			return !GlobalSettings.UseDirectoryUrls ? ".aspx" : UmbracoSettings.AddTrailingSlash ? "/" : string.Empty;
+		}
+
+		internal static string GetUrl(int nodeId)
+		{
+			try
+			{
+				if (!_umbracoAssemblyInitialized)
+				{
+					IEnumerable<Assembly> umbracoCoreAssemblies = AppDomain.CurrentDomain.GetAssemblies().Where(x => x.FullName.StartsWith("umbraco, "));
+					if (umbracoCoreAssemblies != null && umbracoCoreAssemblies.Any())
+						_umbracoAssembly = umbracoCoreAssemblies.OrderByDescending(x => x.ImageRuntimeVersion).First();
+				}
+				if (_umbracoAssembly != null)
+				{
+					Type umbracoContextType = _umbracoAssembly.GetType("Umbraco.Web.UmbracoContext");
+					if (umbracoContextType != null)
+					{
+						object umbracoContextCurrent = umbracoContextType.GetProperty("Current").GetValue(null, null);
+						if (umbracoContextCurrent == null)
+						{
+							MethodInfo ensureContextMethod = umbracoContextType.GetMethod("EnsureContext", new Type[] { typeof(HttpContextBase), typeof(ApplicationContext) });
+							if (ensureContextMethod != null)
+								ensureContextMethod.Invoke(null, new object[] { new HttpContextWrapper(HttpContext.Current), ApplicationContext.Current });
+						}
+					}
+				}
+
+				_umbracoAssemblyInitialized = true;
+
+				return umbraco.library.NiceUrl(nodeId);
+			}
+			catch (Exception ex)
+			{
+				ex.LogException(nodeId);
+				Exception newEx = new Exception(string.Format("Please upgrade your version of umbraco to the latest 6.1.x, because at the moment I'm not able to fetch the NiceUrl of the node (#{0}) to redirect to :-(", nodeId));
+				newEx.LogException(nodeId);
+				throw newEx;
+			}
+		}
+
+		internal static string GetUrl(this Node node)
+		{
+			return GetUrl(node.Id);
 		}
 	}
 }
