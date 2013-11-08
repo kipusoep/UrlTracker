@@ -269,7 +269,8 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
 			))
 			{
 				notFoundEntry.UrlTrackerModel.NotFoundCount = notFoundEntry.Count;
-				notFoundEntry.UrlTrackerModel.Referrer = notFoundEntry.Referrer;
+                if (!notFoundEntry.Referrer.Contains(UrlTrackerSettings.ReferrerToIgnore))
+                    notFoundEntry.UrlTrackerModel.Referrer = notFoundEntry.Referrer;
 				notFoundEntry.UrlTrackerModel.Inserted = notFoundEntry.Inserted;
 				notFoundEntries.Add(notFoundEntry.UrlTrackerModel);
 			}

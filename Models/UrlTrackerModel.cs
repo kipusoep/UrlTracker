@@ -89,7 +89,20 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
 				return calculatedRedirectUrl.StartsWith("/") && calculatedRedirectUrl != "/" ? calculatedRedirectUrl.Substring(1) : calculatedRedirectUrl;
 			}
 		}
-		public string RedirectRootNodeName { get { return new Node(RedirectRootNodeId).Name; } }
+        public string RedirectRootNodeName
+        {
+            get
+            {
+                int redirectRootNodeId = RedirectRootNodeId;
+                if (redirectRootNodeId == 0)
+                {
+                    Node rootNode = new Node(-1).Children.OfType<Node>().FirstOrDefault();
+                    if (rootNode != null && rootNode.Id > 0)
+                        redirectRootNodeId = rootNode.Id;
+                }
+                return new Node(redirectRootNodeId).Name;
+            }
+        }
 		public UrlTrackerViewTypes ViewType
 		{
 			get

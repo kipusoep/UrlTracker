@@ -81,6 +81,13 @@
             <div class="tab-pane" id="changeLog">
                 <ul>
                     <li>
+                        2.2.7 [2013/11/08]
+                        <ul>
+                            <li>[Bugfix] Fixed a UI issue when the rootnode is 0</li>
+                            <li>[Improvement] Better 404 handling; ignores referrer if it's value is the Url Tracker UI, ignores 404 entry if the URL is a BrowserLink URL (VS 2013)</li>
+                        </ul>
+                    </li>
+                    <li>
                         2.2.6 [2013/10/21]
                         <ul>
                             <li>[Bugfix] There were some issues with umbraco 6.1.x and static file extensions (like .html)</li>

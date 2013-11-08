@@ -231,15 +231,28 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                     // Log 404
                     if (!UrlTrackerSettings.NotFoundUrlsToIgnore.Contains(urlWithoutQueryString) && !UmbracoHelper.IsReservedPathOrUrl(urlWithoutQueryString))
                     {
-                        LoggingHelper.LogInformation("UrlTracker HttpModule | No match found, logging as 404 not found");
-                        query = "INSERT INTO icUrlTracker (OldUrl, RedirectRootNodeId, ";
-                        if (urlHasQueryString)
-                            query += "OldUrlQueryString, ";
-                        query += "Is404, Referrer) VALUES (@oldUrl, @redirectRootNodeId, ";
-                        if (urlHasQueryString)
-                            query += "@oldUrlQueryString, ";
-                        query += "1, @referrer)";
-                        _sqlHelper.ExecuteNonQuery(query, _sqlHelper.CreateParameter("oldUrl", urlWithoutQueryString), _sqlHelper.CreateParameter("redirectRootNodeId", rootNodeId), _sqlHelper.CreateParameter("oldUrlQueryString", request.QueryString.ToString()), _sqlHelper.CreateParameter("referrer", request.UrlReferrer != null ? (object)request.UrlReferrer.ToString() : DBNull.Value));
+                        bool ignoreNotFoundBasedOnRegexPatterns = false;
+                        foreach (Regex regexNotFoundUrlToIgnore in UrlTrackerSettings.RegexNotFoundUrlsToIgnore)
+                        {
+                            if (regexNotFoundUrlToIgnore.IsMatch(urlWithoutQueryString))
+                            {
+                                ignoreNotFoundBasedOnRegexPatterns = true;
+                                break;
+                            }
+                        }
+
+                        if (!ignoreNotFoundBasedOnRegexPatterns)
+                        {
+                            LoggingHelper.LogInformation("UrlTracker HttpModule | No match found, logging as 404 not found");
+                            query = "INSERT INTO icUrlTracker (OldUrl, RedirectRootNodeId, ";
+                            if (urlHasQueryString)
+                                query += "OldUrlQueryString, ";
+                            query += "Is404, Referrer) VALUES (@oldUrl, @redirectRootNodeId, ";
+                            if (urlHasQueryString)
+                                query += "@oldUrlQueryString, ";
+                            query += "1, @referrer)";
+                            _sqlHelper.ExecuteNonQuery(query, _sqlHelper.CreateParameter("oldUrl", urlWithoutQueryString), _sqlHelper.CreateParameter("redirectRootNodeId", rootNodeId), _sqlHelper.CreateParameter("oldUrlQueryString", request.QueryString.ToString()), _sqlHelper.CreateParameter("referrer", request.UrlReferrer != null && !request.UrlReferrer.ToString().Contains(UrlTrackerSettings.ReferrerToIgnore) ? (object)request.UrlReferrer.ToString() : DBNull.Value));
+                        }
                     }
                     if (UrlTrackerSettings.NotFoundUrlsToIgnore.Contains(urlWithoutQueryString))
                         LoggingHelper.LogInformation("UrlTracker HttpModule | No match found, url is configured to be ignored: {0}", urlWithoutQueryString);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 using umbraco;
 
@@ -80,6 +81,23 @@ namespace InfoCaster.Umbraco.UrlTracker
 				return _notFoundUrlsToIgnore;
 			}
 		}
+        /// <summary>
+        /// Returns the regex patterns for NotFound urls to ignore
+        /// </summary>
+        public static Regex[] RegexNotFoundUrlsToIgnore
+        {
+            get
+            {
+                return new Regex[] { new Regex("__browserLink/requestData/.*", RegexOptions.Compiled) };
+            }
+        }
+        /// <summary>
+        /// Returns the UrlTracker UI URL to ignore as referrer
+        /// </summary>
+        public static string ReferrerToIgnore
+        {
+            get { return "Umbraco/UrlTracker/InfoCaster.Umbraco.UrlTracker.UI"; }
+        }
 		/// <summary>
 		/// Returns wether or not tracking URL changes is disabled
 		/// </summary>

@@ -17,6 +17,9 @@ You can also create your own redirects, based on a simple URL or using a Regex p
 *   Supports **multiple websites** in a single umbraco instance
 
 ## Changelog ##
+*   2.2.7 [2013/11/08]
+	* [Bugfix] Fixed a UI issue when the rootnode is 0
+	* [Improvement] Better 404 handling; ignores referrer if it's value is the Url Tracker UI, ignores 404 entry if the URL is a BrowserLink URL (VS 2013)
 *	2.2.6 [2013/10/21]
 	* [Bugfix] There were some issues with umbraco 6.1.x and static file extensions (like .html)
 *	2.2.5 [2013/10/16]
@@ -38,23 +41,23 @@ You can also create your own redirects, based on a simple URL or using a Regex p
 	*	[Bugfix] Redirects from URLs with non-aspx extensions were displayed with '.aspx' appended at the end
 	*	[Bugfix] Redirects with querystring passthrough failed sometimes
 *   2.1.1 [2013/07/03] 
-    *   [Bugfix] Implemented an extra check for the installation of the dashboard
+	*   [Bugfix] Implemented an extra check for the installation of the dashboard
 *   2.1.0 [2013/07/02] 
-    *   [Feature] Implemented support for SQL CE
-    *   [Feature] Added a setting to disable url tracking (urlTracker:trackingDisabled)
+	*   [Feature] Implemented support for SQL CE
+	*   [Feature] Added a setting to disable url tracking (urlTracker:trackingDisabled)
 *   2.0.4-beta [2013/07/02] 
-    *   [Feature] Added better exception handling for the installer
+	*   [Feature] Added better exception handling for the installer
 *   2.0.3-beta [2013/06/21] 
-    *   [Bugfix] Enabling logging on umbraco versions including log4net threw ysod
+	*   [Bugfix] Enabling logging on umbraco versions including log4net threw ysod
 *   2.0.2-beta [2013/06/20] 
-    *   [Bugfix] Ports other than 80 didn't work with the Http Module check in the installer
-    *   [Bugfix] String.Format in UrlTrackerDomain.UrlWithDomain was wrongly formatted
+	*   [Bugfix] Ports other than 80 didn't work with the Http Module check in the installer
+	*   [Bugfix] String.Format in UrlTrackerDomain.UrlWithDomain was wrongly formatted
 *   2.0.1-beta [2013/06/20] 
-    *   [Bugfix] Multiple hostnames assigned to a node threw an exception
+	*   [Bugfix] Multiple hostnames assigned to a node threw an exception
 *   2.0-beta [2013/06/19] 
-    *   Initial release, completely rebuilt the package
-    *   Renamed 301 URL Tracker to Url Tracker
-    *   The package is now a single assembly
+	*   Initial release, completely rebuilt the package
+	*   Renamed 301 URL Tracker to Url Tracker
+	*   The package is now a single assembly
 
 ## Roadmap ##
 *   Datatype
