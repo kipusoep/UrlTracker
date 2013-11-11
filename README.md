@@ -19,6 +19,7 @@ You can also create your own redirects, based on a simple URL or using a Regex p
 ## Changelog ##
 *   2.2.8 [2013/11/11]
 	* [Bugfix] Improved the 'rootnode is 0' bugfix from 2.2.7
+	* [Bugfix] An issue was introduced in version 2.2.6 for 'older' umbraco versions
 	* [Improvement] UI handles unpublished nodes better
 *   2.2.7 [2013/11/08]
 	* [Bugfix] Fixed a UI issue when the rootnode is 0

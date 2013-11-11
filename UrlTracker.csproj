@@ -91,10 +91,6 @@
       <HintPath>lib\umbraco.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Umbraco.Core">
-      <HintPath>lib\Umbraco.Core.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="umbraco.DataLayer">
       <HintPath>lib\umbraco.DataLayer.dll</HintPath>
       <Private>False</Private>

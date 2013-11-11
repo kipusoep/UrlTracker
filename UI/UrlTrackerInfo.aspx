@@ -84,6 +84,7 @@
                         2.2.8 [2013/11/11]
                         <ul>
                             <li>[Bugfix] Improved the 'rootnode is 0' bugfix from 2.2.7</li>
+                            <li>[Bugfix] An issue was introduced in version 2.2.6 for 'older' umbraco versions</li>
                             <li>[Improvement] UI handles unpublished nodes better</li>
                         </ul>
                     </li>
