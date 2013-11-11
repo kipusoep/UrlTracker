@@ -81,6 +81,13 @@
             <div class="tab-pane" id="changeLog">
                 <ul>
                     <li>
+                        2.2.8 [2013/11/11]
+                        <ul>
+                            <li>[Bugfix] Improved the 'rootnode is 0' bugfix from 2.2.7</li>
+                            <li>[Improvement] UI handles unpublished nodes better</li>
+                        </ul>
+                    </li>
+                    <li>
                         2.2.7 [2013/11/08]
                         <ul>
                             <li>[Bugfix] Fixed a UI issue when the rootnode is 0</li>

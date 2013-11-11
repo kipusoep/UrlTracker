@@ -186,6 +186,8 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
 				}
 			}
 
+            urlTrackerEntries = urlTrackerEntries.Where(x => x.CalculatedRedirectUrl != "UNPUBLISHED").ToList();
+
 			if (!showAutoEntries || !showCustomEntries || !showRegexEntries || !string.IsNullOrEmpty(keyword))
 			{
 				IEnumerable<UrlTrackerModel> filteredUrlTrackerEntries = urlTrackerEntries;

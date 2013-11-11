@@ -26,6 +26,7 @@ namespace InfoCaster.Umbraco.UrlTracker
 		public const string OldUrlQueryStringWatermark = "id=1&param=value";
 		public const string OldUrlQueryStringInfo = "The query string to match";
 		public const string RedirectNode = "Redirect node";
+        public const string RedirectNodeUnpublished = "The redirect node is unpublished";
 		public const string RedirectNodeInfo = "The node to redirect to";
 		public const string RedirectUrl = "<b>or</b> redirect URL";
 		public const string RedirectUrlStandalone = "Redirect URL";
