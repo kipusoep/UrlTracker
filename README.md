@@ -17,6 +17,9 @@ You can also create your own redirects, based on a simple URL or using a Regex p
 *   Supports **multiple websites** in a single umbraco instance
 
 ## Changelog ##
+*   2.2.8 [2013/11/11]
+	* [Bugfix] Improved the 'rootnode is 0' bugfix from 2.2.7
+	* [Improvement] UI handles unpublished nodes better
 *   2.2.7 [2013/11/08]
 	* [Bugfix] Fixed a UI issue when the rootnode is 0
 	* [Improvement] Better 404 handling; ignores referrer if it's value is the Url Tracker UI, ignores 404 entry if the URL is a BrowserLink URL (VS 2013)

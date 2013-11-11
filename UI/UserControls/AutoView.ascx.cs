@@ -40,15 +40,15 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.UserControls
 			{
 				lnkRootNode.Text = string.Format("{0} ({1})", domain.Node.Name, domain.Name);
 				lnkRootNode.ToolTip = UrlTrackerResources.SyncTree;
-				lnkRootNode.NavigateUrl = string.Format("javascript:parent.UmbClientMgr.mainTree().syncTree('{1}', false);", redirectRootNode.Id, redirectRootNode.Path);
+				lnkRootNode.NavigateUrl = string.Format("javascript:parent.UmbClientMgr.mainTree().syncTree('{0}', false);", redirectRootNode.Path);
 			}
 
 			lnkOldUrl.Text = string.Format("{0} <i class=\"icon-share\"></i>", UrlTrackerModel.CalculatedOldUrl);
 			lnkOldUrl.NavigateUrl = UrlTrackerModel.CalculatedOldUrlWithDomain;
 			Node redirectNode = new Node(UrlTrackerModel.RedirectNodeId.Value);
-			lnkRedirectNode.Text = redirectNode.Name;
+            lnkRedirectNode.Text = redirectNode.Id > 0 ? redirectNode.Name : UrlTrackerResources.RedirectNodeUnpublished;
 			lnkRedirectNode.ToolTip = UrlTrackerResources.SyncTree;
-			lnkRedirectNode.NavigateUrl = string.Format("javascript:parent.UmbClientMgr.mainTree().syncTree('{1}', false);", redirectNode.Id, redirectNode.Path);
+            lnkRedirectNode.NavigateUrl = string.Format("javascript:parent.UmbClientMgr.mainTree().syncTree('{0}', false);", redirectNode.Path);
 			if (UrlTrackerModel.RedirectHttpCode == 301)
 				rbPermanent.Checked = true;
 			else if (UrlTrackerModel.RedirectHttpCode == 302)
