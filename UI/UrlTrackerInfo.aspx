@@ -81,6 +81,19 @@
             <div class="tab-pane" id="changeLog">
                 <ul>
                     <li>
+                        2.3.0 [2013/11/26]
+                        <ul>
+                            <li>[Bugfix] The old URL shown in the UI was sometimes wrong when a domain with path was configured</li>
+                            <li>[Bugfix] Fixed a bug which occured when overlapping hostnames were configured, like 'domain.org' and 'domain.org/path'</li>
+                        </ul>
+                    </li>
+                    <li>
+                        2.2.9 [2013/11/25]
+                        <ul>
+                            <li>[Bugfix] Some automatic entries were not recognized as automatic entry</li>
+                        </ul>
+                    </li>
+                    <li>
                         2.2.8 [2013/11/11]
                         <ul>
                             <li>[Bugfix] Improved the 'rootnode is 0' bugfix from 2.2.7</li>

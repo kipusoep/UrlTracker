@@ -1,5 +1,6 @@
 ﻿using InfoCaster.Umbraco.UrlTracker.Extensions;
 using InfoCaster.Umbraco.UrlTracker.Helpers;
+using InfoCaster.Umbraco.UrlTracker.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -78,9 +79,23 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
 
                 string shortestUrl = UrlTrackerHelper.ResolveShortestUrl(urlWithoutQueryString);
 
-                string host = request.Url.Host;
+                List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains();
+                string fullRawUrl = string.Format("{0}://{1}{2}", request.Url.Scheme, request.Url.Host, request.RawUrl);
 
-                int rootNodeId = Domain.GetRootFromDomain(host);
+                int rootNodeId = -1;
+                UrlTrackerDomain urlTrackerDomain;
+                do
+                {
+                    urlTrackerDomain = domains.SingleOrDefault(x => x.UrlWithDomain == fullRawUrl);
+                    if (urlTrackerDomain != null)
+                    {
+                        rootNodeId = urlTrackerDomain.NodeId;
+                        break;
+                    }
+                    fullRawUrl = fullRawUrl.Substring(0, fullRawUrl.Length - 1);
+                }
+                while (true);
+
                 if (rootNodeId == -1)
                 {
                     rootNodeId = -1;
@@ -109,8 +124,8 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                             Node n = new Node(redirectNodeId);
                             if (n != null && n.Name != null && n.Id > 0)
                             {
-								string tempUrl = UmbracoHelper.GetUrl(redirectNodeId);
-								redirectUrl = tempUrl.StartsWith("http") ? tempUrl : string.Format("{0}://{1}{2}{3}", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Host, HttpContext.Current.Request.Url.Port != 80 ? string.Concat(":", HttpContext.Current.Request.Url.Port) : string.Empty, tempUrl);
+                                string tempUrl = UmbracoHelper.GetUrl(redirectNodeId);
+                                redirectUrl = tempUrl.StartsWith("http") ? tempUrl : string.Format("{0}://{1}{2}{3}", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Host, HttpContext.Current.Request.Url.Port != 80 ? string.Concat(":", HttpContext.Current.Request.Url.Port) : string.Empty, tempUrl);
                                 if (redirectUrl.StartsWith("http"))
                                 {
                                     Uri redirectUri = new Uri(redirectUrl);
@@ -173,7 +188,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                                     Node n = new Node(redirectNodeId);
                                     if (n != null && n.Name != null && n.Id > 0)
                                     {
-										redirectUrl = UmbracoHelper.GetUrl(redirectNodeId);
+                                        redirectUrl = UmbracoHelper.GetUrl(redirectNodeId);
                                         LoggingHelper.LogInformation("UrlTracker HttpModule | Redirect url set to: {0}", redirectUrl);
                                     }
                                     else

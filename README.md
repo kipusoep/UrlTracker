@@ -17,51 +17,56 @@ You can also create your own redirects, based on a simple URL or using a Regex p
 *   Supports **multiple websites** in a single umbraco instance
 
 ## Changelog ##
+*   2.3.0 [2013/11/26]
+    * [Bugfix] The old URL shown in the UI was sometimes wrong when a domain with path was configured
+    * [Bugfix] Fixed a bug which occured when overlapping hostnames were configured, like 'domain.org' and 'domain.org/path'
+*   2.2.9 [2013/11/25]
+    * [Bugfix] Some automatic entries were not recognized as automatic entry
 *   2.2.8 [2013/11/11]
-	* [Bugfix] Improved the 'rootnode is 0' bugfix from 2.2.7
-	* [Bugfix] An issue was introduced in version 2.2.6 for 'older' umbraco versions
-	* [Improvement] UI handles unpublished nodes better
+    * [Bugfix] Improved the 'rootnode is 0' bugfix from 2.2.7
+    * [Bugfix] An issue was introduced in version 2.2.6 for 'older' umbraco versions
+    * [Improvement] UI handles unpublished nodes better
 *   2.2.7 [2013/11/08]
-	* [Bugfix] Fixed a UI issue when the rootnode is 0
-	* [Improvement] Better 404 handling; ignores referrer if it's value is the Url Tracker UI, ignores 404 entry if the URL is a BrowserLink URL (VS 2013)
+    * [Bugfix] Fixed a UI issue when the rootnode is 0
+    * [Improvement] Better 404 handling; ignores referrer if it's value is the Url Tracker UI, ignores 404 entry if the URL is a BrowserLink URL (VS 2013)
 *	2.2.6 [2013/10/21]
-	* [Bugfix] There were some issues with umbraco 6.1.x and static file extensions (like .html)
+    * [Bugfix] There were some issues with umbraco 6.1.x and static file extensions (like .html)
 *	2.2.5 [2013/10/16]
-	* [Bugfix] There was an issue with multiple entries with the same old url, but different querystrings
-	* [Bugfix] When multiple versions of log4net exist in the bin folder, the UrlTracker would crash
+    * [Bugfix] There was an issue with multiple entries with the same old url, but different querystrings
+    * [Bugfix] When multiple versions of log4net exist in the bin folder, the UrlTracker would crash
 *	2.2.3 [2013/08/30]
-	* [Bugfix] Sometimes the installer was stuck at "Installing database table" (VirtualPathProvider issue)
+    * [Bugfix] Sometimes the installer was stuck at "Installing database table" (VirtualPathProvider issue)
 *	2.2.2 [2013/08/23]
-	*	[Feature] Added regex capturing groups support (use '$n', where n is the capturing group number starting from 1)
-	*	[Feature] Added response from HttpModule if it 'fails' in the installer (debugging purposes)
+    *	[Feature] Added regex capturing groups support (use '$n', where n is the capturing group number starting from 1)
+    *	[Feature] Added response from HttpModule if it 'fails' in the installer (debugging purposes)
 *	2.2.0 [2013/08/22]
-	*	[Feature] Added filtering and searching
-	*	[Feature] Improved error handling
+    *	[Feature] Added filtering and searching
+    *	[Feature] Improved error handling
 *	2.1.6 [2013/08/16]
-	*	[Bugfix] Fixed two small bugs (http module)
+    *	[Bugfix] Fixed two small bugs (http module)
 *   2.1.4  [2013/08/07]
-	*	[Bugfix] Migrating data from v1 to v2 resulted in an error when there were absolute OldUrls in the DB table
+    *	[Bugfix] Migrating data from v1 to v2 resulted in an error when there were absolute OldUrls in the DB table
 *   2.1.3  [2013/08/05]
-	*	[Bugfix] Redirects from URLs with non-aspx extensions were displayed with '.aspx' appended at the end
-	*	[Bugfix] Redirects with querystring passthrough failed sometimes
+    *	[Bugfix] Redirects from URLs with non-aspx extensions were displayed with '.aspx' appended at the end
+    *	[Bugfix] Redirects with querystring passthrough failed sometimes
 *   2.1.1 [2013/07/03] 
-	*   [Bugfix] Implemented an extra check for the installation of the dashboard
+    *   [Bugfix] Implemented an extra check for the installation of the dashboard
 *   2.1.0 [2013/07/02] 
-	*   [Feature] Implemented support for SQL CE
-	*   [Feature] Added a setting to disable url tracking (urlTracker:trackingDisabled)
+    *   [Feature] Implemented support for SQL CE
+    *   [Feature] Added a setting to disable url tracking (urlTracker:trackingDisabled)
 *   2.0.4-beta [2013/07/02] 
-	*   [Feature] Added better exception handling for the installer
+    *   [Feature] Added better exception handling for the installer
 *   2.0.3-beta [2013/06/21] 
-	*   [Bugfix] Enabling logging on umbraco versions including log4net threw ysod
+    *   [Bugfix] Enabling logging on umbraco versions including log4net threw ysod
 *   2.0.2-beta [2013/06/20] 
-	*   [Bugfix] Ports other than 80 didn't work with the Http Module check in the installer
-	*   [Bugfix] String.Format in UrlTrackerDomain.UrlWithDomain was wrongly formatted
+    *   [Bugfix] Ports other than 80 didn't work with the Http Module check in the installer
+    *   [Bugfix] String.Format in UrlTrackerDomain.UrlWithDomain was wrongly formatted
 *   2.0.1-beta [2013/06/20] 
-	*   [Bugfix] Multiple hostnames assigned to a node threw an exception
+    *   [Bugfix] Multiple hostnames assigned to a node threw an exception
 *   2.0-beta [2013/06/19] 
-	*   Initial release, completely rebuilt the package
-	*   Renamed 301 URL Tracker to Url Tracker
-	*   The package is now a single assembly
+    *   Initial release, completely rebuilt the package
+    *   Renamed 301 URL Tracker to Url Tracker
+    *   The package is now a single assembly
 
 ## Roadmap ##
 *   Datatype
