@@ -94,7 +94,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                     }
                     fullRawUrl = fullRawUrl.Substring(0, fullRawUrl.Length - 1);
                 }
-                while (true);
+                while (fullRawUrl.Length > 0);
 
                 if (rootNodeId == -1)
                 {
