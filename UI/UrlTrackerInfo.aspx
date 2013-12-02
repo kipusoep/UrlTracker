@@ -81,6 +81,12 @@
             <div class="tab-pane" id="changeLog">
                 <ul>
                     <li>
+                        2.3.2 [2013/11/27]
+                        <ul>
+                            <li>[Bugfix] Fixed a hostnames issue</li>
+                        </ul>
+                    </li>
+                    <li>
                         2.3.1 [2013/11/27]
                         <ul>
                             <li>[Bugfix] There was an issue with the HttpModule (http://our.umbraco.org/projects/developer-tools/301-url-tracker/version-2/46447-404-page-generates-error-once-URL-tracker-installed)</li>

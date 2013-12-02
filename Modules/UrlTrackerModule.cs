@@ -79,30 +79,31 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
 
                 string shortestUrl = UrlTrackerHelper.ResolveShortestUrl(urlWithoutQueryString);
 
-                List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains();
-                string fullRawUrl = string.Format("{0}://{1}{2}", request.Url.Scheme, request.Url.Host, request.RawUrl);
-
                 int rootNodeId = -1;
-                UrlTrackerDomain urlTrackerDomain;
-                do
+                List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains();
+                if (domains.Any())
                 {
-                    urlTrackerDomain = domains.SingleOrDefault(x => x.UrlWithDomain == fullRawUrl);
-                    if (urlTrackerDomain != null)
-                    {
-                        rootNodeId = urlTrackerDomain.NodeId;
-                        break;
-                    }
-                    fullRawUrl = fullRawUrl.Substring(0, fullRawUrl.Length - 1);
-                }
-                while (fullRawUrl.Length > 0);
+                    string fullRawUrl = string.Format("{0}://{1}{2}", request.Url.Scheme, request.Url.Host, request.RawUrl);
 
+                    UrlTrackerDomain urlTrackerDomain;
+                    do
+                    {
+                        urlTrackerDomain = domains.FirstOrDefault(x => x.UrlWithDomain == fullRawUrl);
+                        if (urlTrackerDomain != null)
+                        {
+                            rootNodeId = urlTrackerDomain.NodeId;
+                            break;
+                        }
+                        fullRawUrl = fullRawUrl.Substring(0, fullRawUrl.Length - 1);
+                    }
+                    while (fullRawUrl.Length > 0);
+                }
                 if (rootNodeId == -1)
                 {
                     rootNodeId = -1;
                     List<INode> children = new Node(rootNodeId).ChildrenAsList;
                     if (children != null && children.Any())
                         rootNodeId = children.First().Id;
-
                 }
                 LoggingHelper.LogInformation("UrlTracker HttpModule | Current request's rootNodeId: {0}", rootNodeId);
 
