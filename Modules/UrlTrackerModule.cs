@@ -23,20 +23,23 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
     {
         static ISqlHelper _sqlHelper { get { return Application.SqlHelper; } }
         static Regex _capturingGroupsRegex = new Regex("\\$\\d+");
-        static bool _ranUpdates = false;
+        static bool _initialized = false;
         static readonly object _lock = new object();
+        static bool _urlTrackerInstalled;
 
         #region IHttpModule Members
         public void Dispose() { }
 
         public void Init(HttpApplication context)
         {
-            if (!_ranUpdates)
+            lock (_lock)
             {
-                lock(_lock)
+                if (!_initialized)
                 {
-                    UrlTrackerRepository.UpdateUrlTrackerTable();
-                    _ranUpdates = true;
+                    _urlTrackerInstalled = UrlTrackerRepository.GetUrlTrackerTableExists();
+                    if (_urlTrackerInstalled)
+                        UrlTrackerRepository.UpdateUrlTrackerTable();
+                    _initialized = true;
                 }
             }
 
@@ -86,7 +89,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
 
             LoggingHelper.LogInformation("UrlTracker HttpModule | Incoming URL is: {0}", url);
 
-            if (response.StatusCode == (int)HttpStatusCode.NotFound || ignoreHttpStatusCode)
+            if (_urlTrackerInstalled && (response.StatusCode == (int)HttpStatusCode.NotFound || ignoreHttpStatusCode))
             {
                 if(response.StatusCode == (int)HttpStatusCode.NotFound)
                 LoggingHelper.LogInformation("UrlTracker HttpModule | Response statusCode is 404 or , continue URL matching");

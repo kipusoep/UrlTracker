@@ -403,11 +403,13 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
 
         public static void UpdateUrlTrackerTable()
         {
-            if (!UrlTrackerRepository.GetUrlTrackerTableExists())
-                throw new Exception("Table does not exist.");
-
-            string updateTableQuery = EmbeddedResourcesHelper.GetString("InfoCaster.Umbraco.UrlTracker.SQL.update-table-1.sql");
-            _sqlHelper.ExecuteNonQuery(updateTableQuery);
+            if (UrlTrackerRepository.GetUrlTrackerTableExists())
+            {
+                string updateTableQuery = EmbeddedResourcesHelper.GetString("InfoCaster.Umbraco.UrlTracker.SQL.update-table-1.sql");
+                _sqlHelper.ExecuteNonQuery(updateTableQuery);
+                updateTableQuery = EmbeddedResourcesHelper.GetString("InfoCaster.Umbraco.UrlTracker.SQL.update-table-2.sql");
+                _sqlHelper.ExecuteNonQuery(updateTableQuery);
+            }
         }
 
         public static int MigrateData()
