@@ -17,6 +17,11 @@ You can also create your own redirects, based on a simple URL or using a Regex p
 *   Supports **multiple websites** in a single umbraco instance
 
 ## Changelog ##
+*   2.4.0 [2013/12/11]
+    * [Bugfix] In some situations an exception would occur with umbraco v6 (Value cannot be null. Parameter name: umbracoContext)
+    * [Feature] Added the option to force a redirect (will allways perform a redirect, even if a page at the specified old URL exists)
+    * [Improvement] Massive performance improvements compared to v2.2.8 and newer
+    * [Improvement] Better 404 handling; ignores 404 entry if the URL is an arterySignalR (BrowserLink) URL (VS 2013)
 *   2.3.2 [2013/11/27]
     * [Bugfix] Fixed a hostnames issue
 *   2.3.1 [2013/11/27]

@@ -30,19 +30,20 @@ using System.Web.UI;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("2.3.2.0")]
-[assembly: AssemblyFileVersion("2.3.2.0")]
+[assembly: AssemblyVersion("2.4.0.0")]
+[assembly: AssemblyFileVersion("2.4.0.0")]
 
 // SQL
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.SQL.create-table-1.sql", "text/plain")]
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.SQL.create-table-2.sql", "text/plain")]
+[assembly: WebResource("InfoCaster.Umbraco.UrlTracker.SQL.update-table-1.sql", "text/plain")]
 
 // CSS
-[assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.css.bootstrap.css", "text/css")]
-[assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.css.bootstrap.min.css", "text/css")]
-[assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.css.installer.css", "text/css")]
-[assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.css.info.css", "text/css")]
-[assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.css.urltracker.css", "text/css")]
+[assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.css.bootstrap.css", "text/css", PerformSubstitution = true)]
+[assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.css.bootstrap.min.css", "text/css", PerformSubstitution = true)]
+[assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.css.installer.css", "text/css", PerformSubstitution = true)]
+[assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.css.info.css", "text/css", PerformSubstitution = true)]
+[assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.css.urltracker.css", "text/css", PerformSubstitution = true)]
 
 // IMG
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.img.asc-hover.png", "image/png")]

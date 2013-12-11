@@ -46,6 +46,9 @@
       <HintPath>lib\businesslogic.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="ClientDependency.Core">
+      <HintPath>lib\ClientDependency.Core.dll</HintPath>
+    </Reference>
     <Reference Include="cms">
       <HintPath>lib\cms.dll</HintPath>
       <Private>False</Private>
@@ -132,6 +135,7 @@
     <EmbeddedResource Include="UI\res\css\info.css" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\ContextHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataType\UrlTrackerDataEditor.cs" />
     <Compile Include="DataType\UrlTrackerDataType.cs" />
@@ -187,6 +191,9 @@
     <Compile Include="UI\UserControls\AdvancedView.ascx.designer.cs">
       <DependentUpon>AdvancedView.ascx</DependentUpon>
     </Compile>
+    <Compile Include="UI\UserControls\CreateView.ascx.designer.cs">
+      <DependentUpon>CreateView.ascx</DependentUpon>
+    </Compile>
     <Compile Include="UI\UserControls\NotFoundView.ascx.cs">
       <DependentUpon>NotFoundView.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -197,9 +204,6 @@
     <Compile Include="UI\UserControls\CreateView.ascx.cs">
       <DependentUpon>CreateView.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="UI\UserControls\CreateView.ascx.designer.cs">
-      <DependentUpon>CreateView.ascx</DependentUpon>
     </Compile>
     <Compile Include="UI\UserControls\CustomView.ascx.cs">
       <DependentUpon>CustomView.ascx</DependentUpon>
@@ -241,6 +245,7 @@
     <EmbeddedResource Include="SQL\create-table-2.sql" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="SQL\update-table-1.sql" />
     <Content Include="web.config" />
   </ItemGroup>
   <PropertyGroup>

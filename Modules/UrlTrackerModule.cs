@@ -1,10 +1,12 @@
 ﻿using InfoCaster.Umbraco.UrlTracker.Extensions;
 using InfoCaster.Umbraco.UrlTracker.Helpers;
 using InfoCaster.Umbraco.UrlTracker.Models;
+using InfoCaster.Umbraco.UrlTracker.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
 using System.Web;
 using umbraco.BusinessLogic;
@@ -21,19 +23,41 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
     {
         static ISqlHelper _sqlHelper { get { return Application.SqlHelper; } }
         static Regex _capturingGroupsRegex = new Regex("\\$\\d+");
+        static bool _ranUpdates = false;
+        static readonly object _lock = new object();
 
         #region IHttpModule Members
         public void Dispose() { }
 
         public void Init(HttpApplication context)
         {
+            if (!_ranUpdates)
+            {
+                lock(_lock)
+                {
+                    UrlTrackerRepository.UpdateUrlTrackerTable();
+                    _ranUpdates = true;
+                }
+            }
+
+            context.AcquireRequestState += context_AcquireRequestState;
             context.EndRequest += context_EndRequest;
 
             LoggingHelper.LogInformation("UrlTracker HttpModule | Subscribed to PostReleaseRequestState event");
         }
         #endregion
 
+        void context_AcquireRequestState(object sender, EventArgs e)
+        {
+            UrlTrackerDo(ignoreHttpStatusCode: true);
+        }
+
         void context_EndRequest(object sender, EventArgs e)
+        {
+            UrlTrackerDo();
+        }
+
+        private static void UrlTrackerDo(bool ignoreHttpStatusCode = false)
         {
             HttpContext context = HttpContext.Current;
             HttpRequest request = context.Request;
@@ -62,9 +86,10 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
 
             LoggingHelper.LogInformation("UrlTracker HttpModule | Incoming URL is: {0}", url);
 
-            if (response.StatusCode == 404)
+            if (response.StatusCode == (int)HttpStatusCode.NotFound || ignoreHttpStatusCode)
             {
-                LoggingHelper.LogInformation("UrlTracker HttpModule | Response statusCode is 404, continue URL matching");
+                if(response.StatusCode == (int)HttpStatusCode.NotFound)
+                LoggingHelper.LogInformation("UrlTracker HttpModule | Response statusCode is 404 or , continue URL matching");
 
                 string urlWithoutQueryString = url;
                 if (InfoCaster.Umbraco.UrlTracker.Helpers.UmbracoHelper.IsReservedPathOrUrl(url))
@@ -112,8 +137,8 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                 bool redirectPassThroughQueryString = true;
 
                 // Normal matching
-                string query = "SELECT * FROM icUrlTracker WHERE Is404 = 0 AND (RedirectRootNodeId = @redirectRootNodeId OR RedirectRootNodeId IS NULL) AND (OldUrl = @url OR OldUrl = @shortestUrl) ORDER BY OldUrlQueryString DESC";
-                using (IRecordsReader reader = _sqlHelper.ExecuteReader(query, _sqlHelper.CreateParameter("redirectRootNodeId", rootNodeId), _sqlHelper.CreateParameter("url", urlWithoutQueryString), _sqlHelper.CreateParameter("shortestUrl", shortestUrl)))
+                string query = "SELECT * FROM icUrlTracker WHERE Is404 = 0 AND ForceRedirect = @forceRedirect AND (RedirectRootNodeId = @redirectRootNodeId OR RedirectRootNodeId IS NULL) AND (OldUrl = @url OR OldUrl = @shortestUrl) ORDER BY OldUrlQueryString DESC";
+                using (IRecordsReader reader = _sqlHelper.ExecuteReader(query, _sqlHelper.CreateParameter("forceRedirect", ignoreHttpStatusCode ? "1" : "0"), _sqlHelper.CreateParameter("redirectRootNodeId", rootNodeId), _sqlHelper.CreateParameter("url", urlWithoutQueryString), _sqlHelper.CreateParameter("shortestUrl", shortestUrl)))
                 {
                     while (reader.Read())
                     {
@@ -172,8 +197,8 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                 if (!redirectHttpCode.HasValue)
                 {
                     // Regex matching
-                    query = "SELECT * FROM icUrlTracker WHERE Is404 = 0 AND RedirectRootNodeId = @redirectRootNodeId AND OldRegex IS NOT NULL ORDER BY Inserted DESC";
-                    using (IRecordsReader reader = _sqlHelper.ExecuteReader(query, _sqlHelper.CreateParameter("redirectRootNodeId", rootNodeId)))
+                    query = "SELECT * FROM icUrlTracker WHERE Is404 = 0 AND ForceRedirect = @forceRedirect AND RedirectRootNodeId = @redirectRootNodeId AND OldRegex IS NOT NULL ORDER BY Inserted DESC";
+                    using (IRecordsReader reader = _sqlHelper.ExecuteReader(query, _sqlHelper.CreateParameter("forceRedirect", ignoreHttpStatusCode ? "1" : "0"), _sqlHelper.CreateParameter("redirectRootNodeId", rootNodeId)))
                     {
                         Regex regex;
                         while (reader.Read())
@@ -242,7 +267,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                     }
                     response.End();
                 }
-                else
+                else if(!ignoreHttpStatusCode)
                 {
                     // Log 404
                     if (!UrlTrackerSettings.NotFoundUrlsToIgnore.Contains(urlWithoutQueryString) && !UmbracoHelper.IsReservedPathOrUrl(urlWithoutQueryString))

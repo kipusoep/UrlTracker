@@ -32,6 +32,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
         public string Referrer { get; set; }
         public int? NotFoundCount { get; set; }
         public DateTime Inserted { get; set; }
+        public bool ForceRedirect { get; set; }
         #endregion
 
         #region Calculated properties
@@ -80,12 +81,14 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
         {
             get
             {
-                Node redirectNode = null;
                 if (RedirectNodeId.HasValue)
                 {
-                    redirectNode = new Node(RedirectNodeId.Value);
-                    if (redirectNode.Id == 0)
+                    var xml = umbraco.library.GetXmlNodeById(RedirectNodeId.Value.ToString());
+                    if (xml.Current.InnerXml.StartsWith("<error>No published item exist with id 1234567899</error>"))
                         return "UNPUBLISHED";
+                    //xml = umbraco.library.GetXmlNodeById("1234567899");
+                    //if (redirectNode.Id == 0)
+                        //return "UNPUBLISHED";
                 }
                 string calculatedRedirectUrl = !string.IsNullOrEmpty(RedirectUrl) ?
                     RedirectUrl :
@@ -136,7 +139,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
 
         public UrlTrackerModel() { }
 
-        public UrlTrackerModel(string oldUrl, string oldUrlQueryString, string oldRegex, int redirectRootNodeId, int? redirectNodeId, string redirectUrl, int redirectHttpCode, bool redirectPassThroughQueryString, string notes)
+        public UrlTrackerModel(string oldUrl, string oldUrlQueryString, string oldRegex, int redirectRootNodeId, int? redirectNodeId, string redirectUrl, int redirectHttpCode, bool redirectPassThroughQueryString, bool forceRedirect, string notes)
         {
             OldUrl = oldUrl;
             OldUrlQueryString = oldUrlQueryString;
@@ -146,11 +149,12 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
             RedirectUrl = redirectUrl;
             RedirectHttpCode = redirectHttpCode;
             RedirectPassThroughQueryString = redirectPassThroughQueryString;
+            ForceRedirect = forceRedirect;
             Notes = notes ?? string.Empty;
         }
 
-        public UrlTrackerModel(int id, string oldUrl, string oldUrlQueryString, string oldRegex, int redirectRootNodeId, int? redirectNodeId, string redirectUrl, int redirectHttpCode, bool redirectPassThroughQueryString, string notes, bool is404, string referrer, DateTime inserted)
-            : this(oldUrl, oldUrlQueryString, oldRegex, redirectRootNodeId, redirectNodeId, redirectUrl, redirectHttpCode, redirectPassThroughQueryString, notes)
+        public UrlTrackerModel(int id, string oldUrl, string oldUrlQueryString, string oldRegex, int redirectRootNodeId, int? redirectNodeId, string redirectUrl, int redirectHttpCode, bool redirectPassThroughQueryString, bool forceRedirect, string notes, bool is404, string referrer, DateTime inserted)
+            : this(oldUrl, oldUrlQueryString, oldRegex, redirectRootNodeId, redirectNodeId, redirectUrl, redirectHttpCode, redirectPassThroughQueryString, forceRedirect, notes)
         {
             Id = id;
             Is404 = is404;

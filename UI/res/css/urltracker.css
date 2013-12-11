@@ -14,6 +14,10 @@ table { max-width: 100%; word-break: break-all; }
 
 legend + .clearfix { margin-top: 20px; -webkit-margin-top-collapse: separate; }
 
+.asc a { background-image: url('<%= WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.img.asc.png") %>'); }
+	.asc a:hover { background-image: url('<%= WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.img.asc-hover.png") %>'); }
+.desc a { background-image: url('<%= WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.img.desc.png") %>'); }
+	.desc a:hover { background-image: url('<%= WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.img.desc-hover.png") %>'); }
 .asc a, .desc a { background-repeat: no-repeat; background-position: left center; padding-left: 15px; }
 .clickable { cursor: pointer; }
 .btn { margin-right: 10px; }

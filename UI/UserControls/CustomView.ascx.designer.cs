@@ -157,6 +157,15 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.UserControls {
         protected global::System.Web.UI.WebControls.CheckBox cbRedirectPassthroughQueryString;
         
         /// <summary>
+        /// cbForceRedirect control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox cbForceRedirect;
+        
+        /// <summary>
         /// tbNotes control.
         /// </summary>
         /// <remarks>

@@ -81,6 +81,15 @@
             <div class="tab-pane" id="changeLog">
                 <ul>
                     <li>
+                        2.4.0 [2013/12/11]
+                        <ul>
+                            <li>[Bugfix] In some situations an exception would occur with umbraco v6 (Value cannot be null. Parameter name: umbracoContext)</li>
+                            <li>[Feature] Added the option to force a redirect (will allways perform a redirect, even if a page at the specified old URL exists)</li>
+                            <li>[Improvement] Massive performance improvements compared to v2.2.8 and newer</li>
+                            <li>[Improvement] Better 404 handling; ignores 404 entry if the URL is an arterySignalR (BrowserLink) URL (VS 2013)</li>
+                        </ul>
+                    </li>
+                    <li>
                         2.3.2 [2013/11/27]
                         <ul>
                             <li>[Bugfix] Fixed a hostnames issue</li>
