@@ -77,6 +77,13 @@
             <div class="tab-pane" id="changeLog">
                 <ul>
                     <li>
+                        2.4.2 [2013/12/12]
+                        <ul>
+                            <li>[Bugfix] Fixed a bug when doing a clean install of the Url Tracker</li>
+                            <li>[Bugfix] Fixed a bug which occurred when umbraco is running on a different port than 80</li>
+                        </ul>
+                    </li>
+                    <li>
                         2.4.1 [2013/12/11]
                         <ul>
                             <li>[Bugfix] Fixed a bug when doing a clean install of the Url Tracker</li>

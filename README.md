@@ -17,6 +17,9 @@ You can also create your own redirects, based on a simple URL or using a Regex p
 *   Supports **multiple websites** in a single umbraco instance
 
 ## Changelog ##
+*	2.4.2 [2013/12/12]
+    * [Bugfix] Fixed a bug when doing a clean install of the Url Tracker (2.4.1 fix wasn't complete)
+    * [Bugfix] Fixed a bug which occurred when umbraco is running on a different port than 80
 *   2.4.1 [2013/12/11]
     * [Bugfix] Fixed a bug when doing a clean install of the Url Tracker
     * [Bugfix] The database columns were too small in some situations

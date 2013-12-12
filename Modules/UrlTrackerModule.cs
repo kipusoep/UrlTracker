@@ -23,7 +23,6 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
     {
         static ISqlHelper _sqlHelper { get { return Application.SqlHelper; } }
         static Regex _capturingGroupsRegex = new Regex("\\$\\d+");
-        static bool _initialized = false;
         static readonly object _lock = new object();
         static bool _urlTrackerInstalled;
 
@@ -32,17 +31,6 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
 
         public void Init(HttpApplication context)
         {
-            lock (_lock)
-            {
-                if (!_initialized)
-                {
-                    _urlTrackerInstalled = UrlTrackerRepository.GetUrlTrackerTableExists();
-                    if (_urlTrackerInstalled)
-                        UrlTrackerRepository.UpdateUrlTrackerTable();
-                    _initialized = true;
-                }
-            }
-
             context.AcquireRequestState += context_AcquireRequestState;
             context.EndRequest += context_EndRequest;
 
@@ -52,6 +40,16 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
 
         void context_AcquireRequestState(object sender, EventArgs e)
         {
+            if (!_urlTrackerInstalled)
+            {
+                lock (_lock)
+                {
+                    _urlTrackerInstalled = UrlTrackerRepository.GetUrlTrackerTableExists();
+                    if (_urlTrackerInstalled)
+                        UrlTrackerRepository.UpdateUrlTrackerTable();
+                }
+            }
+
             UrlTrackerDo(ignoreHttpStatusCode: true);
         }
 

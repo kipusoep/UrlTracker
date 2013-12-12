@@ -69,10 +69,10 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
                 List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains();
                 domain = domains.FirstOrDefault(x => x.NodeId == RedirectRootNode.Id);
                 if (domain == null)
-                    domain = new UrlTrackerDomain(-1, RedirectRootNode.Id, HttpContext.Current.Request.Url.Host);
+                    domain = new UrlTrackerDomain(-1, RedirectRootNode.Id, string.Concat(HttpContext.Current.Request.Url.Host, HttpContext.Current.Request.Url.IsDefaultPort ? string.Empty : string.Concat(":", HttpContext.Current.Request.Url.Port)));
 
                 Uri domainUri = new Uri(domain.UrlWithDomain);
-                string domainOnly = string.Format("{0}://{1}", domainUri.Scheme, domainUri.Host);
+                string domainOnly = string.Format("{0}://{1}{2}", domainUri.Scheme, domainUri.Host, domainUri.IsDefaultPort ? string.Empty : string.Concat(":", domainUri.Port));
 
                 return string.Format("{0}{1}{2}", new Uri(string.Concat(domainOnly, !domainOnly.EndsWith("/") && !OldUrl.StartsWith("/") ? "/" : string.Empty, UrlTrackerHelper.ResolveUmbracoUrl(OldUrl))), !string.IsNullOrEmpty(OldUrlQueryString) ? "?" : string.Empty, OldUrlQueryString);
             }
@@ -84,11 +84,8 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
                 if (RedirectNodeId.HasValue)
                 {
                     var xml = umbraco.library.GetXmlNodeById(RedirectNodeId.Value.ToString());
-                    if (xml.Current.InnerXml.StartsWith("<error>No published item exist with id 1234567899</error>"))
+                    if (xml.Current.InnerXml.StartsWith("<error>No published item exist with id"))
                         return "UNPUBLISHED";
-                    //xml = umbraco.library.GetXmlNodeById("1234567899");
-                    //if (redirectNode.Id == 0)
-                        //return "UNPUBLISHED";
                 }
                 string calculatedRedirectUrl = !string.IsNullOrEmpty(RedirectUrl) ?
                     RedirectUrl :
