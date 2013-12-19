@@ -1,4 +1,43 @@
-﻿.btn { text-decoration: none; margin-right: 10px; }
+﻿body,
+label,
+input,
+button,
+select,
+textarea,
+select,
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input,
+.input-append input,
+.input-prepend input,
+.input-append select,
+.input-prepend select,
+.input-append .uneditable-input,
+.input-prepend .uneditable-input,
+.input-append .dropdown-menu,
+.input-prepend .dropdown-menu,
+.input-append .popover,
+.input-prepend .popover,
+.input-append .add-on,
+.input-prepend .add-on,
+.popover-title {
+    font-size: 12px;
+}
+
+.btn { text-decoration: none; margin-right: 10px; }
 
 .error, .warning, .success, .info { padding: 10px; }
 .info {margin-bottom:.5em;border:2px solid #ddd;background:#BDE5F8;color:#00529B;border-color:#00529B;}

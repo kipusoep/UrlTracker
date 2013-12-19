@@ -3,7 +3,6 @@ using InfoCaster.Umbraco.UrlTracker.Helpers;
 using InfoCaster.Umbraco.UrlTracker.Models;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -159,8 +158,6 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
 
         public static List<UrlTrackerModel> GetUrlTrackerEntries(int? maximumRows, int? startRowIndex, string sortExpression = "", bool _404 = false, bool include410Gone = false, bool showAutoEntries = true, bool showCustomEntries = true, bool showRegexEntries = true, string keyword = "")
         {
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
             List<UrlTrackerModel> urlTrackerEntries = new List<UrlTrackerModel>();
             int intKeyword = 0;
 
@@ -189,8 +186,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
                 }
             }
 
-            //urlTrackerEntries = urlTrackerEntries.Where(x => x.CalculatedRedirectUrl != "UNPUBLISHED").ToList();
-            urlTrackerEntries = urlTrackerEntries.ToList();
+            urlTrackerEntries = urlTrackerEntries.Where(x => x.RedirectNodeIsPublished).ToList();
 
             if (!showAutoEntries || !showCustomEntries || !showRegexEntries || !string.IsNullOrEmpty(keyword))
             {
@@ -257,9 +253,6 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
                 urlTrackerEntries = urlTrackerEntries.Skip(startRowIndex.Value).ToList();
             if (maximumRows.HasValue)
                 urlTrackerEntries = urlTrackerEntries.Take(maximumRows.Value).ToList();
-
-            sw.Stop();
-            string time = sw.Elapsed.ToString();
 
             return urlTrackerEntries;
         }

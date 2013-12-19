@@ -27,11 +27,38 @@ namespace InfoCaster.Umbraco.UrlTracker.UI
             get { return ViewState["DE916296-47D7-4878-BBFC-83FE0F146FDB"] as UrlTrackerModel ?? null; }
             set { ViewState["DE916296-47D7-4878-BBFC-83FE0F146FDB"] = value; }
         }
+        protected int PageSize
+        {
+            get
+            {
+                HttpCookie pageSizeCookie = Request.Cookies.Get("8D697695-9132-49B8-A489-BFBC3D7C3313");
+                if (pageSizeCookie != null)
+                {
+                    int pageSize;
+                    if (int.TryParse(pageSizeCookie.Value, out pageSize))
+                        return pageSize;
+                }
+                return _defaultPageSize;
+            }
+            set
+            {
+                HttpCookie pageSizeCookie = Request.Cookies.Get("8D697695-9132-49B8-A489-BFBC3D7C3313");
+                if (pageSizeCookie != null)
+                    pageSizeCookie.Value = value.ToString();
+
+                Response.Cookies.Add(new HttpCookie("8D697695-9132-49B8-A489-BFBC3D7C3313", value.ToString())
+                {
+                    Expires = DateTime.Now.AddYears(1)
+                });
+            }
+        }
 
         ContentPicker _contentPicker = new ContentPicker();
         bool _gridviewFiltered = false;
         bool _isNotFoundView { get { return mvSwitchButtons.GetActiveView() == vwSwitchButtonsUrlTracker; } }
         bool _earlyErrorDetected { get { return mvUrlTrackerError.GetActiveView() == vwUrlTrackerErrorMessage; } }
+
+        const int _defaultPageSize = 20;
 
         protected void scriptManager_AsyncPostBackError(object sender, AsyncPostBackErrorEventArgs e)
         {
@@ -99,6 +126,11 @@ namespace InfoCaster.Umbraco.UrlTracker.UI
                 IUrlTrackerView activeView = GetActiveView();
                 if (activeView != null)
                     activeView.UrlTrackerModel = icAdvancedView.UrlTrackerModel = UrlTrackerModel;
+
+                if (gvUrlTracker.PageSize != PageSize)
+                    gvUrlTracker.PageSize = PageSize;
+                if (gvNotFound.PageSize != PageSize)
+                    gvNotFound.PageSize = PageSize;
             }
         }
 
@@ -125,6 +157,12 @@ namespace InfoCaster.Umbraco.UrlTracker.UI
                     mvUrlTrackerEntries.SetActiveView(vwUrlTrackerEntriesNone);
                     pnlFilter.Visible = false;
                 }
+
+                if (gvUrlTracker.PageSize != PageSize)
+                    gvUrlTracker.PageSize = PageSize;
+                if (gvNotFound.PageSize != PageSize)
+                    gvNotFound.PageSize = PageSize;
+                ddlPageSize.SelectedValue = PageSize.ToString();
             }
         }
 
@@ -390,6 +428,17 @@ namespace InfoCaster.Umbraco.UrlTracker.UI
                     break;
             }
             return (IUrlTrackerView)view;
+        }
+
+        protected void ddlPageSize_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int pageSize;
+            if (int.TryParse(ddlPageSize.SelectedValue, out pageSize))
+                PageSize = pageSize;
+            if (!_isNotFoundView)
+                gvUrlTracker.DataBind();
+            else
+                gvNotFound.DataBind();
         }
     }
 }

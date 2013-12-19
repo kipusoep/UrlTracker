@@ -81,12 +81,6 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
         {
             get
             {
-                if (RedirectNodeId.HasValue)
-                {
-                    var xml = umbraco.library.GetXmlNodeById(RedirectNodeId.Value.ToString());
-                    if (xml.Current.InnerXml.StartsWith("<error>No published item exist with id"))
-                        return "UNPUBLISHED";
-                }
                 string calculatedRedirectUrl = !string.IsNullOrEmpty(RedirectUrl) ?
                     RedirectUrl :
                     !RedirectRootNode.NiceUrl.EndsWith("#") && RedirectNodeId.HasValue ?
@@ -130,6 +124,19 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
                 if (Is404)
                     return UrlTrackerViewTypes.NotFound;
                 return UrlTrackerViewTypes.Custom;
+            }
+        }
+        public bool RedirectNodeIsPublished
+        {
+            get
+            {
+                if (RedirectNodeId.HasValue)
+                {
+                    var xml = umbraco.library.GetXmlNodeById(RedirectNodeId.Value.ToString());
+                    if (xml.Current.InnerXml.StartsWith("<error>No published item exist with id"))
+                        return false;
+                }
+                return true;
             }
         }
         #endregion

@@ -17,6 +17,11 @@ You can also create your own redirects, based on a simple URL or using a Regex p
 *   Supports **multiple websites** in a single umbraco instance
 
 ## Changelog ##
+*   2.4.3 [2013/12/19]
+    * [Bugfix] UI handles unpublished redirect nodes again (hide)
+    * [Feature] Added the option to change the pagesize of the entries and not-found tables (saved in cookie)
+    * [Improvement] Decreased the general font-size of the UI to 12px to match umbraco
+    * [Improvement] Performance improvements
 *	2.4.2 [2013/12/12]
     * [Bugfix] Fixed a bug when doing a clean install of the Url Tracker (2.4.1 fix wasn't complete)
     * [Bugfix] Fixed a bug which occurred when umbraco is running on a different port than 80

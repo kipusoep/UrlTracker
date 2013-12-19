@@ -77,6 +77,15 @@
             <div class="tab-pane" id="changeLog">
                 <ul>
                     <li>
+                        2.4.3 [2013/12/19]
+                        <ul>
+                            <li>[Bugfix] UI handles unpublished redirect nodes again (hide)</li>
+                            <li>[Feature] Added the option to change the pagesize of the entries and not-found tables (saved in cookie)</li>
+                            <li>[Improvement] Decreased the general font-size of the UI to 12px to match umbraco</li>
+                            <li>[Improvement] Performance improvements</li>
+                        </ul>
+                    </li>
+                    <li>
                         2.4.2 [2013/12/12]
                         <ul>
                             <li>[Bugfix] Fixed a bug when doing a clean install of the Url Tracker</li>
