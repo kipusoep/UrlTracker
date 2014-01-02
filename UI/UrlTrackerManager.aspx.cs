@@ -145,10 +145,7 @@ namespace InfoCaster.Umbraco.UrlTracker.UI
 
                 bool hasNotFoundEntries = UrlTrackerRepository.HasNotFoundEntries();
                 ltlNotFoundText.Visible = mvSwitchButtons.Visible = hasNotFoundEntries;
-                if (_isNotFoundView)
-                    lbDeleteSelected.Visible = gvUrlTracker.Rows.Count > 0;
-                else
-                    lbDeleteSelected.Visible = gvNotFound.Rows.Count > 0;
+                lbDeleteSelected.Visible = (_isNotFoundView ? gvNotFound : gvUrlTracker).Rows.Count > 0;
 
                 mvUrlTrackerEntries.SetActiveView(vwUrlTrackerEntriesTable);
                 pnlFilter.Visible = true;

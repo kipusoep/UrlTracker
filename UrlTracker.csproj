@@ -275,6 +275,10 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>copy $(TargetDir)InfoCaster.Umbraco.UrlTracker.dll "C:\inetpub\wwwroot\UrlTracker 7\bin\"
+copy $(TargetDir)InfoCaster.Umbraco.UrlTracker.pdb "C:\inetpub\wwwroot\UrlTracker 7\bin\"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

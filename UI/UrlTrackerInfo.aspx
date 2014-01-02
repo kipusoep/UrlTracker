@@ -77,6 +77,13 @@
             <div class="tab-pane" id="changeLog">
                 <ul>
                     <li>
+                        2.5.0 [2013/12/25]
+                        <ul>
+                            <li>[Bugfix] Fixed a silly bug which caused the 'Delete selected' button to be hidden</li>
+                            <li>[Feature] Added v7 compatiblity as far as I could, but there are still some UI bugs in umbraco 7 combined with legacy dashboards (http://issues.umbraco.org/issue/U4-3940 & http://issues.umbraco.org/issue/U4-3941)</li>
+                        </ul>
+                    </li>
+                    <li>
                         2.4.3 [2013/12/19]
                         <ul>
                             <li>[Bugfix] UI handles unpublished redirect nodes again (hide)</li>

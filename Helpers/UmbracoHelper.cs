@@ -20,9 +20,6 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
         static string _reservedPathsCache;
         static StartsWithContainer _reservedList = new StartsWithContainer();
 
-        static Assembly _umbracoAssembly;
-        static bool _umbracoAssemblyInitialized = false;
-
         /// <summary>
         /// Determines whether the specified URL is reserved or is inside a reserved path.
         /// </summary>
@@ -107,6 +104,24 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
             using (ContextHelper.EnsureHttpContext())
             {
                 return umbraco.library.NiceUrl(nodeId);
+            }
+        }
+
+        public static bool IsVersion7OrNewer
+        {
+            get
+            {
+                bool isVersion7OrNewer = true;
+                try
+                {
+                    typeof(umbraco.uicontrols.CodeArea).InvokeMember("Menu", BindingFlags.GetField, null, new umbraco.uicontrols.CodeArea(), null);
+                }
+                catch (MissingFieldException)
+                {
+                    isVersion7OrNewer = false;
+                }
+
+                return isVersion7OrNewer;
             }
         }
     }
