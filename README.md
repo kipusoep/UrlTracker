@@ -17,6 +17,8 @@ You can also create your own redirects, based on a simple URL or using a Regex p
 *   Supports **multiple websites** in a single umbraco instance
 
 ## Changelog ##
+*	2.4.4 [2014/01/03]
+    * [Bugfix] Fixed a silly bug which caused the 'Delete selected' button to be hidden
 *   2.4.3 [2013/12/19]
     * [Bugfix] UI handles unpublished redirect nodes again (hide)
     * [Feature] Added the option to change the pagesize of the entries and not-found tables (saved in cookie)
