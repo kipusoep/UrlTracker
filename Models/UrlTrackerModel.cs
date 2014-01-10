@@ -52,7 +52,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
                 if (CalculatedOldUrlWithDomain.StartsWith("Regex:"))
                     return CalculatedOldUrlWithDomain;
                 Uri calculatedOldUrlWithDomain = new Uri(CalculatedOldUrlWithDomain);
-                string pathAndQuery = calculatedOldUrlWithDomain.PathAndQuery;
+                string pathAndQuery = Uri.UnescapeDataString(calculatedOldUrlWithDomain.PathAndQuery);
                 return pathAndQuery.StartsWith("/") ? pathAndQuery.Substring(1) : pathAndQuery;
             }
         }

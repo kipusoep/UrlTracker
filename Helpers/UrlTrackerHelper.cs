@@ -16,7 +16,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
 			if (url.StartsWith("http://") || url.StartsWith("https://"))
 			{
 				Uri uri = new Uri(url);
-				url = uri.PathAndQuery;
+				url = Uri.UnescapeDataString(uri.PathAndQuery);
 			}
 			// The URL should be stored as short as possible (e.g.: /page.aspx -> page | /page/ -> page)
 			if (url.StartsWith("/"))
@@ -33,7 +33,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
 			if (url.StartsWith("http://") || url.StartsWith("https://"))
 			{
 				Uri uri = new Uri(url);
-				url = uri.PathAndQuery;
+				url = Uri.UnescapeDataString(uri.PathAndQuery);
 			}
 
 			if (url != "/" && !_urlWithDotRegex.IsMatch(url))

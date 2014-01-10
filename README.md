@@ -17,6 +17,9 @@ You can also create your own redirects, based on a simple URL or using a Regex p
 *   Supports **multiple websites** in a single umbraco instance
 
 ## Changelog ##
+ *  2.4.5 [2014/01/10]
+    * [Bugfix] Domains list wasn't getting updated when domains where added or removed
+    * [Bugfix] Fixed an encoding issue (http://our.umbraco.org/projects/developer-tools/301-url-tracker/version-2/46914-Redirect-with-url-encoded-chars-issue)
 *	2.4.4 [2014/01/03]
     * [Bugfix] Fixed a silly bug which caused the 'Delete selected' button to be hidden
 *   2.4.3 [2013/12/19]

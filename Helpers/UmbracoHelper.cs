@@ -81,17 +81,29 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
         {
             if (_urlTrackerDomains == null)
             {
-                _urlTrackerDomains = new List<UrlTrackerDomain>();
-                ISqlHelper sqlHelper = Application.SqlHelper;
-                using (var dr = sqlHelper.ExecuteReader("SELECT * FROM umbracoDomains"))
+                lock (_locker)
                 {
-                    while (dr.Read())
+                    _urlTrackerDomains = new List<UrlTrackerDomain>();
+                    ISqlHelper sqlHelper = Application.SqlHelper;
+                    using (var dr = sqlHelper.ExecuteReader("SELECT * FROM umbracoDomains"))
                     {
-                        _urlTrackerDomains.Add(new UrlTrackerDomain(dr.GetInt("id"), dr.GetInt("domainRootStructureID"), dr.GetString("domainName")));
+                        while (dr.Read())
+                        {
+                            _urlTrackerDomains.Add(new UrlTrackerDomain(dr.GetInt("id"), dr.GetInt("domainRootStructureID"), dr.GetString("domainName")));
+                        }
                     }
+                    _urlTrackerDomains = _urlTrackerDomains.OrderBy(x => x.Node.SortOrder).ThenBy(x => x.UrlWithDomain).ToList();
                 }
             }
             return _urlTrackerDomains;
+        }
+
+        internal static void ClearDomains()
+        {
+            lock (_locker)
+            {
+                _urlTrackerDomains = null;
+            }
         }
 
         internal static string GetUmbracoUrlSuffix()

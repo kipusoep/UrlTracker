@@ -77,6 +77,13 @@
             <div class="tab-pane" id="changeLog">
                 <ul>
                     <li>
+                        2.4.5 [2014/01/10]
+                        <ul>
+                            <li>[Bugfix] Domains list wasn't getting updated when domains where added or removed</li>
+                            <li>[Bugfix] Fixed an encoding issue (http://our.umbraco.org/projects/developer-tools/301-url-tracker/version-2/46914-Redirect-with-url-encoded-chars-issue)</li>
+                        </ul>
+                    </li>
+                    <li>
                         2.4.4 [2014/01/03]
                         <ul>
                             <li>[Bugfix] Fixed a silly bug which caused the 'Delete selected' button to be hidden</li>

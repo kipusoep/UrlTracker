@@ -16,116 +16,134 @@ using umbraco.NodeFactory;
 
 namespace InfoCaster.Umbraco.UrlTracker
 {
-	public class UrlTrackerApplicationBase : ApplicationBase
-	{
-		public UrlTrackerApplicationBase()
-		{
-			if (!UrlTrackerSettings.IsDisabled && !UrlTrackerSettings.IsTrackingDisabled)
-			{
-				Document.BeforeMove += Document_BeforeMove;
-				Document.BeforePublish += Document_BeforePublish;
-				content.BeforeClearDocumentCache += content_BeforeClearDocumentCache;
-				Document.BeforeDelete += Document_BeforeDelete;
-			}
-		}
+    public class UrlTrackerApplicationBase : ApplicationBase
+    {
+        public UrlTrackerApplicationBase()
+        {
+            if (!UrlTrackerSettings.IsDisabled && !UrlTrackerSettings.IsTrackingDisabled)
+            {
+                Document.BeforeMove += Document_BeforeMove;
+                Document.BeforePublish += Document_BeforePublish;
+                content.BeforeClearDocumentCache += content_BeforeClearDocumentCache;
+                Document.BeforeDelete += Document_BeforeDelete;
+                Domain.AfterDelete += Domain_AfterDelete;
+                Domain.AfterSave += Domain_AfterSave;
+                Domain.New += Domain_New;
+            }
+        }
 
-		void Document_BeforePublish(Document doc, PublishEventArgs e)
-		{
-			// When document is renamed or 'umbracoUrlName' property value is added/updated
-#if !DEBUG
-			try
-#endif
-			{
-				Node node = new Node(doc.Id);
-				if (node.Name != doc.Text && !string.IsNullOrEmpty(node.Name)) // If name is null, it's a new document
-				{
-					// Rename occurred
-					UrlTrackerRepository.AddUrlMapping(doc, node.GetDomainRootNode().Id, node.NiceUrl, AutoTrackingTypes.Renamed);
+        void Domain_New(Domain sender, NewEventArgs e)
+        {
+            UmbracoHelper.ClearDomains();
+        }
 
-					if (BasePage.Current != null)
-						BasePage.Current.ClientTools.ChangeContentFrameUrl(string.Concat("/umbraco/editContent.aspx?id=", doc.Id));
-				}
-				if (doc.getProperty("umbracoUrlName") != null && node.GetProperty("umbracoUrlName") != null && node.GetProperty("umbracoUrlName").Value != doc.getProperty("umbracoUrlName").Value.ToString())
-				{
-					// 'umbracoUrlName' property value added/changed
-					UrlTrackerRepository.AddUrlMapping(doc, node.GetDomainRootNode().Id, node.NiceUrl, AutoTrackingTypes.UrlOverwritten);
+        void Domain_AfterSave(Domain sender, SaveEventArgs e)
+        {
+            UmbracoHelper.ClearDomains();
+        }
 
-					if (BasePage.Current != null)
-						BasePage.Current.ClientTools.ChangeContentFrameUrl(string.Concat("/umbraco/editContent.aspx?id=", doc.Id));
-				}
-			}
-#if !DEBUG
-			catch (Exception ex)
-			{
-				ex.LogException(doc.Id);
-			}
-#endif
-		}
+        void Domain_AfterDelete(Domain sender, DeleteEventArgs e)
+        {
+            UmbracoHelper.ClearDomains();
+        }
 
-		void Document_BeforeMove(object sender, MoveEventArgs e)
-		{
+        void Document_BeforePublish(Document doc, PublishEventArgs e)
+        {
+            // When document is renamed or 'umbracoUrlName' property value is added/updated
 #if !DEBUG
-			try
+            try
 #endif
-			{
-				Document doc = sender as Document;
-#if !DEBUG
-				try
-#endif
-				{
-					if (doc != null)
-					{
-						Node node = new Node(doc.Id);
+            {
+                Node node = new Node(doc.Id);
+                if (node.Name != doc.Text && !string.IsNullOrEmpty(node.Name)) // If name is null, it's a new document
+                {
+                    // Rename occurred
+                    UrlTrackerRepository.AddUrlMapping(doc, node.GetDomainRootNode().Id, node.NiceUrl, AutoTrackingTypes.Renamed);
 
-						if (node != null && !string.IsNullOrEmpty(node.NiceUrl) && !doc.Path.StartsWith("-1,-20")) // -1,-20 == Recycle bin | Not moved to recycle bin
-							UrlTrackerRepository.AddUrlMapping(doc, node.GetDomainRootNode().Id, node.NiceUrl, AutoTrackingTypes.Moved);
-					}
-				}
-#if !DEBUG
-				catch (Exception ex)
-				{
-					ex.LogException(doc.Id);
-				}
-#endif
-			}
-#if !DEBUG
-			catch (Exception ex)
-			{
-				ex.LogException();
-			}
-#endif
-		}
+                    if (BasePage.Current != null)
+                        BasePage.Current.ClientTools.ChangeContentFrameUrl(string.Concat("/umbraco/editContent.aspx?id=", doc.Id));
+                }
+                if (doc.getProperty("umbracoUrlName") != null && node.GetProperty("umbracoUrlName") != null && node.GetProperty("umbracoUrlName").Value != doc.getProperty("umbracoUrlName").Value.ToString())
+                {
+                    // 'umbracoUrlName' property value added/changed
+                    UrlTrackerRepository.AddUrlMapping(doc, node.GetDomainRootNode().Id, node.NiceUrl, AutoTrackingTypes.UrlOverwritten);
 
-		void content_BeforeClearDocumentCache(Document doc, DocumentCacheEventArgs e)
-		{
+                    if (BasePage.Current != null)
+                        BasePage.Current.ClientTools.ChangeContentFrameUrl(string.Concat("/umbraco/editContent.aspx?id=", doc.Id));
+                }
+            }
 #if !DEBUG
-			try
+            catch (Exception ex)
+            {
+                ex.LogException(doc.Id);
+            }
 #endif
-			{
-				UrlTrackerRepository.AddGoneEntryByNodeId(doc.Id);
-			}
-#if !DEBUG
-			catch (Exception ex)
-			{
-				ex.LogException(doc.Id);
-			}
-#endif
-		}
+        }
 
-		void Document_BeforeDelete(Document doc, DeleteEventArgs e)
-		{
+        void Document_BeforeMove(object sender, MoveEventArgs e)
+        {
 #if !DEBUG
-			try
+            try
 #endif
-			{
-				UrlTrackerRepository.DeleteUrlTrackerEntriesByNodeId(doc.Id);
-			}
+            {
+                Document doc = sender as Document;
 #if !DEBUG
-			catch (Exception ex)
-			{
-				ex.LogException(doc.Id);
-			}
+                try
 #endif
-		}
-	}
+                {
+                    if (doc != null)
+                    {
+                        Node node = new Node(doc.Id);
+
+                        if (node != null && !string.IsNullOrEmpty(node.NiceUrl) && !doc.Path.StartsWith("-1,-20")) // -1,-20 == Recycle bin | Not moved to recycle bin
+                            UrlTrackerRepository.AddUrlMapping(doc, node.GetDomainRootNode().Id, node.NiceUrl, AutoTrackingTypes.Moved);
+                    }
+                }
+#if !DEBUG
+                catch (Exception ex)
+                {
+                    ex.LogException(doc.Id);
+                }
+#endif
+            }
+#if !DEBUG
+            catch (Exception ex)
+            {
+                ex.LogException();
+            }
+#endif
+        }
+
+        void content_BeforeClearDocumentCache(Document doc, DocumentCacheEventArgs e)
+        {
+#if !DEBUG
+            try
+#endif
+            {
+                UrlTrackerRepository.AddGoneEntryByNodeId(doc.Id);
+            }
+#if !DEBUG
+            catch (Exception ex)
+            {
+                ex.LogException(doc.Id);
+            }
+#endif
+        }
+
+        void Document_BeforeDelete(Document doc, DeleteEventArgs e)
+        {
+#if !DEBUG
+            try
+#endif
+            {
+                UrlTrackerRepository.DeleteUrlTrackerEntriesByNodeId(doc.Id);
+            }
+#if !DEBUG
+            catch (Exception ex)
+            {
+                ex.LogException(doc.Id);
+            }
+#endif
+        }
+    }
 }

@@ -89,8 +89,10 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
 
             if (_urlTrackerInstalled && (response.StatusCode == (int)HttpStatusCode.NotFound || ignoreHttpStatusCode))
             {
-                if(response.StatusCode == (int)HttpStatusCode.NotFound)
-                LoggingHelper.LogInformation("UrlTracker HttpModule | Response statusCode is 404 or , continue URL matching");
+                if (response.StatusCode == (int)HttpStatusCode.NotFound)
+                    LoggingHelper.LogInformation("UrlTracker HttpModule | Response statusCode is 404, continue URL matching");
+                else
+                    LoggingHelper.LogInformation("UrlTracker HttpModule | Checking for forced redirects (AcquireRequestState), continue URL matching");
 
                 string urlWithoutQueryString = url;
                 if (InfoCaster.Umbraco.UrlTracker.Helpers.UmbracoHelper.IsReservedPathOrUrl(url))
@@ -156,7 +158,8 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                                 if (redirectUrl.StartsWith("http"))
                                 {
                                     Uri redirectUri = new Uri(redirectUrl);
-                                    redirectUrl = redirectUri.PathAndQuery.StartsWith("/") && redirectUri.PathAndQuery != "/" ? redirectUri.PathAndQuery.Substring(1) : redirectUri.PathAndQuery;
+                                    string pathAndQuery = Uri.UnescapeDataString(redirectUri.PathAndQuery);
+                                    redirectUrl = pathAndQuery.StartsWith("/") && pathAndQuery != "/" ? pathAndQuery.Substring(1) : pathAndQuery;
                                 }
                                 LoggingHelper.LogInformation("UrlTracker HttpModule | Redirect url set to: {0}", redirectUrl);
                             }
@@ -261,7 +264,8 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                             NameValueCollection newQueryString = HttpUtility.ParseQueryString(request.Url.Query);
                             if (redirectQueryString.HasKeys())
                                 newQueryString = newQueryString.Merge(redirectQueryString);
-                            redirectUri = new Uri(string.Format("{0}://{1}{2}/{3}{4}", redirectUri.Scheme, redirectUri.Host, redirectUri.Port != 80 ? string.Concat(":", redirectUri.Port) : string.Empty, redirectUri.PathAndQuery.Contains('?') ? redirectUri.PathAndQuery.Substring(0, redirectUri.PathAndQuery.IndexOf('?')) : redirectUri.PathAndQuery.StartsWith("/") ? redirectUri.PathAndQuery.Substring(1) : redirectUri.PathAndQuery, newQueryString.HasKeys() ? string.Concat("?", newQueryString.ToQueryString()) : string.Empty));
+                            string pathAndQuery = Uri.UnescapeDataString(redirectUri.PathAndQuery);
+                            redirectUri = new Uri(string.Format("{0}://{1}{2}/{3}{4}", redirectUri.Scheme, redirectUri.Host, redirectUri.Port != 80 ? string.Concat(":", redirectUri.Port) : string.Empty, pathAndQuery.Contains('?') ? pathAndQuery.Substring(0, pathAndQuery.IndexOf('?')) : pathAndQuery.StartsWith("/") ? pathAndQuery.Substring(1) : pathAndQuery, newQueryString.HasKeys() ? string.Concat("?", newQueryString.ToQueryString()) : string.Empty));
                         }
                         response.RedirectLocation = redirectUri.ToString();
                         LoggingHelper.LogInformation("UrlTracker HttpModule | Response redirectlocation set to: {0}", response.RedirectLocation);
