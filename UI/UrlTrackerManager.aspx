@@ -2,7 +2,9 @@
 
 <%@ Import Namespace="InfoCaster.Umbraco.UrlTracker" %>
 
+<%@ Import Namespace="InfoCaster.Umbraco.UrlTracker.Helpers" %>
 <%@ Register TagPrefix="umbuic" Namespace="umbraco.uicontrols" Assembly="controls" %>
+<%@ Register TagPrefix="umb" Namespace="ClientDependency.Core.Controls" Assembly="ClientDependency.Core" %>
 
 <!DOCTYPE html>
 
@@ -10,6 +12,10 @@
 <head>
     <title>Url Tracker</title>
     
+    
+
+  
+
     <link rel="stylesheet" type="text/css" href="<%= Page.ClientScript.GetWebResourceUrl(typeof(UrlTrackerResources), "InfoCaster.Umbraco.UrlTracker.UI.res.css.bootstrap.min.css") %>" />
     <link rel="stylesheet" type="text/css" href="<%= Page.ClientScript.GetWebResourceUrl(typeof(UrlTrackerResources), "InfoCaster.Umbraco.UrlTracker.UI.res.css.urltracker.css") %>" />
 
@@ -21,6 +27,24 @@
     <script type="text/javascript" src="<%= Page.ClientScript.GetWebResourceUrl(typeof(UrlTrackerResources), "InfoCaster.Umbraco.UrlTracker.UI.res.js.main.js") %>"></script>
 
     <umbuic:UmbracoClientDependencyLoader runat="server" />
+    
+    <% if (UmbracoHelper.IsVersion7OrNewer)
+       { %>
+    
+    <umb:JsInclude ID="JsInclude1" runat="server" FilePath="Application/NamespaceManager.js" PathNameAlias="UmbracoClient" Priority="0" />
+  
+    <umb:JsInclude ID="JsInclude9" runat="server" FilePath="Application/jQuery/jquery.cookie.js" PathNameAlias="UmbracoClient" Priority="1" />
+    <umb:JsInclude ID="JsInclude10" runat="server" FilePath="ui/base2.js" PathNameAlias="UmbracoClient" Priority="1"  /> 
+    <umb:JsInclude ID="JsInclude4" runat="server" FilePath="Application/UmbracoApplicationActions.js" PathNameAlias="UmbracoClient" Priority="2" />
+    <umb:JsInclude ID="JsInclude5" runat="server" FilePath="Application/UmbracoUtils.js" PathNameAlias="UmbracoClient" Priority="2" />
+    <umb:JsInclude ID="JsInclude6" runat="server" FilePath="Application/UmbracoClientManager.js" PathNameAlias="UmbracoClient" Priority="3" />
+    <umb:JsInclude ID="JsInclude11" runat="server" FilePath="UI/knockout.js" PathNameAlias="UmbracoClient" Priority="3" />
+    <umb:JsInclude ID="JsInclude12" runat="server" FilePath="UI/knockout.mapping.js" PathNameAlias="UmbracoClient" Priority="4" />
+    <umb:JsInclude ID="JsInclude7" runat="server" FilePath="modal/modal.js" PathNameAlias="UmbracoClient" Priority="10" />
+    <umb:JsInclude ID="JsInclude3" runat="server" FilePath="ui/default.js" PathNameAlias="UmbracoClient" Priority="10" />
+    <umb:JsInclude ID="JsIncludeHotkeys" runat="server" FilePath="Application/jQuery/jquery.hotkeys.js" PathNameAlias="UmbracoClient" Priority="10" />
+    
+    <% } %>
 </head>
 <body>
     <form id="form1" runat="server" class="form-horizontal">
@@ -198,7 +222,7 @@
                                             </div>
                                         </ContentTemplate>
                                     </asp:UpdatePanel>
-                                    <asp:UpdateProgress runat="server" AssociatedUpdatePanelID="upUrlTrackerGrid" DisplayAfter="0">
+                                    <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="upUrlTrackerGrid" DisplayAfter="0">
                                         <ProgressTemplate>
                                             <div class="loading-overlay"></div>
                                             <div id="circularG">
@@ -247,7 +271,7 @@
                             </asp:MultiView>
                         </ContentTemplate>
                     </asp:UpdatePanel>
-                    <asp:UpdateProgress runat="server" AssociatedUpdatePanelID="upUrlTracker" DisplayAfter="0">
+                    <asp:UpdateProgress ID="UpdateProgress2" runat="server" AssociatedUpdatePanelID="upUrlTracker" DisplayAfter="0">
                         <ProgressTemplate>
                             <div class="loading-overlay"></div>
                             <div id="circularG">
