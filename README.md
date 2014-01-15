@@ -17,6 +17,9 @@ You can also create your own redirects, based on a simple URL or using a Regex p
 *   Supports **multiple websites** in a single umbraco instance
 
 ## Changelog ##
+*   2.4.7 [2014/01/15]
+    * [Bugfix] Fixed an issue with the Old URL field in the Not Found create redirect view
+    * [Feature] Added the option to disable logging 404 Not Found to the UrlTracker by adding an HTTP header 'X-UrlTracker-Ignore404' with value '1' for a certain request
 *   2.4.6 [2014/01/15]
     * [Bugfix] Fixed a small issue which occurred if the umbracoDbDSN isn't set
 *   2.4.5 [2014/01/10]

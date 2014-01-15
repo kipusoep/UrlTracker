@@ -272,10 +272,10 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                     }
                     response.End();
                 }
-                else if(!ignoreHttpStatusCode)
+                else if (!ignoreHttpStatusCode)
                 {
                     // Log 404
-                    if (!UrlTrackerSettings.NotFoundUrlsToIgnore.Contains(urlWithoutQueryString) && !UmbracoHelper.IsReservedPathOrUrl(urlWithoutQueryString))
+                    if (!UrlTrackerSettings.NotFoundUrlsToIgnore.Contains(urlWithoutQueryString) && !UmbracoHelper.IsReservedPathOrUrl(urlWithoutQueryString) && request.Headers["X-UrlTracker-Ignore404"] != "1")
                     {
                         bool ignoreNotFoundBasedOnRegexPatterns = false;
                         foreach (Regex regexNotFoundUrlToIgnore in UrlTrackerSettings.RegexNotFoundUrlsToIgnore)
@@ -304,6 +304,8 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                         LoggingHelper.LogInformation("UrlTracker HttpModule | No match found, url is configured to be ignored: {0}", urlWithoutQueryString);
                     else if (UmbracoHelper.IsReservedPathOrUrl(urlWithoutQueryString))
                         LoggingHelper.LogInformation("UrlTracker HttpModule | No match found, url is ignored because it's an umbraco reserved URL or path: {0}", urlWithoutQueryString);
+                    else if (request.Headers["X-UrlTracker-Ignore404"] == "1")
+                        LoggingHelper.LogInformation("UrlTracker HttpModule | No match found, url is ignored because the 'X-UrlTracker-Ignore404' header was set to '1'. URL: {0}", urlWithoutQueryString);
                 }
             }
             else

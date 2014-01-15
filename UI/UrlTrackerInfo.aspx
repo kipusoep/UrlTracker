@@ -61,6 +61,7 @@
                 <h4>urlTracker:404UrlsToIgnore</h4>
                 <h5>comma-seperated string (empty)</h5>
                 <p>The Url Tracker logs requests resulting in a 404 Not Found status. Some URLs shouldn't be logged and can be set here. One URL is always ignored by default: 'favicon.ico'.</p>
+                <p>You can also ignore logging a 404 Not Found entry for certain requests, by adding an HTTP header 'X-UrlTracker-Ignore404' with value '1'</p>
                 <h4>urlTracker:trackingDisabled</h4>
                 <h5>boolean (false)</h5>
                 <p>Set to true to disable tracking URL changes.</p>
@@ -76,6 +77,13 @@
             </div>
             <div class="tab-pane" id="changeLog">
                 <ul>
+                    <li>
+                        2.4.7 [2014/01/15]
+                        <ul>
+                            <li>[Bugfix] Fixed an issue with the Old URL field in the Not Found create redirect view</li>
+                            <li>[Feature] Added the option to disable logging 404 Not Found to the UrlTracker by adding an HTTP header 'X-UrlTracker-Ignore404' with value '1' for a certain request</li>
+                        </ul>
+                    </li>
                     <li>
                         2.4.6 [2014/01/15]
                         <ul>
