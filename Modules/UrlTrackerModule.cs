@@ -40,7 +40,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
 
         void context_AcquireRequestState(object sender, EventArgs e)
         {
-            if (!_urlTrackerInstalled)
+            if (!_urlTrackerInstalled && Application.SqlHelper != null)
             {
                 lock (_lock)
                 {

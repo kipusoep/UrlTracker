@@ -77,6 +77,12 @@
             <div class="tab-pane" id="changeLog">
                 <ul>
                     <li>
+                        2.4.6 [2014/01/15]
+                        <ul>
+                            <li>[Bugfix] Fixed a small issue which occurred if the umbracoDbDSN isn't set</li>
+                        </ul>
+                    </li>
+                    <li>
                         2.4.5 [2014/01/10]
                         <ul>
                             <li>[Bugfix] Domains list wasn't getting updated when domains where added or removed</li>
