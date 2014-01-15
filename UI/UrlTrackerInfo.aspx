@@ -78,6 +78,12 @@
             <div class="tab-pane" id="changeLog">
                 <ul>
                     <li>
+                        2.5.0 [2014/01/15]
+                        <ul>
+                            <li>[Feature] Added support for Umbraco Belle (v7) thanks to Tim Geyssens (there's only an issue with scrollbars, but it's umbraco related: http://issues.umbraco.org/issue/U4-3940)</li>
+                        </ul>
+                    </li>
+                    <li>
                         2.4.7 [2014/01/15]
                         <ul>
                             <li>[Bugfix] Fixed an issue with the Old URL field in the Not Found create redirect view</li>

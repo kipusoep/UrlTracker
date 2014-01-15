@@ -1,8 +1,10 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="UrlTrackerManager.aspx.cs" Inherits="InfoCaster.Umbraco.UrlTracker.UI.UrlTrackerManager" %>
 
 <%@ Import Namespace="InfoCaster.Umbraco.UrlTracker" %>
+<%@ Import Namespace="InfoCaster.Umbraco.UrlTracker.Helpers" %>
 
 <%@ Register TagPrefix="umbuic" Namespace="umbraco.uicontrols" Assembly="controls" %>
+<%@ Register TagPrefix="cdc" Namespace="ClientDependency.Core.Controls" Assembly="ClientDependency.Core" %>
 
 <!DOCTYPE html>
 
@@ -21,6 +23,20 @@
     <script type="text/javascript" src="<%= Page.ClientScript.GetWebResourceUrl(typeof(UrlTrackerResources), "InfoCaster.Umbraco.UrlTracker.UI.res.js.main.js") %>"></script>
 
     <umbuic:UmbracoClientDependencyLoader runat="server" />
+
+    <% if (UmbracoHelper.IsVersion7OrNewer) { %>
+    <cdc:JsInclude runat="server" FilePath="Application/NamespaceManager.js" PathNameAlias="UmbracoClient" Priority="0" />
+    <cdc:JsInclude runat="server" FilePath="Application/jQuery/jquery.cookie.js" PathNameAlias="UmbracoClient" Priority="1" />
+    <cdc:JsInclude runat="server" FilePath="ui/base2.js" PathNameAlias="UmbracoClient" Priority="1"  /> 
+    <cdc:JsInclude runat="server" FilePath="Application/UmbracoApplicationActions.js" PathNameAlias="UmbracoClient" Priority="2" />
+    <cdc:JsInclude runat="server" FilePath="Application/UmbracoUtils.js" PathNameAlias="UmbracoClient" Priority="2" />
+    <cdc:JsInclude runat="server" FilePath="Application/UmbracoClientManager.js" PathNameAlias="UmbracoClient" Priority="3" />
+    <cdc:JsInclude runat="server" FilePath="UI/knockout.js" PathNameAlias="UmbracoClient" Priority="3" />
+    <cdc:JsInclude runat="server" FilePath="UI/knockout.mapping.js" PathNameAlias="UmbracoClient" Priority="4" />
+    <cdc:JsInclude runat="server" FilePath="modal/modal.js" PathNameAlias="UmbracoClient" Priority="10" />
+    <cdc:JsInclude runat="server" FilePath="ui/default.js" PathNameAlias="UmbracoClient" Priority="10" />
+    <cdc:JsInclude runat="server" FilePath="Application/jQuery/jquery.hotkeys.js" PathNameAlias="UmbracoClient" Priority="10" />
+    <% } %>
 </head>
 <body>
     <form id="form1" runat="server" class="form-horizontal">
@@ -151,7 +167,7 @@
                                                 <asp:View runat="server" ID="vwGridViewsNotFound">
                                                     <asp:MultiView runat="server" ID="mvNotFoundFilter" ActiveViewIndex="0">
                                                         <asp:View runat="server" ID="vwNotFoundFilterGrid">
-                                                            <asp:GridView runat="server" ID="gvNotFound" CssClass="table table-striped table-bordered table-hover" AutoGenerateColumns="False" DataSourceID="odsNotFoundEntries" AllowPaging="True" AllowSorting="true" GridLines="None" CellSpacing="-1" DataKeyNames="OldUrl"  OnSelectedIndexChanged="GridView_SelectedIndexChanged" OnRowDataBound="GridView_RowDataBound" OnRowDeleted="gvNotFound_RowDeleted">
+                                                            <asp:GridView runat="server" ID="gvNotFound" CssClass="table table-striped table-bordered table-hover" AutoGenerateColumns="False" DataSourceID="odsNotFoundEntries" AllowPaging="True" PagerSettings-Mode="NumericFirstLast" AllowSorting="true" GridLines="None" CellSpacing="-1" DataKeyNames="OldUrl"  OnSelectedIndexChanged="GridView_SelectedIndexChanged" OnRowDataBound="GridView_RowDataBound" OnRowDeleted="gvNotFound_RowDeleted">
                                                                 <SortedAscendingHeaderStyle CssClass="asc" />
                                                                 <SortedDescendingHeaderStyle CssClass="desc" />
                                                                 <Columns>
