@@ -85,7 +85,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
                 {
                     _urlTrackerDomains = new List<UrlTrackerDomain>();
                     ISqlHelper sqlHelper = Application.SqlHelper;
-                    using (var dr = sqlHelper.ExecuteReader("SELECT * FROM umbracoDomains"))
+                    using (var dr = sqlHelper.ExecuteReader("SELECT * FROM umbracoDomains where CHARINDEX('*',domainName) < 1"))
                     {
                         while (dr.Read())
                         {
