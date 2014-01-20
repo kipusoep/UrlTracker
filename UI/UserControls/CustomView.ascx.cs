@@ -80,6 +80,8 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.UserControls
             UrlTrackerModel.RedirectRootNodeId = domains.Count > 1 ? int.Parse(ddlRootNode.SelectedValue) : domains.Any() ? domains.Single().NodeId : new Node(-1).ChildrenAsList.First().Id;
             if (!string.IsNullOrEmpty(cpRedirectNode.Value))
                 UrlTrackerModel.RedirectNodeId = int.Parse(cpRedirectNode.Value);
+            else
+                UrlTrackerModel.RedirectNodeId = null;
             UrlTrackerModel.RedirectUrl = tbRedirectUrl.Text;
             UrlTrackerModel.RedirectHttpCode = rbPermanent.Checked ? 301 : 302;
             UrlTrackerModel.RedirectPassThroughQueryString = cbRedirectPassthroughQueryString.Checked;
