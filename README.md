@@ -17,6 +17,9 @@ You can also create your own redirects, based on a simple URL or using a Regex p
 *   Supports **multiple websites** in a single umbraco instance
 
 ## Changelog ##
+*   2.5.1 [2014/01/22]
+    * [BugFix] Fixed an issue with domains with only a language and no hostname attached to it (GertyEngrie)
+    * [BugFix] Replacing a redirect node with a redirect URL didn't work (GertyEngrie)
 *   2.5.0 [2014/01/15]
     * [Feature] Added support for Umbraco Belle (v7) thanks to Tim Geyssens (there's only an issue with scrollbars, but it's umbraco related: http://issues.umbraco.org/issue/U4-3940)
 *   2.4.7 [2014/01/15]

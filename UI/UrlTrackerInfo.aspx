@@ -78,6 +78,13 @@
             <div class="tab-pane" id="changeLog">
                 <ul>
                     <li>
+                        2.5.1 [2014/01/22]
+                        <ul>
+                            <li>[BugFix] Fixed an issue with domains with only a language and no hostname attached to it (GertyEngrie)</li>
+                            <li>[BugFix] Replacing a redirect node with a redirect URL didn't work (GertyEngrie)</li>
+                        </ul>
+                    </li>
+                    <li>
                         2.5.0 [2014/01/15]
                         <ul>
                             <li>[Feature] Added support for Umbraco Belle (v7) thanks to Tim Geyssens (there's only an issue with scrollbars, but it's umbraco related: http://issues.umbraco.org/issue/U4-3940)</li>
