@@ -17,6 +17,8 @@ You can also create your own redirects, based on a simple URL or using a Regex p
 *   Supports **multiple websites** in a single umbraco instance
 
 ## Changelog ##
+*	2.5.2 [2014/01/24]
+    * [BugFix] Fixed an issue with path hostnames
 *   2.5.1 [2014/01/22]
     * [BugFix] Fixed an issue with domains with only a language and no hostname attached to it (GertyEngrie)
     * [BugFix] Replacing a redirect node with a redirect URL didn't work (GertyEngrie)

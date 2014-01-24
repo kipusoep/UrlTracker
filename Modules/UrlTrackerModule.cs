@@ -111,20 +111,30 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                 List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains();
                 if (domains.Any())
                 {
-                    string fullRawUrl = string.Format("{0}://{1}{2}", request.Url.Scheme, request.Url.Host, request.RawUrl);
+                    string fullRawUrl;
+                    string previousFullRawUrlTest;
+                    string fullRawUrlTest;
+                    fullRawUrl = previousFullRawUrlTest = fullRawUrlTest = string.Format("{0}://{1}{2}", request.Url.Scheme, request.Url.Host, request.RawUrl);
 
                     UrlTrackerDomain urlTrackerDomain;
                     do
                     {
-                        urlTrackerDomain = domains.FirstOrDefault(x => x.UrlWithDomain == fullRawUrl);
-                        if (urlTrackerDomain != null)
+                        if (previousFullRawUrlTest.EndsWith("/"))
                         {
-                            rootNodeId = urlTrackerDomain.NodeId;
-                            break;
+                            urlTrackerDomain = domains.FirstOrDefault(x => x.UrlWithDomain == fullRawUrlTest);
+                            if (urlTrackerDomain != null)
+                            {
+                                rootNodeId = urlTrackerDomain.NodeId;
+                                urlWithoutQueryString = fullRawUrl.Replace(fullRawUrlTest, string.Empty);
+                                if (urlWithoutQueryString.StartsWith("/"))
+                                    urlWithoutQueryString = urlWithoutQueryString.Substring(1);
+                                break;
+                            }
                         }
-                        fullRawUrl = fullRawUrl.Substring(0, fullRawUrl.Length - 1);
+                        previousFullRawUrlTest = fullRawUrlTest;
+                        fullRawUrlTest = fullRawUrlTest.Substring(0, fullRawUrlTest.Length - 1);
                     }
-                    while (fullRawUrl.Length > 0);
+                    while (fullRawUrlTest.Length > 0);
                 }
                 if (rootNodeId == -1)
                 {

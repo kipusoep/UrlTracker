@@ -78,6 +78,12 @@
             <div class="tab-pane" id="changeLog">
                 <ul>
                     <li>
+                        2.5.2 [2014/01/24]
+                        <ul>
+                            <li>[BugFix] Fixed an issue with path hostnames</li>
+                        </ul>
+                    </li>
+                    <li>
                         2.5.1 [2014/01/22]
                         <ul>
                             <li>[BugFix] Fixed an issue with domains with only a language and no hostname attached to it (GertyEngrie)</li>
