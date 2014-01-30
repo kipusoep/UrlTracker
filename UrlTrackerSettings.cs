@@ -122,10 +122,35 @@ namespace InfoCaster.Umbraco.UrlTracker
                 return _isTrackingDisabled.Value;
             }
         }
+        /// <summary>
+        /// Returns wether or not not found (404) tracking is disabled
+        /// </summary>
+        /// <remarks>
+        /// appSetting: 'urlTracker:notFoundTrackingDisabled'
+        /// </remarks>
+        public static bool IsNotFoundTrackingDisabled
+        {
+            get
+            {
+                if (!_isNotFoundTrackingDisabled.HasValue)
+                {
+                    bool isNotFoundTrackingDisabled = false;
+                    if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["urlTracker:notFoundTrackingDisabled"]))
+                    {
+                        bool parsedAppSetting;
+                        if (bool.TryParse(ConfigurationManager.AppSettings["urlTracker:notFoundTrackingDisabled"], out parsedAppSetting))
+                            isNotFoundTrackingDisabled = parsedAppSetting;
+                    }
+                    _isNotFoundTrackingDisabled = isNotFoundTrackingDisabled;
+                }
+                return _isNotFoundTrackingDisabled.Value;
+            }
+        }
 
         static bool? _isDisabled;
         static bool? _enableLogging;
         static string[] _notFoundUrlsToIgnore;
         static bool? _isTrackingDisabled;
+        static bool? _isNotFoundTrackingDisabled;
     }
 }

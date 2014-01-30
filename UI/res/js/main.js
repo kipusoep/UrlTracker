@@ -189,6 +189,10 @@ function deleteSelectedClick() {
         return confirm("Are you sure you want to delete " + checkedCount + " " + (checkedCount == 1 ? "entry" : "entries") + "?");
 }
 
+function clearNotFoundClick() {
+    return confirm("Are you sure you want to delete all not found (404) entries?");
+}
+
 /*
  * Lets you say "exactly X inputs that match selector Y must be filled."
  *

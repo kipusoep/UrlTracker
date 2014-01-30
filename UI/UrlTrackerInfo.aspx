@@ -65,6 +65,9 @@
                 <h4>urlTracker:trackingDisabled</h4>
                 <h5>boolean (false)</h5>
                 <p>Set to true to disable tracking URL changes.</p>
+                <h4>urlTracker:notFoundTrackingDisabled</h4>
+                <h5>boolean (false)</h5>
+                <p>Set to true to disable tracking not found (404) requests.</p>
             </div>
             <div class="tab-pane" id="qa">
                 <p>Some questions and answers. This section will be expanded when people start asking more questions on the forum ;-)</p>
@@ -77,6 +80,14 @@
             </div>
             <div class="tab-pane" id="changeLog">
                 <ul>
+                    <li>
+                        2.5.3 [2014/01/30]
+                        <ul>
+                            <li>[BugFix] Fixed a small bug with the automatic comments</li>
+                            <li>[Feature] Added a button to the not found (404) view to clear all not found entries</li>
+                            <li>[Feature] Added a config setting to disable tracking not found (404) requests</li>
+                        </ul>
+                    </li>
                     <li>
                         2.5.2 [2014/01/24]
                         <ul>

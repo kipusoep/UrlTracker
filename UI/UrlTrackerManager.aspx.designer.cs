@@ -130,6 +130,24 @@ namespace InfoCaster.Umbraco.UrlTracker.UI {
         protected global::System.Web.UI.WebControls.View vwUrlTrackerOverview;
         
         /// <summary>
+        /// mvMainButtons control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.MultiView mvMainButtons;
+        
+        /// <summary>
+        /// vwMainButtonsCreate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View vwMainButtonsCreate;
+        
+        /// <summary>
         /// lbCreate control.
         /// </summary>
         /// <remarks>
@@ -137,6 +155,24 @@ namespace InfoCaster.Umbraco.UrlTracker.UI {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbCreate;
+        
+        /// <summary>
+        /// vwMainButtonsClearNotFound control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View vwMainButtonsClearNotFound;
+        
+        /// <summary>
+        /// lbClearNotFound control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lbClearNotFound;
         
         /// <summary>
         /// mvSwitchButtons control.

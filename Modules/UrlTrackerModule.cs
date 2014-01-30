@@ -285,7 +285,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                 else if (!ignoreHttpStatusCode)
                 {
                     // Log 404
-                    if (!UrlTrackerSettings.NotFoundUrlsToIgnore.Contains(urlWithoutQueryString) && !UmbracoHelper.IsReservedPathOrUrl(urlWithoutQueryString) && request.Headers["X-UrlTracker-Ignore404"] != "1")
+                    if (!UrlTrackerSettings.IsNotFoundTrackingDisabled && !UrlTrackerSettings.NotFoundUrlsToIgnore.Contains(urlWithoutQueryString) && !UmbracoHelper.IsReservedPathOrUrl(urlWithoutQueryString) && request.Headers["X-UrlTracker-Ignore404"] != "1")
                     {
                         bool ignoreNotFoundBasedOnRegexPatterns = false;
                         foreach (Regex regexNotFoundUrlToIgnore in UrlTrackerSettings.RegexNotFoundUrlsToIgnore)
@@ -310,6 +310,8 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                             _sqlHelper.ExecuteNonQuery(query, _sqlHelper.CreateParameter("oldUrl", urlWithoutQueryString), _sqlHelper.CreateParameter("redirectRootNodeId", rootNodeId), _sqlHelper.CreateParameter("oldUrlQueryString", request.QueryString.ToString()), _sqlHelper.CreateParameter("referrer", request.UrlReferrer != null && !request.UrlReferrer.ToString().Contains(UrlTrackerSettings.ReferrerToIgnore) ? (object)request.UrlReferrer.ToString() : DBNull.Value));
                         }
                     }
+                    if (UrlTrackerSettings.IsNotFoundTrackingDisabled)
+                        LoggingHelper.LogInformation("UrlTracker HttpModule | No match found and not found (404) tracking is disabled");
                     if (UrlTrackerSettings.NotFoundUrlsToIgnore.Contains(urlWithoutQueryString))
                         LoggingHelper.LogInformation("UrlTracker HttpModule | No match found, url is configured to be ignored: {0}", urlWithoutQueryString);
                     else if (UmbracoHelper.IsReservedPathOrUrl(urlWithoutQueryString))

@@ -277,6 +277,7 @@ namespace InfoCaster.Umbraco.UrlTracker.UI
 
         protected void lbNotFoundView_Click(object sender, EventArgs e)
         {
+            mvMainButtons.SetActiveView(vwMainButtonsClearNotFound);
             mvSwitchButtons.SetActiveView(vwSwitchButtonsUrlTracker);
             mvGridViews.SetActiveView(vwGridViewsNotFound);
             gvNotFound.DataBind();
@@ -286,6 +287,7 @@ namespace InfoCaster.Umbraco.UrlTracker.UI
 
         protected void lbUrlTrackerView_Click(object sender, EventArgs e)
         {
+            mvMainButtons.SetActiveView(vwMainButtonsCreate);
             mvSwitchButtons.SetActiveView(vwSwitchButtonsNotFound);
             mvGridViews.SetActiveView(vwGridViewsUrlTracker);
             gvUrlTracker.DataBind();
@@ -436,6 +438,13 @@ namespace InfoCaster.Umbraco.UrlTracker.UI
                 gvUrlTracker.DataBind();
             else
                 gvNotFound.DataBind();
+        }
+
+        protected void lbClearNotFound_Click(object sender, EventArgs e)
+        {
+            UrlTrackerRepository.ClearNotFoundEntries();
+
+            lbUrlTrackerView_Click(sender, e);
         }
     }
 }

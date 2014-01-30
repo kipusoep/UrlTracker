@@ -34,7 +34,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
                         notes += " was renamed";
                         break;
                     case AutoTrackingTypes.UrlOverwritten:
-                        notes = "'s property 'umbracoUrlName' changed";
+                        notes += "'s property 'umbracoUrlName' changed";
                         break;
                 }
 
@@ -134,6 +134,14 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
 
             string query = "DELETE FROM icUrlTracker WHERE Id = @id";
             _sqlHelper.ExecuteNonQuery(query, _sqlHelper.CreateParameter("id", id));
+        }
+
+        public static void ClearNotFoundEntries()
+        {
+            LoggingHelper.LogInformation("UrlTracker Repository | Clearing all not found entries");
+
+            string query = "DELETE FROM icUrlTracker WHERE Is404 = 1";
+            _sqlHelper.ExecuteNonQuery(query);
         }
         #endregion
 

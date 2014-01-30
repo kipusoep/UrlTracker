@@ -58,6 +58,7 @@
                         <Triggers>
                             <asp:AsyncPostBackTrigger ControlID="lbUrlTracker" />
                             <asp:AsyncPostBackTrigger ControlID="lbCreate" />
+                            <asp:AsyncPostBackTrigger ControlID="lbClearNotFound" />
                             <asp:AsyncPostBackTrigger ControlID="lbNotFoundView" />
                             <asp:AsyncPostBackTrigger ControlID="lbUrlTrackerView" />
                             <asp:AsyncPostBackTrigger ControlID="gvUrlTracker" />
@@ -83,7 +84,14 @@
                             <asp:MultiView runat="server" ID="mvUrlTracker" ActiveViewIndex="0">
                                 <asp:View runat="server" ID="vwUrlTrackerOverview">
                                     <div class="clearfix">
-                                        <asp:LinkButton runat="server" ID="lbCreate" OnClick="lbCreate_Click" CssClass="btn btn-primary btn-top"><i class="icon-file icon-white"></i> Create</asp:LinkButton>
+                                        <asp:MultiView runat="server" ID="mvMainButtons" ActiveViewIndex="0">
+                                            <asp:View runat="server" ID="vwMainButtonsCreate">
+                                                <asp:LinkButton runat="server" ID="lbCreate" OnClick="lbCreate_Click" CssClass="btn btn-primary btn-top"><i class="icon-file icon-white"></i> Create</asp:LinkButton>
+                                            </asp:View>
+                                            <asp:View runat="server" ID="vwMainButtonsClearNotFound">
+                                                <asp:LinkButton runat="server" ID="lbClearNotFound" OnClientClick="return clearNotFoundClick();" OnClick="lbClearNotFound_Click" CssClass="btn btn-danger btn-top"><i class="icon-trash icon-white"></i> Clear not found list</asp:LinkButton>
+                                            </asp:View>
+                                        </asp:MultiView>
                                         <asp:MultiView runat="server" ID="mvSwitchButtons" ActiveViewIndex="0">
                                             <asp:View runat="server" ID="vwSwitchButtonsNotFound">
                                                 <asp:LinkButton runat="server" ID="lbNotFoundView" OnClick="lbNotFoundView_Click" CssClass="btn btn-switch btn-top"><i class="icon-search"></i> 404 Not Found view</asp:LinkButton>
