@@ -277,7 +277,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                             string pathAndQuery = Uri.UnescapeDataString(redirectUri.PathAndQuery);
                             redirectUri = new Uri(string.Format("{0}://{1}{2}/{3}{4}", redirectUri.Scheme, redirectUri.Host, redirectUri.Port != 80 ? string.Concat(":", redirectUri.Port) : string.Empty, pathAndQuery.Contains('?') ? pathAndQuery.Substring(0, pathAndQuery.IndexOf('?')) : pathAndQuery.StartsWith("/") ? pathAndQuery.Substring(1) : pathAndQuery, newQueryString.HasKeys() ? string.Concat("?", newQueryString.ToQueryString()) : string.Empty));
                         }
-                        response.RedirectLocation = redirectUri.ToString();
+                        response.RedirectLocation = redirectUri.AbsoluteUri;
                         LoggingHelper.LogInformation("UrlTracker HttpModule | Response redirectlocation set to: {0}", response.RedirectLocation);
                     }
                     response.End();
