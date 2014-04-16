@@ -38,6 +38,7 @@ using System.Web.UI;
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.SQL.create-table-2.sql", "text/plain")]
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.SQL.update-table-1.sql", "text/plain")]
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.SQL.update-table-2.sql", "text/plain")]
+[assembly: WebResource("InfoCaster.Umbraco.UrlTracker.SQL.update-table-3.sql", "text/plain")]
 
 // CSS
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.css.bootstrap.css", "text/css", PerformSubstitution = true)]
