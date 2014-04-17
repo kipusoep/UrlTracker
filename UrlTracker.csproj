@@ -248,6 +248,7 @@
   <ItemGroup>
     <EmbeddedResource Include="SQL\update-table-1.sql" />
     <EmbeddedResource Include="SQL\update-table-2.sql" />
+    <EmbeddedResource Include="SQL\update-table-3.sql" />
     <Content Include="web.config" />
   </ItemGroup>
   <PropertyGroup>
