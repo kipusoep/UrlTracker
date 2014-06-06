@@ -283,7 +283,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                             return;
                         }
 
-                        redirectLocation = redirectUri.ToString();
+                        redirectLocation = redirectUri.AbsoluteUri;
                         LoggingHelper.LogInformation("UrlTracker HttpModule | Response redirectlocation set to: {0}", redirectLocation);
                     }
 

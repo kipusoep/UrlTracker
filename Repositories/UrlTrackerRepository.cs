@@ -410,6 +410,10 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
                 _sqlHelper.ExecuteNonQuery(updateTableQuery);
                 updateTableQuery = EmbeddedResourcesHelper.GetString("InfoCaster.Umbraco.UrlTracker.SQL.update-table-2.sql");
                 _sqlHelper.ExecuteNonQuery(updateTableQuery);
+
+                // Add index to icUrlTracker
+                updateTableQuery = EmbeddedResourcesHelper.GetString("InfoCaster.Umbraco.UrlTracker.SQL.update-table-3.sql");
+                _sqlHelper.ExecuteNonQuery(updateTableQuery);
             }
         }
 
