@@ -34,7 +34,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
             context.AcquireRequestState += context_AcquireRequestState;
             context.EndRequest += context_EndRequest;
 
-            LoggingHelper.LogInformation("UrlTracker HttpModule | Subscribed to PostReleaseRequestState event");
+            LoggingHelper.LogInformation("UrlTracker HttpModule | Subscribed to AcquireRequestState and EndRequest events");
         }
         #endregion
 
@@ -50,15 +50,15 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                 }
             }
 
-            UrlTrackerDo(ignoreHttpStatusCode: true);
+            UrlTrackerDo("AcquireRequestState", ignoreHttpStatusCode: true);
         }
 
         void context_EndRequest(object sender, EventArgs e)
         {
-            UrlTrackerDo();
+            UrlTrackerDo("EndRequest");
         }
 
-        private static void UrlTrackerDo(bool ignoreHttpStatusCode = false)
+        private static void UrlTrackerDo(string callingEventName, bool ignoreHttpStatusCode = false)
         {
             HttpContext context = HttpContext.Current;
             HttpRequest request = context.Request;
@@ -73,7 +73,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                 return;
             }
 
-            LoggingHelper.LogInformation("UrlTracker HttpModule | PostReleaseRequestState start");
+            LoggingHelper.LogInformation("UrlTracker HttpModule | {0} start", callingEventName);
 
             if (UrlTrackerSettings.IsDisabled)
             {
@@ -260,9 +260,8 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
 
                 if (redirectHttpCode.HasValue)
                 {
-                    response.Clear();
-                    response.StatusCode = redirectHttpCode.Value;
-                    LoggingHelper.LogInformation("UrlTracker HttpModule | Response statuscode set to: {0}", response.StatusCode);
+                    string redirectLocation = string.Empty;
+
                     if (!string.IsNullOrEmpty(redirectUrl))
                     {
                         if (redirectUrl == "/")
@@ -277,9 +276,24 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                             string pathAndQuery = Uri.UnescapeDataString(redirectUri.PathAndQuery);
                             redirectUri = new Uri(string.Format("{0}://{1}{2}/{3}{4}", redirectUri.Scheme, redirectUri.Host, redirectUri.Port != 80 ? string.Concat(":", redirectUri.Port) : string.Empty, pathAndQuery.Contains('?') ? pathAndQuery.Substring(0, pathAndQuery.IndexOf('?')) : pathAndQuery.StartsWith("/") ? pathAndQuery.Substring(1) : pathAndQuery, newQueryString.HasKeys() ? string.Concat("?", newQueryString.ToQueryString()) : string.Empty));
                         }
-                        response.RedirectLocation = redirectUri.ToString();
-                        LoggingHelper.LogInformation("UrlTracker HttpModule | Response redirectlocation set to: {0}", response.RedirectLocation);
+
+                        if (redirectUri == new Uri(string.Format("{0}://{1}{2}/{3}", request.Url.Scheme, request.Url.Host, request.Url.Port != 80 ? string.Concat(":", request.Url.Port) : string.Empty, request.RawUrl.StartsWith("/") ? request.RawUrl.Substring(1) : request.RawUrl)))
+                        {
+                            LoggingHelper.LogInformation("UrlTracker HttpModule | Redirect URL is the same as Request.RawUrl; don't redirect");
+                            return;
+                        }
+
+                        redirectLocation = redirectUri.ToString();
+                        LoggingHelper.LogInformation("UrlTracker HttpModule | Response redirectlocation set to: {0}", redirectLocation);
                     }
+
+                    response.Clear();
+                    response.StatusCode = redirectHttpCode.Value;
+                    LoggingHelper.LogInformation("UrlTracker HttpModule | Response statuscode set to: {0}", response.StatusCode);
+
+                    if (!string.IsNullOrEmpty(redirectLocation))
+                        response.RedirectLocation = redirectLocation;
+
                     response.End();
                 }
                 else if (!ignoreHttpStatusCode)
@@ -319,11 +333,13 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                     else if (request.Headers["X-UrlTracker-Ignore404"] == "1")
                         LoggingHelper.LogInformation("UrlTracker HttpModule | No match found, url is ignored because the 'X-UrlTracker-Ignore404' header was set to '1'. URL: {0}", urlWithoutQueryString);
                 }
+                else
+                    LoggingHelper.LogInformation("UrlTracker HttpModule | No match found in {0}", callingEventName);
             }
             else
                 LoggingHelper.LogInformation("UrlTracker HttpModule | Response statuscode is not 404, UrlTracker won't do anything");
 
-            LoggingHelper.LogInformation("UrlTracker HttpModule | PostReleaseRequestState end");
+            LoggingHelper.LogInformation("UrlTracker HttpModule | {0} end", callingEventName);
         }
     }
 }

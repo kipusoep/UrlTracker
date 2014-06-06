@@ -22,7 +22,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
         #region Add
         public static bool AddUrlMapping(Document doc, int rootNodeId, string url, AutoTrackingTypes type, bool isChild = false)
         {
-            if (url != "#")
+            if (url != "#" && doc.Template > 0)
             {
                 string notes = isChild ? "An ancestor" : "This page";
                 switch (type)

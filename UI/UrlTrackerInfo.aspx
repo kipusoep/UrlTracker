@@ -81,6 +81,18 @@
             <div class="tab-pane" id="changeLog">
                 <ul>
                     <li>
+                        2.5.5 [2014/03/03]
+                        <ul>
+                            <li>[BugFix] Nodes without a template assigned are now ignored if the URL changes</li>
+                        </ul>
+                    </li>
+                    <li>
+                        2.5.4 [2014/01/31]
+                        <ul>
+                            <li>[BugFix] The UrlTracker won't redirect to the exact same URL as the requested URL anymore</li>
+                        </ul>
+                    </li>
+                    <li>
                         2.5.3 [2014/01/30]
                         <ul>
                             <li>[BugFix] Fixed a small bug with the automatic comments</li>
