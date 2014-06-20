@@ -81,6 +81,13 @@
             <div class="tab-pane" id="changeLog">
                 <ul>
                     <li>
+                        2.6.0 [2014/06/20]
+                        <ul>
+                            <li>[BugFix] Huge performance increase</li>
+                            <li>[BugFix] URL was being wrongly decoded when redirecting</li>
+                        </ul>
+                    </li>
+                    <li>
                         2.5.5 [2014/03/03]
                         <ul>
                             <li>[BugFix] Nodes without a template assigned are now ignored if the URL changes</li>
