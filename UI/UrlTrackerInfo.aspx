@@ -81,6 +81,12 @@
             <div class="tab-pane" id="changeLog">
                 <ul>
                     <li>
+                        2.6.2 [2014/06/23]
+                        <ul>
+                            <li>[BugFix] The 'if not exists'-check for the table index wasn't working correctly</li>
+                        </ul>
+                    </li>
+                    <li>
                         2.6.1 [2014/06/23]
                         <ul>
                             <li>[BugFix] Added 'if not exists'-check for table index</li>

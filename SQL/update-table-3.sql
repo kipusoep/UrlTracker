@@ -1,4 +1,10 @@
-IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'icUrlTracker') AND NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE TABLE_NAME = 'icUrlTracker' AND CONSTRAINT_NAME = 'IX_icUrlTracker')
+DECLARE @indexes TABLE (
+	index_name nvarchar(MAX),
+	index_description nvarchar(MAX),
+	index_keys nvarchar(MAX)
+)
+INSERT INTO @indexes EXEC sp_helpindex 'icUrlTracker'
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'icUrlTracker') AND NOT EXISTS (SELECT 1 FROM @indexes WHERE index_name = 'IX_icUrlTracker')
 BEGIN
     CREATE NONCLUSTERED INDEX [IX_icUrlTracker] ON [icUrlTracker]
     (
