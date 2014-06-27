@@ -51,7 +51,7 @@
                 <p>The Url Tracker supports a few settings, which you can use in the <a href="http://msdn.microsoft.com/en-us/library/aa903313(v=vs.71).aspx" target="_blank">appSettings section of your web.config</a>. Below you'll find these settings, with the type and default value mentioned below the setting name:</p>
                 <h4>urlTracker:disabled</h4>
                 <h5>boolean (false)</h5>
-                <p>Set to true to disable the Http Module of the Url Tracker, so it won't redirect requests anymore.</p>
+                <p>Set to true to disable the HTTP Module of the Url Tracker, so it won't redirect requests anymore.</p>
                 <h4>urlTracker:enableLogging</h4>
                 <h5>boolean (false)</h5>
                 <p>
@@ -81,7 +81,17 @@
             <div class="tab-pane" id="changeLog">
                 <ul>
                     <li>
-                        2.6.2 [2014/06/23]
+                        3.0.0 [2014/06/27]
+                        <ul>
+                            <li>[Upgrade] All code has been rewritten to use the new services and models of umbraco v6.1</li>
+                            <li>[BugFix] URL changes are tracked again (<a href="https://github.com/kipusoep/UrlTracker/issues/9" target="_blank">#9</a>)</li>
+                            <li>[BugFix] 410 Gone response now gets lower priority than other response codes</li>
+                            <li>[Improvement] Improved performance, removed hitting the DB for every single request, added caching instead</li>
+                            <li>[Dropped] Dropped support for pre-6.1 umbraco versions</li>
+                        </ul>
+                    </li>
+                    <li>
+                        2.6.2 <b>EOL</b> [2014/06/23]
                         <ul>
                             <li>[BugFix] The 'if not exists'-check for the table index wasn't working correctly</li>
                         </ul>

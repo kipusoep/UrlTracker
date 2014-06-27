@@ -1,9 +1,15 @@
 UrlTracker
 ==========
 
-
 The Url Tracker is used to manage URLs within umbraco. It automatically tracks URL changes, for instance when a node is renamed, and makes sure the old URL will redirect to the new location. This is great for SEO and great for people visiting your website via this old URL. Search engines will update the indexed URL and people won't visit the old, broken URL.<br />
 You can also create your own redirects, based on a simple URL or using a Regex pattern. You can redirect to an existing node or a manually entered URL. This is great for migrating existing indexed URLs to your new website!
+
+## Versioning ##
+**Version 2** has reached it's end-of-life status and won't be supported anymore. For umbraco versions **4.6 - 6.0** version 2 will remain available as well as the source of v2.  
+**Version 3** is the current version and supports umbraco versions **6.1, 7.0, 7.1 and up** if possible. 
+
+## Issues / feature requests ##
+If you'd like to report a bug or request a new feature, please use [the Github issue tracker](https://github.com/kipusoep/UrlTracker/issues), please don't use Twitter for example, because I won't be able to deal with requests outside Github (will become a mess sooner or later).
 
 ## Features ##
 *   Keeps track of **URL changes** (node gets renamed, moved or the umbracoUrlName property changes)
@@ -16,8 +22,34 @@ You can also create your own redirects, based on a simple URL or using a Regex p
 *   Supports all kinds of **query string** options, like matching a query string and pass through the request query string
 *   Supports **multiple websites** in a single umbraco instance
 
+## Settings ##
+The Url Tracker supports a few settings, which you can use in the [appSettings section of your web.config](http://msdn.microsoft.com/en-us/library/aa903313(v=vs.71).aspx). Below you'll find these settings, with the type and default value mentioned below the setting name:
+### urlTracker:disabled ###
+#### boolean (false) ####
+Set to true to disable the HTTP Module of the Url Tracker, so it won't redirect requests anymore.
+### urlTracker:enableLogging ###
+#### boolean (false) ####
+Set to true to enable logging debug information of the Url Tracker. Uses umbraco's built-in logging mechanism with LogType set to 'debug'.  
+**umbracoDebugMode** needs to be enabled too.
+### urlTracker:404UrlsToIgnore ###
+#### comma-seperated string (empty) ####
+The Url Tracker logs requests resulting in a 404 Not Found status. Some URLs shouldn't be logged and can be set here. One URL is always ignored by default: 'favicon.ico'.  
+You can also ignore logging a 404 Not Found entry for certain requests, by adding an HTTP header 'X-UrlTracker-Ignore404' with value '1'
+### urlTracker:trackingDisabled ###
+#### boolean (false) ####
+Set to true to disable tracking URL changes.
+### urlTracker:notFoundTrackingDisabled ###
+#### boolean (false) ####
+Set to true to disable tracking not found (404) requests.
+
 ## Changelog ##
-*	2.6.2 [2014/06/23]
+*	3.0.0 [2014/06/27]
+    * [Upgrade] All code has been rewritten to use the new services and models of umbraco v6.1
+    * [BugFix] URL changes are tracked again ([#9](https://github.com/kipusoep/UrlTracker/issues/9))
+    * [BugFix] 410 Gone response now gets lower priority than other response codes
+    * [Improvement] Improved performance, removed hitting the DB for every single request, added caching instead
+    * [Dropped] Dropped support for pre-6.1 umbraco versions
+*	2.6.2 - **EOL** [2014/06/23]
     * [BugFix] The 'if not exists'-check for the table index wasn't working correctly
 *	2.6.1 [2014/06/23]
     * [BugFix] Added 'if not exists'-check for table index
@@ -130,9 +162,9 @@ You can also create your own redirects, based on a simple URL or using a Regex p
 5.   The installation wizard will be able to migrate the existing data
 6.   If the migration succeeded, you can delete the old infocaster301 database
 
-## Upgrading from v2 ##
-1.   Optional: Uninstall the old package (no data will be lost, just to keep the 'Installed packages' clean)
-2.   Install the new package
+## Upgrading from v2 and v3 ##
+1.   Optional: Uninstall the old package (no data will be lost, but you might want to do this just to keep the 'Installed packages' clean)
+2.   Install the new version
 
 ## Uninstalling ##
 You can uninstall the Url Tracker by removing the package. The database table will not get deleted! If you'd like to remove the database table too, you should do it manually.
@@ -141,7 +173,8 @@ You can uninstall the Url Tracker by removing the package. The database table wi
 *   IIS 7 and up
 *   SQL Server 2008 R2
 *   .NET 4 and up
-*   Umbraco versions 4.6.1, 4.7.2, 4.9.1, 4.11.9, 6.0.0, 6.1.1 **(won't work with pre v4.6.0)**, so it should work with umbraco v4.6.0 and above
+*   Version 2: Umbraco versions 4.6.1, 4.7.2, 4.9.1, 4.11.9, 6.0.0, 6.1.1 **(won't work with pre v4.6.0)**, so it should work with umbraco v4.6.0 and above (reports indicate that there are problems with v7)
+*   Version 3: Umbraco versions 6.1, 7.0, 7.1 and above if possible
 
 ## Credits ##
 *   **InfoCaster** | Being able to combine 'work' with package development and thanks to colleagues for inspiration.

@@ -1,28 +1,22 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Remoting;
 using System.Web;
 using umbraco.BusinessLogic;
+using Umbraco.Core.Logging;
 using UmbracoLog = umbraco.BusinessLogic.Log;
 
 namespace InfoCaster.Umbraco.UrlTracker.Helpers
 {
     public static class LoggingHelper
     {
-        static Assembly _log4netAssembly;
-        static bool _log4netAssemblyInitialized = false;
-
         public static void LogException(this Exception ex)
         {
-            LogException(ex, -1);
-        }
-
-        public static void LogException(this Exception ex, int nodeId)
-        {
-            LogToLog4net(exception: ex);
-            UmbracoLog.Add(LogTypes.Error, nodeId, string.Concat("Exception occurred in UrlTracker: ", ex.Message));
+            LogManager.GetLogger(typeof(LoggingHelper)).Error(ex.Message, ex);
+            LogHelper.Error(typeof(LoggingHelper), ex.Message, ex);
             UrlTrackerLogging.Log(ex);
         }
 
@@ -35,42 +29,10 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
         {
             if (UrlTrackerSettings.EnableLogging)
             {
-                LogToLog4net(message: message);
-                UmbracoLog.Add(LogTypes.Debug, -1, message);
+                LogManager.GetLogger(typeof(LoggingHelper)).Debug(message);
+                LogHelper.Debug(typeof(LoggingHelper), () => { return message; });
                 UrlTrackerLogging.Log(message);
             }
-        }
-
-        static void LogToLog4net(string message = "", Exception exception = null)
-        {
-            if (message == null && exception == null)
-                throw new ArgumentNullException("message and exception");
-
-            if (!_log4netAssemblyInitialized)
-            {
-                IEnumerable<Assembly> log4netAssemblies = AppDomain.CurrentDomain.GetAssemblies().Where(x => x.FullName.StartsWith("log4net"));
-                if (log4netAssemblies != null && log4netAssemblies.Any())
-                    _log4netAssembly = log4netAssemblies.OrderByDescending(x => x.ImageRuntimeVersion).First();
-            }
-            if (_log4netAssembly != null)
-            {
-                Type logManagerType = _log4netAssembly.GetType("log4net.LogManager");
-                MethodInfo getLoggerMethod = logManagerType.GetMethod("GetLogger", new Type[] { typeof(System.Type) });
-                object iLog = getLoggerMethod.Invoke(null, new[] { MethodBase.GetCurrentMethod().DeclaringType });
-                Type iLogType = _log4netAssembly.GetType("log4net.ILog");
-                if (exception != null)
-                {
-                    MethodInfo errorMethod = iLogType.GetMethod("Error", new Type[] { typeof(object), typeof(Exception) });
-                    errorMethod.Invoke(iLog, new[] { null, exception });
-                }
-                else
-                {
-                    MethodInfo debugMethod = iLogType.GetMethod("Debug", new Type[] { typeof(object) });
-                    debugMethod.Invoke(iLog, new[] { message });
-                }
-            }
-
-            _log4netAssemblyInitialized = true;
         }
     }
 }

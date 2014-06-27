@@ -9,13 +9,13 @@ using System.Linq;
 using System.Threading;
 using System.Web;
 using System.Web.UI;
-using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using umbraco.controls;
+using Umbraco.Web.UI.Pages;
 
 namespace InfoCaster.Umbraco.UrlTracker.UI
 {
-    public partial class UrlTrackerManager : umbraco.BasePages.UmbracoEnsuredPage
+    public partial class UrlTrackerManager : UmbracoEnsuredPage
     {
         protected AutoView icAutoView;
         protected CustomView icCustomView;

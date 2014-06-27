@@ -53,7 +53,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
                     return CalculatedOldUrlWithDomain;
                 Uri calculatedOldUrlWithDomain = new Uri(CalculatedOldUrlWithDomain);
                 string pathAndQuery = Uri.UnescapeDataString(calculatedOldUrlWithDomain.PathAndQuery);
-                return pathAndQuery.StartsWith("/") ? pathAndQuery.Substring(1) : pathAndQuery;
+                return !pathAndQuery.StartsWith("/") ? string.Concat("/", pathAndQuery.Substring(1)) : pathAndQuery;
             }
         }
         public string CalculatedOldUrlWithDomain
@@ -91,7 +91,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
                             )
                         ).AbsolutePath :
                         string.Empty;
-                return calculatedRedirectUrl.StartsWith("/") && calculatedRedirectUrl != "/" ? calculatedRedirectUrl.Substring(1) : calculatedRedirectUrl;
+                return !calculatedRedirectUrl.StartsWith("/") ? string.Concat("/", calculatedRedirectUrl) : calculatedRedirectUrl;
             }
         }
         public Node RedirectRootNode

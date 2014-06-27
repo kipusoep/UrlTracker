@@ -45,22 +45,22 @@
   <ItemGroup>
     <Reference Include="businesslogic">
       <HintPath>lib\businesslogic.dll</HintPath>
-      <Private>False</Private>
     </Reference>
-    <Reference Include="ClientDependency.Core">
+    <Reference Include="ClientDependency.Core, Version=1.7.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\ClientDependency.Core.dll</HintPath>
     </Reference>
     <Reference Include="cms">
       <HintPath>lib\cms.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="controls">
       <HintPath>lib\controls.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="interfaces">
       <HintPath>lib\interfaces.dll</HintPath>
-      <Private>False</Private>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>lib\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -93,11 +93,12 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="umbraco">
       <HintPath>lib\umbraco.dll</HintPath>
-      <Private>False</Private>
+    </Reference>
+    <Reference Include="Umbraco.Core">
+      <HintPath>lib\Umbraco.Core.dll</HintPath>
     </Reference>
     <Reference Include="umbraco.DataLayer">
       <HintPath>lib\umbraco.DataLayer.dll</HintPath>
-      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -138,9 +139,6 @@
   <ItemGroup>
     <Compile Include="Helpers\ContextHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DataType\UrlTrackerDataEditor.cs" />
-    <Compile Include="DataType\UrlTrackerDataType.cs" />
-    <Compile Include="DataType\UrlTrackerPrevalueEditor.cs" />
     <Compile Include="Extensions\ISqlHelperExtensions.cs" />
     <Compile Include="Helpers\EmbeddedResourcesHelper.cs" />
     <Compile Include="Models\OldUrlTrackerModel.cs" />
@@ -221,7 +219,7 @@
     <Compile Include="Extensions\NameValueCollectionExtension.cs" />
     <Compile Include="Models\UrlTrackerModel.cs" />
     <Compile Include="Modules\UrlTrackerModule.cs" />
-    <Compile Include="UrlTrackerApplicationBase.cs" />
+    <Compile Include="UrlTrackerApplicationEventHandler.cs" />
     <Compile Include="Models\AutoTrackingTypes.cs" />
     <Compile Include="Helpers\UrlTrackerHelper.cs" />
     <Compile Include="Repositories\UrlTrackerRepository.cs" />
