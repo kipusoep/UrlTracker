@@ -528,12 +528,15 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
         {
             lock (_cacheLock)
             {
-                _forcedRedirectsCache = GetUrlTrackerEntries(null, null, onlyForcedRedirects: true);
+                if (GetUrlTrackerTableExists())
+                    _forcedRedirectsCache = GetUrlTrackerEntries(null, null, onlyForcedRedirects: true);
             }
         }
 
         public static List<UrlTrackerModel> GetForcedRedirects()
         {
+            if (_forcedRedirectsCache == null)
+                ReloadForcedRedirectsCache();
             return _forcedRedirectsCache;
         }
         #endregion

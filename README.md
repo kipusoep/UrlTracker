@@ -43,6 +43,8 @@ Set to true to disable tracking URL changes.
 Set to true to disable tracking not found (404) requests.
 
 ## Changelog ##
+*	3.0.1 [2014/06/09]
+    * [BugFix] Fixed an issue with the installer (table does not exist: #14)
 *	3.0.0 [2014/06/27]
     * [Upgrade] All code has been rewritten to use the new services and models of umbraco v6.1
     * [BugFix] URL changes are tracked again ([#9](https://github.com/kipusoep/UrlTracker/issues/9))
