@@ -81,6 +81,12 @@
             <div class="tab-pane" id="changeLog">
                 <ul>
                     <li>
+                        3.0.1 [2014/07/09]
+                        <ul>
+                            <li>[BugFix] Fixed an issue with the installer (table does not exist: <a href="https://github.com/kipusoep/UrlTracker/issues/14">#14</a>)</li>
+                        </ul>
+                    </li>
+                    <li>
                         3.0.0 [2014/06/27]
                         <ul>
                             <li>[Upgrade] All code has been rewritten to use the new services and models of umbraco v6.1</li>
