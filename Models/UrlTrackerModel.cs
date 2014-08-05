@@ -74,14 +74,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
                 Uri domainUri = new Uri(domain.UrlWithDomain);
                 string domainOnly = string.Format("{0}://{1}{2}", domainUri.Scheme, domainUri.Host, domainUri.IsDefaultPort ? string.Empty : string.Concat(":", domainUri.Port));
 
-                if (UrlTrackerSettings.HasDomainOnChildNode)
-                {
-                    return string.Format("{0}{1}{2}", new Uri(string.Concat(domain.UrlWithDomain, !domain.UrlWithDomain.EndsWith("/") && !OldUrl.StartsWith("/") ? "/" : string.Empty, UrlTrackerHelper.ResolveUmbracoUrl(OldUrl))), !string.IsNullOrEmpty(OldUrlQueryString) ? "?" : string.Empty, OldUrlQueryString);
-                }
-                else
-                {
-                    return string.Format("{0}{1}{2}", new Uri(string.Concat(domainOnly, !domainOnly.EndsWith("/") && !OldUrl.StartsWith("/") ? "/" : string.Empty, UrlTrackerHelper.ResolveUmbracoUrl(OldUrl))), !string.IsNullOrEmpty(OldUrlQueryString) ? "?" : string.Empty, OldUrlQueryString);
-                }
+                return string.Format("{0}{1}{2}", new Uri(string.Concat(domainOnly, !domainOnly.EndsWith("/") && !OldUrl.StartsWith("/") ? "/" : string.Empty, UrlTrackerHelper.ResolveUmbracoUrl(OldUrl))), !string.IsNullOrEmpty(OldUrlQueryString) ? "?" : string.Empty, OldUrlQueryString);
             }
         }
         public string CalculatedRedirectUrl
@@ -119,16 +112,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
         {
             get
             {
-                if (UrlTrackerSettings.HasDomainOnChildNode)
-                {
-                    return RedirectRootNode.Parent == null
-                        ? RedirectRootNode.Name
-                        : RedirectRootNode.Parent.Name + "/" + RedirectRootNode.Name;
-                }
-                else
-                {
-                    return RedirectRootNode.Name;
-                }
+                return RedirectRootNode.Name;
             }
         }
         public UrlTrackerViewTypes ViewType
