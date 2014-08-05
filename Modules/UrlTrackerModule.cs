@@ -47,8 +47,9 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                 lock (_lock)
                 {
                     _urlTrackerInstalled = UrlTrackerRepository.GetUrlTrackerTableExists();
-                    if (_urlTrackerInstalled)
-                        UrlTrackerRepository.UpdateUrlTrackerTable();
+                    if (!_urlTrackerInstalled)
+                        UrlTrackerRepository.CreateUrlTrackerTable();
+                    UrlTrackerRepository.UpdateUrlTrackerTable();
                 }
             }
 
@@ -130,6 +131,8 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                                 urlWithoutQueryString = fullRawUrl.Replace(fullRawUrlTest, string.Empty);
                                 if (urlWithoutQueryString.StartsWith("/"))
                                     urlWithoutQueryString = urlWithoutQueryString.Substring(1);
+                                if (urlWithoutQueryString.EndsWith("/"))
+                                    urlWithoutQueryString = urlWithoutQueryString.Substring(0, urlWithoutQueryString.Length - 1);
                                 break;
                             }
                         }
