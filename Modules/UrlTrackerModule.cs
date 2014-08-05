@@ -11,6 +11,8 @@ using System.Text.RegularExpressions;
 using System.Web;
 using umbraco.BusinessLogic;
 using umbraco.cms.businesslogic.web;
+using Umbraco.Core;
+using Umbraco.Core.Persistence;
 using umbraco.DataLayer;
 using umbraco.interfaces;
 using umbraco.NodeFactory;
@@ -165,7 +167,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                 {
                     // Regex matching
                     query = "SELECT * FROM icUrlTracker WHERE Is404 = 0 AND ForceRedirect = @forceRedirect AND RedirectRootNodeId = @redirectRootNodeId AND OldRegex IS NOT NULL ORDER BY Inserted DESC";
-                    using (IRecordsReader reader = _sqlHelper.ExecuteReader(query, _sqlHelper.CreateParameter("forceRedirect", ignoreHttpStatusCode ? "1" : "0"), _sqlHelper.CreateParameter("redirectRootNodeId", rootNodeId)))
+                    using (IRecordsReader reader = _sqlHelper.ExecuteReader(query, _sqlHelper.CreateParameter("forceRedirect", ignoreHttpStatusCode ? 1 : 0), _sqlHelper.CreateParameter("redirectRootNodeId", rootNodeId)))
                     {
                         Regex regex;
                         while (reader.Read())
