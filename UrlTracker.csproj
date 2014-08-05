@@ -240,17 +240,17 @@
     <EmbeddedResource Include="UI\res\js\jquery-migrate-1.2.1.min.js" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="SQL\MicrosoftSqlServer\create-table-1.sql" />
-    <Content Include="SQL\MicrosoftSqlServer\create-table-2.sql" />
-    <Content Include="SQL\MicrosoftSqlServer\update-table-1.sql" />
-    <Content Include="SQL\MicrosoftSqlServer\update-table-2.sql" />
-    <Content Include="SQL\MicrosoftSqlServer\update-table-3.sql" />
-    <Content Include="SQL\SqlServerCompact\check-table-1.sql" />
-    <Content Include="SQL\SqlServerCompact\check-table-2.sql" />
-    <Content Include="SQL\SqlServerCompact\create-table-1.sql" />
-    <Content Include="SQL\SqlServerCompact\create-table-2.sql" />
-    <Content Include="SQL\SqlServerCompact\update-table-1.sql" />
-    <Content Include="SQL\SqlServerCompact\update-table-2.sql" />
+    <EmbeddedResource Include="SQL\MicrosoftSqlServer\create-table-1.sql" />
+    <EmbeddedResource Include="SQL\MicrosoftSqlServer\create-table-2.sql" />
+    <EmbeddedResource Include="SQL\MicrosoftSqlServer\update-table-1.sql" />
+    <EmbeddedResource Include="SQL\MicrosoftSqlServer\update-table-2.sql" />
+    <EmbeddedResource Include="SQL\MicrosoftSqlServer\update-table-3.sql" />
+    <EmbeddedResource Include="SQL\SqlServerCompact\check-table-1.sql" />
+    <EmbeddedResource Include="SQL\SqlServerCompact\check-table-2.sql" />
+    <EmbeddedResource Include="SQL\SqlServerCompact\create-table-1.sql" />
+    <EmbeddedResource Include="SQL\SqlServerCompact\create-table-2.sql" />
+    <EmbeddedResource Include="SQL\SqlServerCompact\update-table-1.sql" />
+    <EmbeddedResource Include="SQL\SqlServerCompact\update-table-2.sql" />
     <Content Include="web.config" />
   </ItemGroup>
   <PropertyGroup>

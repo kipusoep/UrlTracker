@@ -1,13 +1,10 @@
-﻿using InfoCaster.Umbraco.UrlTracker.Helpers;
-using InfoCaster.Umbraco.UrlTracker.Models;
-using InfoCaster.Umbraco.UrlTracker.Repositories;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
-using umbraco.controls;
+using InfoCaster.Umbraco.UrlTracker.Helpers;
+using InfoCaster.Umbraco.UrlTracker.Models;
+using InfoCaster.Umbraco.UrlTracker.Repositories;
 using umbraco.NodeFactory;
 
 namespace InfoCaster.Umbraco.UrlTracker.UI.UserControls
@@ -36,7 +33,7 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.UserControls
             List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains();
             if (ddlRootNode.Items.Count == 0 && domains.Count > 1)
             {
-                ddlRootNode.DataSource = domains.Select(x => new ListItem(string.Format("{0} ({1})", x.Node.Name, x.Name), x.NodeId.ToString()));
+                ddlRootNode.DataSource = domains.Select(x => new ListItem(GetName(x), x.NodeId.ToString()));
                 ddlRootNode.DataBind();
             }
             else if (domains.Count <= 1)
@@ -68,6 +65,18 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.UserControls
             pnlReferrer.Visible = !string.IsNullOrEmpty(UrlTrackerModel.Referrer);
             lblReferrer.Text = UrlTrackerModel.Referrer;
             lblInserted.Text = UrlTrackerModel.Inserted.ToString();
+        }
+
+        private static string GetName(UrlTrackerDomain x)
+        {
+            if (UrlTrackerSettings.HasDomainOnChildNode)
+            {
+                return string.Format("{0}", x.Node.Parent == null ? x.Node.Name : x.Node.Parent.Name + "/" + x.Node.Name);
+            }
+            else
+            {
+                return string.Format("{0} ({1})", x.Node.Name, x.Name);
+            }
         }
 
         public void Save()
