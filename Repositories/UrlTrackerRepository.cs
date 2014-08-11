@@ -503,7 +503,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
                     Uri oldUri = null;
                     if (!oldUrlTrackerEntry.IsRegex)
                     {
-                        if (!oldUrl.StartsWith("http"))
+                        if (!oldUrl.StartsWith(Uri.UriSchemeHttp))
                             oldUri = new Uri(_baseUri, oldUrl);
                         else
                             oldUri = new Uri(oldUrl);

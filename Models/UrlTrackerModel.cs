@@ -72,7 +72,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
                     domain = new UrlTrackerDomain(-1, RedirectRootNode.Id, string.Concat(HttpContext.Current.Request.Url.Host, HttpContext.Current.Request.Url.IsDefaultPort ? string.Empty : string.Concat(":", HttpContext.Current.Request.Url.Port)));
 
                 Uri domainUri = new Uri(domain.UrlWithDomain);
-                string domainOnly = string.Format("{0}://{1}{2}", domainUri.Scheme, domainUri.Host, domainUri.IsDefaultPort ? string.Empty : string.Concat(":", domainUri.Port));
+                string domainOnly = string.Format("{0}{1}{2}{3}", domainUri.Scheme,Uri.SchemeDelimiter, domainUri.Host, domainUri.IsDefaultPort ? string.Empty : string.Concat(":", domainUri.Port));
 
                 if (UrlTrackerSettings.HasDomainOnChildNode)
                 {
@@ -91,8 +91,8 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
                 string calculatedRedirectUrl = !string.IsNullOrEmpty(RedirectUrl) ?
                     RedirectUrl :
                     !RedirectRootNode.NiceUrl.EndsWith("#") && RedirectNodeId.HasValue ?
-                        new Uri(umbraco.library.NiceUrl(RedirectNodeId.Value).StartsWith("http") ? umbraco.library.NiceUrl(RedirectNodeId.Value) :
-                            string.Format("{0}://{1}{2}{3}", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Host, HttpContext.Current.Request.Url.Port != 80 ?
+                        new Uri(umbraco.library.NiceUrl(RedirectNodeId.Value).StartsWith(Uri.UriSchemeHttp) ? umbraco.library.NiceUrl(RedirectNodeId.Value) :
+                            string.Format("{0}{1}{2}{3}{4}", HttpContext.Current.Request.Url.Scheme, Uri.SchemeDelimiter, HttpContext.Current.Request.Url.Host, HttpContext.Current.Request.Url.Port != 80 ?
                                 string.Concat(":", HttpContext.Current.Request.Url.Port) :
                                 string.Empty, umbraco.library.NiceUrl(RedirectNodeId.Value)
                             )

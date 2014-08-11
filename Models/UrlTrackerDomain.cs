@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Web;
 using umbraco.NodeFactory;
 
@@ -19,11 +20,11 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
             {
                 if (UrlTrackerSettings.HasDomainOnChildNode && Node.Parent != null)
                 {
-                    return string.Format("{0}://{1}", HttpContext.Current != null ? HttpContext.Current.Request.Url.Scheme : "http", HttpContext.Current.Request.Url.Host + "/" + Node.Parent.UrlName + "/" + Node.UrlName);
+                    return string.Format("{0}{1}{2}", HttpContext.Current != null ? HttpContext.Current.Request.Url.Scheme : Uri.UriSchemeHttp, Uri.SchemeDelimiter, HttpContext.Current.Request.Url.Host + "/" + Node.Parent.UrlName + "/" + Node.UrlName);
                 }
                 else
                 {
-                    return string.Format("{0}://{1}", HttpContext.Current != null ? HttpContext.Current.Request.Url.Scheme : "http", Name);
+                    return string.Format("{0}{1}{2}", HttpContext.Current != null ? HttpContext.Current.Request.Url.Scheme : Uri.UriSchemeHttp, Uri.SchemeDelimiter, Name);
                 }
             }
         }
