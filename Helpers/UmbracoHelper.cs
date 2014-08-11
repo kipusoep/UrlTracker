@@ -7,6 +7,7 @@ using umbraco;
 using umbraco.BusinessLogic;
 using umbraco.DataLayer;
 using Umbraco.Core.IO;
+using umbraco.NodeFactory;
 
 namespace InfoCaster.Umbraco.UrlTracker.Helpers
 {

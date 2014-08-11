@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Policy;
 using System.Web;
 using umbraco.NodeFactory;
 
@@ -24,7 +21,14 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
                 }
                 else
                 {
-                    return string.Format("{0}{1}{2}", HttpContext.Current != null ? HttpContext.Current.Request.Url.Scheme : Uri.UriSchemeHttp, Uri.SchemeDelimiter, Name);
+                    if (Name.Contains(Uri.UriSchemeHttp))
+                    {
+                        return Name;
+                    }
+                    else
+                    {
+                        return string.Format("{0}{1}{2}", HttpContext.Current != null ? HttpContext.Current.Request.Url.Scheme : Uri.UriSchemeHttp, Uri.SchemeDelimiter, Name);
+                    }
                 }
             }
         }

@@ -1,18 +1,16 @@
-﻿using InfoCaster.Umbraco.UrlTracker.Helpers;
-using InfoCaster.Umbraco.UrlTracker.Models;
-using InfoCaster.Umbraco.UrlTracker.Repositories;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using umbraco.controls;
+using InfoCaster.Umbraco.UrlTracker.Helpers;
+using InfoCaster.Umbraco.UrlTracker.Models;
+using InfoCaster.Umbraco.UrlTracker.Repositories;
 using umbraco.NodeFactory;
 
 namespace InfoCaster.Umbraco.UrlTracker.UI.UserControls
 {
-    public partial class CreateView : System.Web.UI.UserControl
+    public partial class CreateView : UserControl
     {
         public string OldUrlClientUniqueId { get { return tbOldUrl.UniqueID; } }
 
@@ -23,23 +21,11 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.UserControls
             List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains();
             if (ddlRootNode.Items.Count == 0 && domains.Count > 1)
             {
-                ddlRootNode.DataSource = domains.Select(x => new ListItem(GetName(x), x.NodeId.ToString()));
+                ddlRootNode.DataSource = domains.Select(x => new ListItem(UrlTrackerHelper.GetName(x), x.NodeId.ToString()));
                 ddlRootNode.DataBind();
             }
             else if (domains.Count <= 1)
                 pnlRootNode.Visible = false;
-        }
-
-        private static string GetName(UrlTrackerDomain x)
-        {
-            if (UrlTrackerSettings.HasDomainOnChildNode)
-            {
-                return string.Format("{0}", x.Node.Parent == null ? x.Node.Name : x.Node.Parent.Name + "/" + x.Node.Name);
-            }
-            else
-            {
-                return string.Format("{0} ({1})", x.Node.Name, x.Name);
-            }
         }
 
         protected override void OnPreRender(EventArgs e)

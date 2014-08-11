@@ -126,7 +126,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                     {
                         if (previousFullRawUrlTest.EndsWith("/"))
                         {
-                            urlTrackerDomain = domains.FirstOrDefault(x => x.UrlWithDomain == fullRawUrlTest);
+                            urlTrackerDomain = domains.FirstOrDefault(x => (x.UrlWithDomain == fullRawUrlTest) || (x.UrlWithDomain == fullRawUrlTest + "/"));
                             if (urlTrackerDomain != null)
                             {
                                 rootNodeId = urlTrackerDomain.NodeId;
