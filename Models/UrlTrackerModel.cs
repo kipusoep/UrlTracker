@@ -110,10 +110,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
         }
         public string RedirectRootNodeName
         {
-            get
-            {
-                return RedirectRootNode.Name;
-            }
+            get { return RedirectRootNode.Name; }
         }
         public UrlTrackerViewTypes ViewType
         {
