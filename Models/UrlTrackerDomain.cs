@@ -17,14 +17,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
         {
             get
             {
-                if (UrlTrackerSettings.HasDomainOnChildNode && Node.Parent != null)
-                {
-                    return string.Format("{0}://{1}", HttpContext.Current != null ? HttpContext.Current.Request.Url.Scheme : "http", HttpContext.Current.Request.Url.Host + "/" + Node.Parent.UrlName + "/" + Node.UrlName);
-                }
-                else
-                {
-                    return string.Format("{0}://{1}", HttpContext.Current != null ? HttpContext.Current.Request.Url.Scheme : "http", Name);
-                }
+                return string.Format("{0}://{1}", HttpContext.Current != null ? HttpContext.Current.Request.Url.Scheme : "http", Name);
             }
         }
 

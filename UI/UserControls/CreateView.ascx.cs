@@ -20,23 +20,11 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.UserControls
             List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains();
             if (ddlRootNode.Items.Count == 0 && domains.Count > 1)
             {
-                ddlRootNode.DataSource = domains.Select(x => new ListItem(GetName(x), x.NodeId.ToString()));
+                ddlRootNode.DataSource = domains.Select(x => new ListItem(string.Format("{0} ({1})", x.Node.Name, x.Name), x.NodeId.ToString()));
                 ddlRootNode.DataBind();
             }
             else if (domains.Count <= 1)
                 pnlRootNode.Visible = false;
-        }
-
-        private static string GetName(UrlTrackerDomain x)
-        {
-            if (UrlTrackerSettings.HasDomainOnChildNode)
-            {
-                return string.Format("{0}", x.Node.Parent == null ? x.Node.Name : x.Node.Parent.Name + "/" + x.Node.Name);
-            }
-            else
-            {
-                return string.Format("{0} ({1})", x.Node.Name, x.Name);
-            }
         }
 
         protected override void OnPreRender(EventArgs e)

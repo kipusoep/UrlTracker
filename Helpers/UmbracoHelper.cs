@@ -95,17 +95,6 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
                         }
                     }
 
-                    if (UrlTrackerSettings.HasDomainOnChildNode)
-                    {
-                        using (var dr = sqlHelper.ExecuteReader("SELECT * FROM umbracoDomains where CHARINDEX('*',domainName) = 1"))
-                        {
-                            while (dr.Read())
-                            {
-                                _urlTrackerDomains.Add(new UrlTrackerDomain(dr.GetInt("id"), dr.GetInt("domainRootStructureID"), dr.GetString("domainName")));
-                            }
-                        }
-                    }
-
                     _urlTrackerDomains = _urlTrackerDomains.OrderBy(x => x.Name).ToList();
                 }
             }
