@@ -48,7 +48,8 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.UserControls
             }
             else
             {
-                tbOldUrl.Text = UrlTrackerModel.CalculatedOldUrl;
+                //tbOldUrl.Text = UrlTrackerModel.CalculatedOldUrl;
+                tbOldUrl.Text = UrlTrackerModel.OldUrl;
                 tbOldUrlQueryString.Text = UrlTrackerModel.OldUrlQueryString;
             }
             if (UrlTrackerModel.RedirectNodeId.HasValue)

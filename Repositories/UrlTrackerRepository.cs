@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using InfoCaster.Umbraco.UrlTracker.Extensions;
 using InfoCaster.Umbraco.UrlTracker.Helpers;
 using InfoCaster.Umbraco.UrlTracker.Models;
@@ -135,6 +137,17 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
             }
         }
 
+        public static void DeleteNotFoundEntriesByRootAndOldUrl(int redirectRootNodeId, string oldUrl)
+        {
+            // trigger delete, but without checking if it exists = unneccesary call to database
+            LoggingHelper.LogInformation("UrlTracker Repository | Deleting Not Found entries with OldUrl: {0}", oldUrl);
+
+            const string query = "DELETE FROM icUrlTracker WHERE Is404 = 1 AND OldUrl = @oldUrl AND RedirectRootNodeId = @rootId";
+            _sqlHelper.ExecuteNonQuery(query,
+                _sqlHelper.CreateParameter("oldUrl", oldUrl),
+                _sqlHelper.CreateParameter("rootId", redirectRootNodeId));
+        }
+
         public static void DeleteUrlTrackerEntry(int id)
         {
             LoggingHelper.LogInformation("UrlTracker Repository | Deleting Url Tracker entry with id: {0}", id);
@@ -168,9 +181,15 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
             return null;
         }
 
+        [Obsolete("Remove not found entries also with root id, use other overload method")]
         public static UrlTrackerModel GetNotFoundEntryByUrl(string url)
         {
             return GetNotFoundEntries().Single(x => x.OldUrl == url);
+        }
+
+        public static UrlTrackerModel GetNotFoundEntryByRootAndUrl(int redirectRootNodeId, string url)
+        {
+            return GetNotFoundEntries().Single(x => x.OldUrl == url && x.RedirectRootNodeId == redirectRootNodeId);
         }
 
         public static List<UrlTrackerModel> GetUrlTrackerEntries(int? maximumRows, int? startRowIndex, string sortExpression = "", bool _404 = false, bool include410Gone = false, bool showAutoEntries = true, bool showCustomEntries = true, bool showRegexEntries = true, string keyword = "", bool onlyForcedRedirects = false)
@@ -281,7 +300,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
         {
             List<UrlTrackerModel> notFoundEntries = new List<UrlTrackerModel>();
             List<UrlTrackerModel> urlTrackerEntries = GetUrlTrackerEntries(maximumRows, startRowIndex, sortExpression, true);
-            foreach (var notFoundEntry in urlTrackerEntries.GroupBy(x => x.OldUrl).Select(x => new
+            foreach (var notFoundEntry in urlTrackerEntries.GroupBy(x => new {x.OldUrl, x.RedirectRootNodeId}).Select(x => new
             {
                 Count = x.Count(),
                 UrlTrackerModel = x.First(),

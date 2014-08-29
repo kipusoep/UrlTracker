@@ -62,7 +62,7 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.UserControls
             UrlTrackerModel.RedirectPassThroughQueryString = cbRedirectPassthroughQueryString.Checked;
             UrlTrackerModel.Notes = tbNotes.Text;
             UrlTrackerRepository.UpdateUrlTrackerEntry(UrlTrackerModel);
-            UrlTrackerRepository.DeleteNotFoundEntriesByOldUrl(UrlTrackerModel.OldUrl);
+            UrlTrackerRepository.DeleteNotFoundEntriesByRootAndOldUrl(UrlTrackerModel.RedirectRootNodeId, UrlTrackerModel.OldUrl);
         }
     }
 }

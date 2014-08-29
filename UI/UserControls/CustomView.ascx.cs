@@ -51,7 +51,8 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.UserControls
             else
             {
                 mvRedirectFrom.SetActiveView(vwRedirectFromUrl);
-                tbOldUrl.Text = UrlTrackerModel.CalculatedOldUrlWithoutQuery;
+                //tbOldUrl.Text = UrlTrackerModel.CalculatedOldUrlWithoutQuery;
+                tbOldUrl.Text = UrlTrackerModel.OldUrl;
                 tbOldUrlQueryString.Text = UrlTrackerModel.OldUrlQueryString;
             }
             mvRedirect.SetActiveView(UrlTrackerModel.RedirectNodeId.HasValue ? vwRedirectNode : vwRedirectUrl);

@@ -1,4 +1,5 @@
-﻿using InfoCaster.Umbraco.UrlTracker.Helpers;
+﻿using System.Diagnostics;
+using InfoCaster.Umbraco.UrlTracker.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
     }
 
     [Serializable]
+    [DebuggerDisplay("OUrl = {OldUrl} | Rgx = {OldRegex} | Qs = {OldUrlQueryString} | Root = {RedirectRootNodeId}")]
     public class UrlTrackerModel
     {
         #region Data fields
