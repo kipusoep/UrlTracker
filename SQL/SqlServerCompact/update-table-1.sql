@@ -1,0 +1,1 @@
+ALTER TABLE [icUrlTracker] ADD ForceRedirect bit NOT NULL CONSTRAINT DF_icUrlTracker_ForceRedirect DEFAULT 0

@@ -31,12 +31,15 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.UserControls
             tbNotes.Attributes["placeholder"] = UrlTrackerResources.NotesWatermark;
         }
 
+        /// <summary>
+        /// Loads the view.
+        /// </summary>
         public void LoadView()
         {
             List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains();
-            if (ddlRootNode.Items.Count == 0 && domains.Count > 1)
+            if (ddlRootNode.Items.Count == 1 && domains.Count > 1)
             {
-                ddlRootNode.DataSource = domains.Select(x => new ListItem(string.Format("{0} ({1})", x.Node.Name, x.Name), x.NodeId.ToString()));
+                ddlRootNode.DataSource = domains.Select(x => new ListItem(UrlTrackerHelper.GetName(x), x.NodeId.ToString()));
                 ddlRootNode.DataBind();
             }
             else if (domains.Count <= 1)
@@ -51,7 +54,8 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.UserControls
             else
             {
                 mvRedirectFrom.SetActiveView(vwRedirectFromUrl);
-                tbOldUrl.Text = UrlTrackerModel.CalculatedOldUrlWithoutQuery;
+                //tbOldUrl.Text = UrlTrackerModel.CalculatedOldUrlWithoutQuery;
+                tbOldUrl.Text = UrlTrackerModel.OldUrl;
                 tbOldUrlQueryString.Text = UrlTrackerModel.OldUrlQueryString;
             }
             mvRedirect.SetActiveView(UrlTrackerModel.RedirectNodeId.HasValue ? vwRedirectNode : vwRedirectUrl);

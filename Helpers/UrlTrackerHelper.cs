@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
+using InfoCaster.Umbraco.UrlTracker.Models;
 using umbraco;
 
 namespace InfoCaster.Umbraco.UrlTracker.Helpers
@@ -46,5 +47,17 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
 
 			return url;
 		}
+
+        public static string GetName(UrlTrackerDomain domain)
+        {
+            if (UrlTrackerSettings.HasDomainOnChildNode)
+            {
+                return string.Format("{0}", domain.Node.Parent == null ? domain.Node.Name : domain.Node.Parent.Name + "/" + domain.Node.Name);
+            }
+            else
+            {
+                return string.Format("{0} ({1})", domain.Node.Name, domain.Name);
+            }
+        }
 	}
 }
