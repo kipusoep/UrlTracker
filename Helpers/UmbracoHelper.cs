@@ -73,6 +73,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
             var pathPart = url.Split('?')[0];
             if (!pathPart.Contains(".") && !pathPart.EndsWith("/"))
                 pathPart += "/";
+            // check if path is longer than one character, then if it does not start with / then add a /
             if (pathPart.Length > 1 && pathPart[0] != '/')
             {
                 pathPart = '/' + pathPart; // fix because sometimes there is no leading /... depends on browser...
