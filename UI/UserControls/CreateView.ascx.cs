@@ -19,7 +19,7 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.UserControls
             base.OnLoad(e);
 
             List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains();
-            if (ddlRootNode.Items.Count == 0 && domains.Count > 1)
+            if (ddlRootNode.Items.Count == 1 && domains.Count > 1)
             {
                 ddlRootNode.DataSource = domains.Select(x => new ListItem(UrlTrackerHelper.GetName(x), x.NodeId.ToString()));
                 ddlRootNode.DataBind();

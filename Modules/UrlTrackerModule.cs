@@ -1,4 +1,5 @@
-﻿using InfoCaster.Umbraco.UrlTracker.Extensions;
+﻿using System.IO;
+using InfoCaster.Umbraco.UrlTracker.Extensions;
 using InfoCaster.Umbraco.UrlTracker.Helpers;
 using InfoCaster.Umbraco.UrlTracker.Models;
 using InfoCaster.Umbraco.UrlTracker.Repositories;
@@ -27,7 +28,6 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
         static Regex _capturingGroupsRegex = new Regex("\\$\\d+");
         static readonly object _lock = new object();
         static bool _urlTrackerInstalled;
-
         #region IHttpModule Members
         public void Dispose() { }
 
@@ -35,7 +35,6 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
         {
             context.AcquireRequestState += context_AcquireRequestState;
             context.EndRequest += context_EndRequest;
-
             LoggingHelper.LogInformation("UrlTracker HttpModule | Subscribed to AcquireRequestState and EndRequest events");
         }
         #endregion
@@ -106,7 +105,8 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                     return;
                 }
 
-                bool urlHasQueryString = request.QueryString.HasKeys() && url.Contains('?');
+                //bool urlHasQueryString = request.QueryString.HasKeys() && url.Contains('?');
+                bool urlHasQueryString = url.Contains('?'); // invalid querystring (?xxx) without = sign must also be stripped...
                 if (urlHasQueryString)
                     urlWithoutQueryString = url.Substring(0, url.IndexOf('?'));
 
@@ -145,10 +145,28 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                 }
                 if (rootNodeId == -1)
                 {
-                    rootNodeId = -1;
-                    List<INode> children = new Node(rootNodeId).ChildrenAsList;
-                    if (children != null && children.Any())
-                        rootNodeId = children.First().Id;
+                    // no-node redirects are not stored for 'first' root node but with -1 as root node
+                    //rootNodeId = -1;
+                    //List<INode> children = new Node(rootNodeId).ChildrenAsList;
+                    //if (children != null && children.Any())
+                    //    rootNodeId = children.First().Id;
+                }
+                else
+                {
+                    var rootUrl = "/";
+                    try
+                    {
+                        rootUrl = new Node(rootNodeId).Url;
+                    }
+                    catch(ArgumentNullException)
+                    {
+                        // could not get full url for path, so we keep / as the root... (no other way to check, happens for favicon.ico for example)
+                    }
+                    var rootFolder = rootUrl != @"/"? new Uri(HttpContext.Current.Request.Url, rootUrl).AbsolutePath.TrimStart('/'):string.Empty;
+                    if (shortestUrl.StartsWith(rootFolder, StringComparison.OrdinalIgnoreCase))
+                    {
+                        shortestUrl = shortestUrl.Substring(rootFolder.Length);
+                    }
                 }
                 LoggingHelper.LogInformation("UrlTracker HttpModule | Current request's rootNodeId: {0}", rootNodeId);
 
@@ -226,7 +244,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                     {
                         if (redirectUrl == "/")
                             redirectUrl = string.Empty;
-                        Uri redirectUri = new Uri(redirectUrl.StartsWith(Uri.UriSchemeHttp) ? redirectUrl : string.Format("{0}{1}{2}{3}/{4}", request.Url.Scheme, Uri.SchemeDelimiter, request.Url.Host, request.Url.Port != 80 ? string.Concat(":", request.Url.Port) : string.Empty, redirectUrl));
+                        Uri redirectUri = new Uri(redirectUrl.StartsWith(Uri.UriSchemeHttp) ? redirectUrl : string.Format("{0}{1}{2}{3}/{4}", request.Url.Scheme, Uri.SchemeDelimiter, request.Url.Host, request.Url.Port != 80 ? string.Concat(":", request.Url.Port) : string.Empty, redirectUrl.StartsWith("/") ? redirectUrl.Substring(1) : redirectUrl));
                         if (redirectPassThroughQueryString)
                         {
                             NameValueCollection redirectQueryString = HttpUtility.ParseQueryString(redirectUri.Query);
@@ -304,6 +322,9 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
 
         static void LoadUrlTrackerMatchesFromDatabase(HttpRequest request, string urlWithoutQueryString, bool urlHasQueryString, string shortestUrl, int rootNodeId, ref string redirectUrl, ref int? redirectHttpCode, ref bool redirectPassThroughQueryString)
         {
+            string root = rootNodeId >-1?new Uri(HttpContext.Current.Request.Url, new Node(rootNodeId).Url).AbsolutePath:"/"; // always provide a base url in case url is not an absolute uri
+            //urlWithoutQueryString = root.TrimEnd('/') + '/' + urlWithoutQueryString.TrimStart('/');
+
             string query = "SELECT * FROM icUrlTracker WHERE Is404 = 0 AND ForceRedirect = 0 AND (RedirectRootNodeId = @redirectRootNodeId OR RedirectRootNodeId IS NULL) AND (OldUrl = @url OR OldUrl = @shortestUrl) ORDER BY CASE WHEN RedirectHttpCode = 410 THEN 2 ELSE 1 END, OldUrlQueryString DESC";
             using (IRecordsReader reader = _sqlHelper.ExecuteReader(query, _sqlHelper.CreateParameter("redirectRootNodeId", rootNodeId), _sqlHelper.CreateParameter("url", urlWithoutQueryString), _sqlHelper.CreateParameter("shortestUrl", shortestUrl)))
             {
@@ -323,7 +344,13 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                             {
                                 Uri redirectUri = new Uri(redirectUrl);
                                 string pathAndQuery = Uri.UnescapeDataString(redirectUri.PathAndQuery);
-                                redirectUrl = pathAndQuery.StartsWith("/") && pathAndQuery != "/" ? pathAndQuery.Substring(1) : pathAndQuery;
+                                /*redirectUrl = pathAndQuery.StartsWith("/") && pathAndQuery != "/" ? pathAndQuery.Substring(1) : pathAndQuery;
+
+                                if (redirectUri.Host != HttpContext.Current.Request.Url.Host)
+                                {
+                                    redirectUrl = new Uri(redirectUri, pathAndQuery).AbsoluteUri;
+                                }*/
+                                redirectUrl = GetCorrectedUrl(redirectUri, rootNodeId, pathAndQuery);
                             }
                             LoggingHelper.LogInformation("UrlTracker HttpModule | Redirect url set to: {0}", redirectUrl);
                         }
@@ -363,7 +390,26 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
             }
         }
 
-
+        private static string GetCorrectedUrl(Uri redirectUri, int rootNodeId, string pathAndQuery)
+        {
+            string redirectUrl = pathAndQuery;
+            if (redirectUri.Host != HttpContext.Current.Request.Url.Host)
+            {
+                // if site runs on other domain then current, check if the current domain is already a domain for that site (prevent unnessecary redirect to primary domain)
+                List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains();
+                List<UrlTrackerDomain> siteDomains = domains.Where(x => x.NodeId == rootNodeId).ToList();
+                List<string> hosts =
+                    siteDomains
+                    .Select(x => new Uri(x.UrlWithDomain).Host)
+                    .ToList();
+                if (!hosts.Contains(redirectUri.Host))
+                {
+                    // if current domain is not related to target domain, do absoluteUri redirect
+                    redirectUrl = new Uri(redirectUri, '/' + pathAndQuery.TrimStart('/')).AbsoluteUri;
+                }
+            }
+            return redirectUrl;
+        }
         static void LoadUrlTrackerMatchesFromCache(HttpRequest request, string urlWithoutQueryString, bool urlHasQueryString, string shortestUrl, int rootNodeId, ref string redirectUrl, ref int? redirectHttpCode, ref bool redirectPassThroughQueryString)
         {
             List<UrlTrackerModel> forcedRedirects = UrlTrackerRepository.GetForcedRedirects();
@@ -386,7 +432,24 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                         {
                             Uri redirectUri = new Uri(redirectUrl);
                             string pathAndQuery = Uri.UnescapeDataString(redirectUri.PathAndQuery);
-                            redirectUrl = pathAndQuery.StartsWith("/") && pathAndQuery != "/" ? pathAndQuery.Substring(1) : pathAndQuery;
+                            //redirectUrl = pathAndQuery.StartsWith("/") && pathAndQuery != "/" ? pathAndQuery.Substring(1) : pathAndQuery;
+
+                            redirectUrl = GetCorrectedUrl(redirectUri, forcedRedirect.RedirectRootNodeId, pathAndQuery);
+                            /*if (redirectUri.Host != HttpContext.Current.Request.Url.Host)
+                            {
+                                // if site runs on other domain then current, check if the current domain is already a domain for that site (prevent unnessecary redirect to primary domain)
+                                List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains();
+                                List<UrlTrackerDomain> siteDomains = domains.Where(x => x.NodeId == forcedRedirect.RedirectRootNodeId).ToList();
+                                List<string> hosts =
+                                    siteDomains
+                                    .Select(x => new Uri(x.UrlWithDomain).Host)
+                                    .ToList();
+                                if (!hosts.Contains(redirectUri.Host))
+                                {
+                                    // if current domain is not related to target domain, do absoluteUri redirect
+                                    redirectUrl = new Uri(redirectUri, pathAndQuery).AbsoluteUri;
+                                }
+                            }*/
                         }
                         LoggingHelper.LogInformation("UrlTracker HttpModule | Redirect url set to: {0}", redirectUrl);
                     }

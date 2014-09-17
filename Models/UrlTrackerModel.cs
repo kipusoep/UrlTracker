@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using CookComputing.MetaWeblog;
 using InfoCaster.Umbraco.UrlTracker.Helpers;
 using System;
 using System.Collections.Generic;
@@ -90,17 +91,60 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
         {
             get
             {
-                string calculatedRedirectUrl = !string.IsNullOrEmpty(RedirectUrl) ?
-                    RedirectUrl :
-                    !RedirectRootNode.NiceUrl.EndsWith("#") && RedirectNodeId.HasValue ?
-                        new Uri(umbraco.library.NiceUrl(RedirectNodeId.Value).StartsWith(Uri.UriSchemeHttp) ? umbraco.library.NiceUrl(RedirectNodeId.Value) :
-                            string.Format("{0}{1}{2}{3}{4}", HttpContext.Current.Request.Url.Scheme, Uri.SchemeDelimiter, HttpContext.Current.Request.Url.Host, HttpContext.Current.Request.Url.Port != 80 ?
-                                string.Concat(":", HttpContext.Current.Request.Url.Port) :
-                                string.Empty, umbraco.library.NiceUrl(RedirectNodeId.Value)
-                            )
-                        ).AbsolutePath :
-                        string.Empty;
-                return !calculatedRedirectUrl.StartsWith("/") ? string.Concat("/", calculatedRedirectUrl) : calculatedRedirectUrl;
+                string calculatedRedirectUri = !string.IsNullOrEmpty(RedirectUrl)?RedirectUrl:null;
+                if (calculatedRedirectUri != null)
+                {
+                    return calculatedRedirectUri;
+                }
+
+                if (!RedirectRootNode.NiceUrl.EndsWith("#") && RedirectNodeId.HasValue)
+                {
+
+                    List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains();
+                    List<UrlTrackerDomain> siteDomains = domains.Where(x => x.NodeId == RedirectRootNode.Id).ToList();
+                    List<string> hosts =
+                        siteDomains
+                        .Select(n => new Uri(n.UrlWithDomain).Host)
+                        .ToList();
+                    if (hosts.Count == 0)
+                    {
+                        return umbraco.library.NiceUrl(RedirectNodeId.Value);
+                    }
+                    var sourceUrl = new Uri(siteDomains.First().UrlWithDomain);
+                    var targetUrl = new Uri(sourceUrl, umbraco.library.NiceUrl(RedirectNodeId.Value));
+                    if (targetUrl.Host != sourceUrl.Host)
+                    {
+                        return targetUrl.AbsoluteUri;
+                    }
+                    if (hosts.Contains(sourceUrl.Host))
+                    {
+                        string url = umbraco.library.NiceUrl(RedirectNodeId.Value);
+                        // if current host is for this site already... (so no unnessecary redirects to primary domain)
+                        if (url.StartsWith(Uri.UriSchemeHttp))
+                        {
+                            // if url is with domain, strip domain
+                            return new Uri(url).AbsolutePath;
+                        }
+                        return url;
+                    }
+                    var newUri = new Uri(sourceUrl, umbraco.library.NiceUrl(RedirectNodeId.Value));
+                    if (sourceUrl.Host != newUri.Host)
+                    {
+                        return newUri.AbsoluteUri;
+                    }
+                    else
+                    {
+                        return newUri.AbsolutePath;
+                    }
+                }
+                
+                if (RedirectNodeId.HasValue)
+                {
+                    return umbraco.library.NiceUrl(RedirectNodeId.Value);
+                    //calculatedRedirectUri = new Uri();
+                }
+                return string.Empty;
+
             }
         }
         public Node RedirectRootNode

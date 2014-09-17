@@ -73,7 +73,10 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
             var pathPart = url.Split('?')[0];
             if (!pathPart.Contains(".") && !pathPart.EndsWith("/"))
                 pathPart += "/";
-
+            if (pathPart.Length > 1 && pathPart[0] != '/')
+            {
+                pathPart = '/' + pathPart; // fix because sometimes there is no leading /... depends on browser...
+            }
             // return true if url starts with an element of the reserved list
             return _reservedList.StartsWith(pathPart.ToLowerInvariant());
         }
