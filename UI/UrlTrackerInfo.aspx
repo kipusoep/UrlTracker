@@ -81,6 +81,12 @@
             <div class="tab-pane" id="changeLog">
                 <ul>
                     <li>
+                        3.1 [2014/10/02]
+                        <ul>
+                            <li>[Improvement] Versioning is now based on major.minor.build.revision (<a href="http://stackoverflow.com/questions/356543/can-i-automatically-increment-the-file-build-version-when-using-visual-studio" target="_blank">source</a>)</li>
+                        </ul>
+                    </li>
+                    <li>
                         3.0.2 [2014/09/11]
                         <ul>
                             <li>[BugFix] Added exception handling if Application.SqlHelper throws an ArgumentNullException</li>
