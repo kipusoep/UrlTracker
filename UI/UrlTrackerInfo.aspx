@@ -81,6 +81,12 @@
             <div class="tab-pane" id="changeLog">
                 <ul>
                     <li>
+                        3.0.2 [2014/09/11]
+                        <ul>
+                            <li>[BugFix] Added exception handling if Application.SqlHelper throws an ArgumentNullException</li>
+                        </ul>
+                    </li>
+                    <li>
                         3.0.1 [2014/07/09]
                         <ul>
                             <li>[BugFix] Fixed an issue with the installer (table does not exist: <a href="https://github.com/kipusoep/UrlTracker/issues/14">#14</a>)</li>

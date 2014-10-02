@@ -43,6 +43,10 @@ Set to true to disable tracking URL changes.
 Set to true to disable tracking not found (404) requests.
 
 ## Changelog ##
+*	3.1 [2014/10/02]
+    * [Improvement] Versioning is now based on major.minor.build.revision ([source](http://stackoverflow.com/questions/356543/can-i-automatically-increment-the-file-build-version-when-using-visual-studio))
+*	3.0.2 [2014/09/11]
+    * [BugFix] Added exception handling if Application.SqlHelper throws an ArgumentNullException
 *	3.0.1 [2014/06/09]
     * [BugFix] Fixed an issue with the installer (table does not exist: #14)
 *	3.0.0 [2014/06/27]
