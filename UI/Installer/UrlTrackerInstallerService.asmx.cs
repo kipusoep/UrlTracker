@@ -77,7 +77,7 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.Installer
 					foreach (XElement tab in urlTrackerTabs)
 					{
 						List<XElement> urlTrackerTabControls = tab.Elements("control").ToList();
-						if (urlTrackerTabControls.Any(x => x.Value == "/Umbraco/UrlTracker/InfoCaster.Umbraco.UrlTracker.UI.UrlTrackerManagerWrapper.ascx"))
+						if (urlTrackerTabControls.Any(x => x.Value == "~/Umbraco/UrlTracker/InfoCaster.Umbraco.UrlTracker.UI.UrlTrackerManagerWrapper.ascx"))
 							throw new Exception("Dashboard is already installed.");
 					}
 				}
@@ -87,7 +87,7 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.Installer
 				urlTrackerTab.Add(new XAttribute("caption", "Url Tracker"));
 				XElement urlTrackerControl = new XElement("control");
 				urlTrackerControl.Add(new XAttribute("addPanel", true));
-				urlTrackerControl.SetValue("/Umbraco/UrlTracker/InfoCaster.Umbraco.UrlTracker.UI.UrlTrackerManagerWrapper.ascx");
+				urlTrackerControl.SetValue("~/Umbraco/UrlTracker/InfoCaster.Umbraco.UrlTracker.UI.UrlTrackerManagerWrapper.ascx");
 				urlTrackerTab.Add(urlTrackerControl);
 				urlTrackerControl.AddBeforeSelf(string.Concat(Environment.NewLine, "      "));
 				urlTrackerControl.AddAfterSelf(string.Concat(Environment.NewLine, "    "));

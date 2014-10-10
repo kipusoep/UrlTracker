@@ -102,11 +102,11 @@ namespace InfoCaster.Umbraco.UrlTracker.UI
 
                 if (icAutoView == null)
                 {
-                    icAutoView = (AutoView)LoadControl("/Umbraco/UrlTracker/InfoCaster.Umbraco.UrlTracker.UI.UserControls.AutoView.ascx");
-                    icCustomView = (CustomView)LoadControl("/Umbraco/UrlTracker/InfoCaster.Umbraco.UrlTracker.UI.UserControls.CustomView.ascx");
-                    icNotFoundView = (NotFoundView)LoadControl("/Umbraco/UrlTracker/InfoCaster.Umbraco.UrlTracker.UI.UserControls.NotFoundView.ascx");
-                    icAdvancedView = (AdvancedView)LoadControl("/Umbraco/UrlTracker/InfoCaster.Umbraco.UrlTracker.UI.UserControls.AdvancedView.ascx");
-                    icCreateView = (CreateView)LoadControl("/Umbraco/UrlTracker/InfoCaster.Umbraco.UrlTracker.UI.UserControls.CreateView.ascx");
+                    icAutoView = (AutoView)LoadControl("~/Umbraco/UrlTracker/InfoCaster.Umbraco.UrlTracker.UI.UserControls.AutoView.ascx");
+                    icCustomView = (CustomView)LoadControl("~/Umbraco/UrlTracker/InfoCaster.Umbraco.UrlTracker.UI.UserControls.CustomView.ascx");
+                    icNotFoundView = (NotFoundView)LoadControl("~/Umbraco/UrlTracker/InfoCaster.Umbraco.UrlTracker.UI.UserControls.NotFoundView.ascx");
+                    icAdvancedView = (AdvancedView)LoadControl("~/Umbraco/UrlTracker/InfoCaster.Umbraco.UrlTracker.UI.UserControls.AdvancedView.ascx");
+                    icCreateView = (CreateView)LoadControl("~/Umbraco/UrlTracker/InfoCaster.Umbraco.UrlTracker.UI.UserControls.CreateView.ascx");
 
                     pnlEditValidationGroup.Controls.AddAt(0, icAutoView);
                     pnlEditValidationGroup.Controls.AddAt(1, icCustomView);
