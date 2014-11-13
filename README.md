@@ -4,8 +4,6 @@ UrlTracker
 The Url Tracker is used to manage URLs within umbraco. It automatically tracks URL changes, for instance when a node is renamed, and makes sure the old URL will redirect to the new location. This is great for SEO and great for people visiting your website via this old URL. Search engines will update the indexed URL and people won't visit the old, broken URL.<br />
 You can also create your own redirects, based on a simple URL or using a Regex pattern. You can redirect to an existing node or a manually entered URL. This is great for migrating existing indexed URLs to your new website!
 
-#### **At this moment, SQL CE is not supported. Support for SQL CE will be added soon** ####
-
 ## Versioning ##
 **Version 2** has reached it's end-of-life status and won't be supported anymore. For umbraco versions **4.6 - 6.0** version 2 will remain available as well as the source of v2.  
 **Version 3** is the current version and supports umbraco versions **6.1, 7.0, 7.1 and up** if possible. 
@@ -45,7 +43,8 @@ Set to true to disable tracking URL changes.
 Set to true to disable tracking not found (404) requests.
 
 ## Changelog ##
-*	3.1 [2014/10/02]
+*	3.1 [2014/11/13]
+    * [Improvement] SQL Compact Edition is now supported thanks to Ornella Geboers and Sandro Mastronardi
     * [Improvement] Versioning is now based on major.minor.build.revision ([source](http://stackoverflow.com/questions/356543/can-i-automatically-increment-the-file-build-version-when-using-visual-studio))
 *	3.0.2 [2014/09/11]
     * [BugFix] Added exception handling if Application.SqlHelper throws an ArgumentNullException
