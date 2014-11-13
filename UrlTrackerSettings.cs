@@ -147,10 +147,44 @@ namespace InfoCaster.Umbraco.UrlTracker
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether or not to append port numbers to URLs. Default is true.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if we are to append the port number; otherwise, <c>false</c>.
+        /// </value>
+        public static bool AppendPortNumber
+        {
+            get
+            {
+                if (!_appendPortNumber.HasValue)
+                {
+                    bool appendPortNumber = true;
+
+                    if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["urlTracker:appendPortNumber"]))
+                    {
+                        bool parsedAppSetting;
+
+                        if (bool.TryParse(
+                            ConfigurationManager.AppSettings["urlTracker:appendPortNumber"],
+                            out parsedAppSetting))
+                        {
+                            appendPortNumber = parsedAppSetting;
+                        }
+                    }
+
+                    _appendPortNumber = appendPortNumber;
+                }
+
+                return _appendPortNumber.Value;
+            }
+        }
+
         static bool? _isDisabled;
         static bool? _enableLogging;
         static string[] _notFoundUrlsToIgnore;
         static bool? _isTrackingDisabled;
         static bool? _isNotFoundTrackingDisabled;
+        static bool? _appendPortNumber;
     }
 }
