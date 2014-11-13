@@ -102,7 +102,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="SQL\create-table-1.sql" />
     <EmbeddedResource Include="UI\Installer\UrlTrackerInstaller.ascx" />
     <EmbeddedResource Include="UI\res\css\bootstrap.css" />
     <EmbeddedResource Include="UI\res\css\bootstrap.min.css" />
@@ -241,12 +240,17 @@
     <EmbeddedResource Include="UI\res\js\jquery-migrate-1.2.1.min.js" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="SQL\create-table-2.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="SQL\update-table-1.sql" />
-    <EmbeddedResource Include="SQL\update-table-2.sql" />
-    <EmbeddedResource Include="SQL\update-table-3.sql" />
+    <EmbeddedResource Include="SQL\MicrosoftSqlServer\create-table-1.sql" />
+    <EmbeddedResource Include="SQL\MicrosoftSqlServer\create-table-2.sql" />
+    <EmbeddedResource Include="SQL\MicrosoftSqlServer\update-table-1.sql" />
+    <EmbeddedResource Include="SQL\MicrosoftSqlServer\update-table-2.sql" />
+    <EmbeddedResource Include="SQL\MicrosoftSqlServer\update-table-3.sql" />
+    <EmbeddedResource Include="SQL\SqlServerCompact\check-table-1.sql" />
+    <EmbeddedResource Include="SQL\SqlServerCompact\check-table-2.sql" />
+    <EmbeddedResource Include="SQL\SqlServerCompact\create-table-1.sql" />
+    <EmbeddedResource Include="SQL\SqlServerCompact\create-table-2.sql" />
+    <EmbeddedResource Include="SQL\SqlServerCompact\update-table-1.sql" />
+    <EmbeddedResource Include="SQL\SqlServerCompact\update-table-2.sql" />
     <Content Include="web.config" />
   </ItemGroup>
   <PropertyGroup>
