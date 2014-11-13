@@ -20,10 +20,13 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
 
 		public static string GetString(System.Reflection.Assembly assembly, string name)
 		{
-			string data;
-			using(StreamReader streamReader = EmbeddedResourcesHelper.GetStream(assembly, name))
-				data = streamReader.ReadToEnd();
-			return data;
+            string data = null;
+            using (StreamReader streamReader = EmbeddedResourcesHelper.GetStream(assembly, name))
+            {
+                if (streamReader != null)
+                    data = streamReader.ReadToEnd();
+            }
+            return data;
 		}
 
 		public static string GetString(string name)

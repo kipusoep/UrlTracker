@@ -11,6 +11,8 @@ using System.Text.RegularExpressions;
 using System.Web;
 using umbraco.BusinessLogic;
 using umbraco.cms.businesslogic.web;
+using Umbraco.Core;
+using Umbraco.Core.Persistence;
 using umbraco.DataLayer;
 using umbraco.interfaces;
 using umbraco.NodeFactory;
@@ -50,6 +52,9 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                         _urlTrackerInstalled = UrlTrackerRepository.GetUrlTrackerTableExists();
                         if (_urlTrackerInstalled)
                             UrlTrackerRepository.UpdateUrlTrackerTable();
+                        if (!_urlTrackerInstalled)
+                            UrlTrackerRepository.CreateUrlTrackerTable();
+                        UrlTrackerRepository.UpdateUrlTrackerTable();
                     }
                 }
             }
@@ -138,6 +143,9 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                                 urlWithoutQueryString = fullRawUrl.Replace(fullRawUrlTest, string.Empty);
                                 if (urlWithoutQueryString.StartsWith("/"))
                                     urlWithoutQueryString = urlWithoutQueryString.Substring(1);
+                                if (urlWithoutQueryString.EndsWith("/"))
+                                    urlWithoutQueryString = urlWithoutQueryString.Substring(0, urlWithoutQueryString.Length - 1);
+
                                 break;
                             }
                         }
@@ -175,7 +183,8 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                 {
                     // Regex matching
                     query = "SELECT * FROM icUrlTracker WHERE Is404 = 0 AND ForceRedirect = @forceRedirect AND RedirectRootNodeId = @redirectRootNodeId AND OldRegex IS NOT NULL ORDER BY Inserted DESC";
-                    using (IRecordsReader reader = _sqlHelper.ExecuteReader(query, _sqlHelper.CreateParameter("forceRedirect", ignoreHttpStatusCode ? "1" : "0"), _sqlHelper.CreateParameter("redirectRootNodeId", rootNodeId)))
+                    using (IRecordsReader reader = _sqlHelper.ExecuteReader(query, _sqlHelper.CreateParameter("forceRedirect", ignoreHttpStatusCode ? 1 : 0), _sqlHelper.CreateParameter("redirectRootNodeId", rootNodeId)))
+
                     {
                         Regex regex;
                         while (reader.Read())

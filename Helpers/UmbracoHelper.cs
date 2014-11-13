@@ -1,14 +1,12 @@
-﻿using InfoCaster.Umbraco.UrlTracker.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Web;
+using InfoCaster.Umbraco.UrlTracker.Models;
 using umbraco;
 using umbraco.BusinessLogic;
-using umbraco.cms.businesslogic.web;
 using umbraco.DataLayer;
-using umbraco.NodeFactory;
 using Umbraco.Core.IO;
 
 namespace InfoCaster.Umbraco.UrlTracker.Helpers
@@ -96,7 +94,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
                             _urlTrackerDomains.Add(new UrlTrackerDomain(dr.GetInt("id"), dr.GetInt("domainRootStructureID"), dr.GetString("domainName")));
                         }
                     }
-                    _urlTrackerDomains = _urlTrackerDomains.OrderBy(x => x.Node.SortOrder).ThenBy(x => x.UrlWithDomain).ToList();
+                    _urlTrackerDomains = _urlTrackerDomains.OrderBy(x => x.Name).ToList();
                 }
             }
             return _urlTrackerDomains;
