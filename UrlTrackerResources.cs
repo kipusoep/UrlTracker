@@ -9,8 +9,8 @@ namespace InfoCaster.Umbraco.UrlTracker
 {
     public static class UrlTrackerResources
     {
-        public static readonly string UrlTrackerManagerUrl = string.Format("/Umbraco/UrlTracker/InfoCaster.Umbraco.UrlTracker.UI.UrlTrackerManager.aspx?culture={0}&uiculture={1}", Thread.CurrentThread.CurrentCulture.ToString(), Thread.CurrentThread.CurrentUICulture.ToString());
-        public static readonly string UrlTrackerInfoUrl = string.Format("/Umbraco/UrlTracker/InfoCaster.Umbraco.UrlTracker.UI.UrlTrackerInfo.aspx?culture={0}&uiculture={1}", Thread.CurrentThread.CurrentCulture.ToString(), Thread.CurrentThread.CurrentUICulture.ToString());
+        public static readonly string UrlTrackerManagerUrl = string.Format("../UrlTracker/InfoCaster.Umbraco.UrlTracker.UI.UrlTrackerManager.aspx?culture={0}&uiculture={1}", Thread.CurrentThread.CurrentCulture.ToString(), Thread.CurrentThread.CurrentUICulture.ToString());
+        public static readonly string UrlTrackerInfoUrl = string.Format("../UrlTracker/InfoCaster.Umbraco.UrlTracker.UI.UrlTrackerInfo.aspx?culture={0}&uiculture={1}", Thread.CurrentThread.CurrentCulture.ToString(), Thread.CurrentThread.CurrentUICulture.ToString());
 
         public const string RootNode = "Root node";
         public const string RootNodeInfo = "The root node defines for which domain this redirect is meant";
