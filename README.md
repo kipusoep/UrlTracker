@@ -43,6 +43,9 @@ Set to true to disable tracking URL changes.
 Set to true to disable tracking not found (404) requests.
 
 ## Changelog ##
+*	3.2 [2014/ / ]
+    * [Feature] Added new setting for appending the port number. Useful for when the site is running on a non-standard port number thanks to Greg Fyans
+    * [BugFix] Fixed paths to relative paths, so it works in root and virtual folders thanks to Sandro Mastronardi
 *	3.1 [2014/11/13]
     * [Improvement] SQL Compact Edition is now supported thanks to Ornella Geboers and Sandro Mastronardi
     * [Improvement] Versioning is now based on major.minor.build.revision ([source](http://stackoverflow.com/questions/356543/can-i-automatically-increment-the-file-build-version-when-using-visual-studio))
