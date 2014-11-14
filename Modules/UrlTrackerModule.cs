@@ -322,7 +322,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                 while (reader.Read())
                 {
                     LoggingHelper.LogInformation("UrlTracker HttpModule | URL match found");
-                    if (!reader.IsNull("RedirectNodeId"))
+                    if (!reader.IsNull("RedirectNodeId") && reader.GetInt("RedirectHttpCode") != (int)HttpStatusCode.Gone)
                     {
                         int redirectNodeId = reader.GetInt("RedirectNodeId");
                         LoggingHelper.LogInformation("UrlTracker HttpModule | Redirect node id: {0}", redirectNodeId);
@@ -385,7 +385,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
             foreach (UrlTrackerModel forcedRedirect in forcedRedirects.Where(x => !x.Is404 && x.RedirectRootNodeId == rootNodeId && (x.OldUrl == urlWithoutQueryString || x.OldUrl == shortestUrl)).OrderBy(x => x.RedirectHttpCode == 410 ? 2 : 1).ThenByDescending(x => x.OldUrlQueryString))
             {
                 LoggingHelper.LogInformation("UrlTracker HttpModule | URL match found");
-                if (forcedRedirect.RedirectNodeId.HasValue)
+                if (forcedRedirect.RedirectNodeId.HasValue && forcedRedirect.RedirectHttpCode != (int)HttpStatusCode.Gone)
                 {
                     LoggingHelper.LogInformation("UrlTracker HttpModule | Redirect node id: {0}", forcedRedirect.RedirectNodeId.Value);
 

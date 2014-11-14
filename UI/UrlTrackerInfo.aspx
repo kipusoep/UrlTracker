@@ -84,9 +84,18 @@
             <div class="tab-pane" id="changeLog">
                 <ul>
                     <li>
-                        3.1 [2014/10/02]
+                        3.2 [2014/11/14]
                         <ul>
-                            <li>[Improvement] Versioning is now based on major.minor.build.revision (<a href="http://stackoverflow.com/questions/356543/can-i-automatically-increment-the-file-build-version-when-using-visual-studio" target="_blank">source</a>)</li>
+                            <li>[Feature] Added new setting for appending the port number. Useful for when the site is running on a non-standard port number thanks to Greg Fyans</li>
+                            <li>[BugFix] Fixed paths to relative paths, so it works in root and virtual folders thanks to Sandro Mastronardi</li>
+                            <li>[BugFix] 410 Gone response wasn't working anymore</li>
+                        </ul>
+                    </li>
+                    <li>
+                        3.1 [2014/11/13]
+                        <ul>
+                            <li>[Improvement] SQL Compact Edition is now supported thanks to Ornella Geboers and Sandro Mastronardi</li>
+                            <li>[Improvement] Versioning is now based on major.minor.build.revision (<a href="http://stackoverflow.com/questions/356543/can-i-automatically-increment-the-file-build-version-when-using-visual-studio">source</a>)</li>
                         </ul>
                     </li>
                     <li>
