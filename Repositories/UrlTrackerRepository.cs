@@ -152,6 +152,17 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
             string query = "DELETE FROM icUrlTracker WHERE Is404 = 1";
             _sqlHelper.ExecuteNonQuery(query);
         }
+
+        public static void DeleteNotFoundEntriesByRootAndOldUrl(int redirectRootNodeId, string oldUrl)
+        {
+            // trigger delete, but without checking if it exists = unneccesary call to database
+            LoggingHelper.LogInformation("UrlTracker Repository | Deleting Not Found entries with OldUrl: {0}", oldUrl);
+
+            const string query = "DELETE FROM icUrlTracker WHERE Is404 = 1 AND OldUrl = @oldUrl AND RedirectRootNodeId = @rootId";
+            _sqlHelper.ExecuteNonQuery(query,
+                _sqlHelper.CreateParameter("oldUrl", oldUrl),
+                _sqlHelper.CreateParameter("rootId", redirectRootNodeId));
+        }
         #endregion
 
         #region Get
@@ -168,9 +179,15 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
             return null;
         }
 
+        [Obsolete("Remove not found entries also with root id, use other method")]
         public static UrlTrackerModel GetNotFoundEntryByUrl(string url)
         {
             return GetNotFoundEntries().Single(x => x.OldUrl == url);
+        }
+
+        public static UrlTrackerModel GetNotFoundEntryByRootAndUrl(int redirectRootNodeId, string url)
+        {
+            return GetNotFoundEntries().Single(x => x.OldUrl == url && x.RedirectRootNodeId == redirectRootNodeId);
         }
 
         public static List<UrlTrackerModel> GetUrlTrackerEntries(int? maximumRows, int? startRowIndex, string sortExpression = "", bool _404 = false, bool include410Gone = false, bool showAutoEntries = true, bool showCustomEntries = true, bool showRegexEntries = true, string keyword = "", bool onlyForcedRedirects = false)
@@ -503,7 +520,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
                     Uri oldUri = null;
                     if (!oldUrlTrackerEntry.IsRegex)
                     {
-                        if (!oldUrl.StartsWith("http"))
+                        if (!oldUrl.StartsWith(Uri.UriSchemeHttp))
                             oldUri = new Uri(_baseUri, oldUrl);
                         else
                             oldUri = new Uri(oldUrl);

@@ -207,7 +207,14 @@ namespace InfoCaster.Umbraco.UrlTracker.UI
         protected void GridView_SelectedIndexChanged(object sender, EventArgs e)
         {
             GridView gridView = (GridView)sender;
-            LoadDetail(gridView.SelectedDataKey.Value);
+            if (gridView.SelectedDataKey.Values.Count > 1)
+            {
+                LoadDetail(gridView.SelectedDataKey.Values[0], gridView.SelectedDataKey.Values[1] as string);
+            }
+            else
+            {
+                LoadDetail(gridView.SelectedDataKey.Value);
+            }
         }
 
         protected void gvNotFound_RowDeleted(object sender, GridViewDeletedEventArgs e)
@@ -388,16 +395,20 @@ namespace InfoCaster.Umbraco.UrlTracker.UI
             Response.Redirect(Request.RawUrl);
         }
 
-        void LoadDetail(object dataKey)
+        void LoadDetail(object dataKey, string secondKey = null)
         {
             ResetViews();
             pnlBreadcrumb.Visible = true;
             mvUrlTracker.SetActiveView(vwUrlTrackerDetail);
 
-            if (dataKey is int)
+            if (secondKey == null)
+            {
                 UrlTrackerModel = UrlTrackerRepository.GetUrlTrackerEntryById((int)dataKey);
-            else if (dataKey is string)
-                UrlTrackerModel = UrlTrackerRepository.GetNotFoundEntryByUrl((string)dataKey);
+            }
+            else if (dataKey is int && !string.IsNullOrEmpty(secondKey))
+            {
+                UrlTrackerModel = UrlTrackerRepository.GetNotFoundEntryByRootAndUrl((int)dataKey, secondKey);
+            }
             lbSwitchToNormalView_Click(this, EventArgs.Empty);
         }
 

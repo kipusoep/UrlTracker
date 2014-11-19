@@ -39,7 +39,7 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.UserControls
                 pnlRootNode.Visible = false;
             else
             {
-                lnkRootNode.Text = string.Format("{0} ({1})", domain.Node.Name, domain.Name);
+                lnkRootNode.Text = UrlTrackerHelper.GetName(domain);
                 lnkRootNode.ToolTip = UrlTrackerResources.SyncTree;
                 lnkRootNode.NavigateUrl = string.Format("javascript:parent.UmbClientMgr.mainTree().syncTree('{1}', false);", redirectRootNode.Id, redirectRootNode.Path);
             }
@@ -62,7 +62,7 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.UserControls
             UrlTrackerModel.RedirectPassThroughQueryString = cbRedirectPassthroughQueryString.Checked;
             UrlTrackerModel.Notes = tbNotes.Text;
             UrlTrackerRepository.UpdateUrlTrackerEntry(UrlTrackerModel);
-            UrlTrackerRepository.DeleteNotFoundEntriesByOldUrl(UrlTrackerModel.OldUrl);
+            UrlTrackerRepository.DeleteNotFoundEntriesByRootAndOldUrl(UrlTrackerModel.RedirectRootNodeId, UrlTrackerModel.OldUrl);
         }
     }
 }

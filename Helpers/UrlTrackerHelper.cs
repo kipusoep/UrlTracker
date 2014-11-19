@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InfoCaster.Umbraco.UrlTracker.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -46,5 +47,22 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
 
 			return url;
 		}
+
+        public static string GetName(UrlTrackerDomain domain)
+        {
+            if (UrlTrackerSettings.HasDomainOnChildNode)
+            {
+                var result = string.Format("{0}", domain.Node.Parent == null ? domain.Node.Name : domain.Node.Parent.Name + "/" + domain.Node.Name);
+                if (string.IsNullOrEmpty(result))
+                {
+                    result = "(root)";
+                }
+                return result;
+            }
+            else
+            {
+                return string.Format("{0} ({1})", domain.Node.Name, domain.Name);
+            }
+        }
 	}
 }

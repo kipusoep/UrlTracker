@@ -74,6 +74,12 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
             if (!pathPart.Contains(".") && !pathPart.EndsWith("/"))
                 pathPart += "/";
 
+            // check if path is longer than one character, then if it does not start with / then add a /
+            if (pathPart.Length > 1 && pathPart[0] != '/')
+            {
+                pathPart = '/' + pathPart; // fix because sometimes there is no leading /... depends on browser...
+            }
+
             // return true if url starts with an element of the reserved list
             return _reservedList.StartsWith(pathPart.ToLowerInvariant());
         }
@@ -94,6 +100,19 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
                             _urlTrackerDomains.Add(new UrlTrackerDomain(dr.GetInt("id"), dr.GetInt("domainRootStructureID"), dr.GetString("domainName")));
                         }
                     }
+                    _urlTrackerDomains = _urlTrackerDomains.OrderBy(x => x.Name).ToList();
+
+                    if (UrlTrackerSettings.HasDomainOnChildNode)
+                    {
+                        using (var dr = sqlHelper.ExecuteReader("SELECT * FROM umbracoDomains where CHARINDEX('*',domainName) = 1"))
+                        {
+                            while (dr.Read())
+                            {
+                                _urlTrackerDomains.Add(new UrlTrackerDomain(dr.GetInt("id"), dr.GetInt("domainRootStructureID"), dr.GetString("domainName")));
+                            }
+                        }
+                    }
+
                     _urlTrackerDomains = _urlTrackerDomains.OrderBy(x => x.Name).ToList();
                 }
             }

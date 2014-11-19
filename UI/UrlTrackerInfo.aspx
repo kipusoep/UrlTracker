@@ -71,6 +71,9 @@
                 <h4>urlTracker:appendPortNumber</h4>
                 <h5>boolean (true)</h5>
                 <p>Set to false to disable appending a port number to redirect URLs</p>
+                <h4>urlTracker:hasDomainOnChildNode</h4>
+                <h5>boolean (false)</h5>
+                <p>Set to true if a childnode has a domain</p>
             </div>
             <div class="tab-pane" id="qa">
                 <p>Some questions and answers. This section will be expanded when people start asking more questions on the forum ;-)</p>
