@@ -23,14 +23,17 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
                 {
                     using (InfoCaster.Umbraco.UrlTracker.Helpers.ContextHelper.EnsureHttpContext())
                     {
-                        /*if (UmbracoContext.Current != null)
-                        {*/
-                            return new Node(node.Id).Url;
-                        /*}
+                        // not sure if this will ever occur because the ensurehttpcontext is now added...
+                        if (UmbracoContext.Current != null)
+                        {
+                            /*var url = new Node(node.Id).Url;
+                            return url;*/
+                            return Node.Url; // do not re-instantiate
+                        }
                         else
                         {
                             return string.Format("{0}{1}{2}", HttpContext.Current != null ? HttpContext.Current.Request.Url.Scheme : Uri.UriSchemeHttp, Uri.SchemeDelimiter, HttpContext.Current.Request.Url.Host + "/" + Node.Parent.UrlName + "/" + Node.UrlName);
-                        }*/
+                        }
                     }
                 }
                 else
