@@ -9,8 +9,23 @@ namespace InfoCaster.Umbraco.UrlTracker
 {
     public static class UrlTrackerResources
     {
-        public static readonly string UrlTrackerManagerUrl = string.Format("../UrlTracker/InfoCaster.Umbraco.UrlTracker.UI.UrlTrackerManager.aspx?culture={0}&uiculture={1}", Thread.CurrentThread.CurrentCulture.ToString(), Thread.CurrentThread.CurrentUICulture.ToString());
-        public static readonly string UrlTrackerInfoUrl = string.Format("../UrlTracker/InfoCaster.Umbraco.UrlTracker.UI.UrlTrackerInfo.aspx?culture={0}&uiculture={1}", Thread.CurrentThread.CurrentCulture.ToString(), Thread.CurrentThread.CurrentUICulture.ToString());
+        public static string UrlTrackerManagerUrl
+        {
+            get
+            {
+                string urlTrackerManagerUrl = string.Format("~/umbraco/UrlTracker/InfoCaster.Umbraco.UrlTracker.UI.UrlTrackerManager.aspx?culture={0}&uiculture={1}", Thread.CurrentThread.CurrentCulture.ToString(), Thread.CurrentThread.CurrentUICulture.ToString());
+                return VirtualPathUtility.ToAbsolute(urlTrackerManagerUrl);
+            }
+        }
+
+        public static string UrlTrackerInfoUrl
+        {
+            get
+            {
+                string urlTrackerInfoUrl = string.Format("~/umbraco/UrlTracker/InfoCaster.Umbraco.UrlTracker.UI.UrlTrackerInfo.aspx?culture={0}&uiculture={1}", Thread.CurrentThread.CurrentCulture.ToString(), Thread.CurrentThread.CurrentUICulture.ToString());
+                return VirtualPathUtility.ToAbsolute(urlTrackerInfoUrl);
+            }
+        }
 
         public const string RootNode = "Root node";
         public const string RootNodeInfo = "The root node defines for which domain this redirect is meant";
