@@ -42,6 +42,17 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
 
                 url = UrlTrackerHelper.ResolveShortestUrl(url);
 
+                if (UrlTrackerSettings.HasDomainOnChildNode)
+                {
+                    var rootNode = new Node(rootNodeId);
+                    var rootUri = new Uri(rootNode.NiceUrl);
+                    var shortRootUrl = UrlTrackerHelper.ResolveShortestUrl(rootUri.AbsolutePath);
+                    if (url.StartsWith(shortRootUrl, StringComparison.OrdinalIgnoreCase))
+                    {
+                        url = UrlTrackerHelper.ResolveShortestUrl(url.Substring(shortRootUrl.Length));
+                    }
+                }
+
                 if (!string.IsNullOrEmpty(url))
                 {
                     string query = "SELECT 1 FROM icUrlTracker WHERE RedirectNodeId = @nodeId AND OldUrl = @url";
