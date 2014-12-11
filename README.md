@@ -46,6 +46,8 @@ Set to true to disable tracking not found (404) requests.
 Set to false to disable appending a port number to redirect URLs
 
 ## Changelog ##
+*	3.3 [2014/12/11]
+    * [BugFix] The UrlTracker dashboard wasn't working in some cases since v3.2
 *	3.2 [2014/11/14]
     * [Feature] Added new setting for appending the port number. Useful for when the site is running on a non-standard port number thanks to Greg Fyans
     * [BugFix] Fixed paths to relative paths, so it works in root and virtual folders thanks to Sandro Mastronardi
