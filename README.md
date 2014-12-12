@@ -106,7 +106,7 @@ Set to false to disable appending a port number to redirect URLs
     * [Bugfix] The database columns were too small in some situations
 *   2.4.0 [2013/12/11]
     * [Bugfix] In some situations an exception would occur with umbraco v6 (Value cannot be null. Parameter name: umbracoContext)
-    * [Feature] Added the option to force a redirect (will allways perform a redirect, even if a page at the specified old URL exists)
+    * [Feature] Added the option to force a redirect (will always perform a redirect, even if a page at the specified old URL exists)
     * [Improvement] Massive performance improvements compared to v2.2.8 and newer
     * [Improvement] Better 404 handling; ignores 404 entry if the URL is an arterySignalR (BrowserLink) URL (VS 2013)
 *   2.3.2 [2013/11/27]
@@ -115,7 +115,7 @@ Set to false to disable appending a port number to redirect URLs
     * [Bugfix] There was an issue with the HttpModule (http://our.umbraco.org/projects/developer-tools/301-url-tracker/version-2/46447-404-page-generates-error-once-URL-tracker-installed)
 *   2.3.0 [2013/11/26]
     * [Bugfix] The old URL shown in the UI was sometimes wrong when a domain with path was configured
-    * [Bugfix] Fixed a bug which occured when overlapping hostnames were configured, like 'domain.org' and 'domain.org/path'
+    * [Bugfix] Fixed a bug which occurred when overlapping hostnames were configured, like 'domain.org' and 'domain.org/path'
 *   2.2.9 [2013/11/25]
     * [Bugfix] Some automatic entries were not recognized as automatic entry
 *   2.2.8 [2013/11/11]
