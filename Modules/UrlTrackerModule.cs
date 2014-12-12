@@ -264,7 +264,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                             NameValueCollection newQueryString = HttpUtility.ParseQueryString(request.Url.Query);
                             if (redirectQueryString.HasKeys())
                                 newQueryString = newQueryString.Merge(redirectQueryString);
-                            string pathAndQuery = Uri.UnescapeDataString(redirectUri.PathAndQuery);
+                            string pathAndQuery = Uri.UnescapeDataString(redirectUri.PathAndQuery) + redirectUri.Fragment;
                             redirectUri = new Uri(string.Format("{0}{1}{2}{3}/{4}{5}", redirectUri.Scheme, Uri.SchemeDelimiter, redirectUri.Host, redirectUri.Port != 80 && UrlTrackerSettings.AppendPortNumber ? string.Concat(":", redirectUri.Port) : string.Empty, pathAndQuery.Contains('?') ? pathAndQuery.Substring(0, pathAndQuery.IndexOf('?')) : pathAndQuery.StartsWith("/") ? pathAndQuery.Substring(1) : pathAndQuery, newQueryString.HasKeys() ? string.Concat("?", newQueryString.ToQueryString()) : string.Empty));
                         }
 
@@ -275,7 +275,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                         }
                         if (request.Url.Host.Equals(redirectUri.Host, StringComparison.OrdinalIgnoreCase))
                         {
-                            redirectLocation = redirectUri.PathAndQuery;
+                            redirectLocation = redirectUri.PathAndQuery + redirectUri.Fragment;
                         }
                         else
                         {
@@ -361,7 +361,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                             if (redirectUrl.StartsWith(Uri.UriSchemeHttp))
                             {
                                 Uri redirectUri = new Uri(redirectUrl);
-                                string pathAndQuery = Uri.UnescapeDataString(redirectUri.PathAndQuery);
+                                string pathAndQuery = Uri.UnescapeDataString(redirectUri.PathAndQuery) + redirectUri.Fragment;
                                 /*redirectUrl = pathAndQuery.StartsWith("/") && pathAndQuery != "/" ? pathAndQuery.Substring(1) : pathAndQuery;
 
                                 if (redirectUri.Host != HttpContext.Current.Request.Url.Host)
