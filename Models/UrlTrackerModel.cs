@@ -130,18 +130,19 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
                     }
                     var sourceUrl = new Uri(siteDomains.First().UrlWithDomain);
                     var targetUrl = new Uri(sourceUrl, umbraco.library.NiceUrl(RedirectNodeId.Value));
-                    if (targetUrl.Host != sourceUrl.Host)
+                    if (!targetUrl.Host.Equals(sourceUrl.Host, StringComparison.OrdinalIgnoreCase))
                     {
                         return targetUrl.AbsoluteUri;
                     }
-                    if (hosts.Contains(sourceUrl.Host))
+                    if (hosts.Any(n => n.Equals(sourceUrl.Host, StringComparison.OrdinalIgnoreCase)))
                     {
                         string url = umbraco.library.NiceUrl(RedirectNodeId.Value);
                         // if current host is for this site already... (so no unnessecary redirects to primary domain)
                         if (url.StartsWith(Uri.UriSchemeHttp))
                         {
                             // if url is with domain, strip domain
-                            return new Uri(url).AbsolutePath;
+                            var uri = new Uri(url);
+                            return uri.AbsolutePath + uri.Fragment;
                         }
                         return url;
                     }
@@ -152,7 +153,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
                     }
                     else
                     {
-                        return newUri.AbsolutePath;
+                        return newUri.AbsolutePath + newUri.Fragment;
                     }
                 }
                 
