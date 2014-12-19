@@ -34,12 +34,10 @@ using System.Web.UI;
 
 // SQL
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.SQL.MicrosoftSqlServer.create-table-1.sql", "text/plain")]
-[assembly: WebResource("InfoCaster.Umbraco.UrlTracker.SQL.MicrosoftSqlServer.create-table-2.sql", "text/plain")]
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.SQL.MicrosoftSqlServer.update-table-1.sql", "text/plain")]
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.SQL.MicrosoftSqlServer.update-table-2.sql", "text/plain")]
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.SQL.MicrosoftSqlServer.update-table-3.sql", "text/plain")]
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.SQL.SqlServerCompact.create-table-1.sql", "text/plain")]
-[assembly: WebResource("InfoCaster.Umbraco.UrlTracker.SQL.SqlServerCompact.create-table-2.sql", "text/plain")]
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.SQL.SqlServerCompact.check-table-1.sql", "text/plain")]
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.SQL.SqlServerCompact.check-table-2.sql", "text/plain")]
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.SQL.SqlServerCompact.update-table-1.sql", "text/plain")]

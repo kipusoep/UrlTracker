@@ -415,8 +415,6 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
 
             var createTableQuery = EmbeddedResourcesHelper.GetString(string.Concat(folderName, "create-table-1.sql"));
             _sqlHelper.ExecuteNonQuery(createTableQuery);
-            createTableQuery = EmbeddedResourcesHelper.GetString(string.Concat(folderName, "create-table-2.sql"));
-            _sqlHelper.ExecuteNonQuery(createTableQuery);
         }
 
         public static void UpdateUrlTrackerTable()

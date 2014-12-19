@@ -18,6 +18,8 @@ using umbraco.interfaces;
 using umbraco.NodeFactory;
 using Umbraco.Web;
 using UmbracoHelper = InfoCaster.Umbraco.UrlTracker.Helpers.UmbracoHelper;
+using InfoCaster.Umbraco.UrlTracker.UI.Installer;
+using InfoCaster.Umbraco.UrlTracker.Exceptions;
 
 namespace InfoCaster.Umbraco.UrlTracker.Modules
 {
@@ -50,10 +52,16 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                     lock (_lock)
                     {
                         _urlTrackerInstalled = UrlTrackerRepository.GetUrlTrackerTableExists();
-                        if (_urlTrackerInstalled)
-                            UrlTrackerRepository.UpdateUrlTrackerTable();
                         if (!_urlTrackerInstalled)
+                        {
                             UrlTrackerRepository.CreateUrlTrackerTable();
+                            UrlTrackerInstallerService installer = new UrlTrackerInstallerService() { DontWait = true };
+                            try
+                            {
+                                installer.InstallDashboard();
+                            }
+                            catch (DashboardAlreadyInstalledException) { }
+                        }
                         UrlTrackerRepository.UpdateUrlTrackerTable();
                     }
                 }
