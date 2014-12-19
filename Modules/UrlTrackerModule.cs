@@ -257,7 +257,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                     {
                         if (redirectUrl == "/")
                             redirectUrl = string.Empty;
-                        Uri redirectUri = new Uri(redirectUrl.StartsWith(Uri.UriSchemeHttp) ? redirectUrl : string.Format("{0}{1}{2}{3}/{4}", request.Url.Scheme, Uri.SchemeDelimiter, request.Url.Host, request.Url.Port != 80 && UrlTrackerSettings.AppendPortNumber ? string.Concat(":", request.Url.Port) : string.Empty, redirectUrl.StartsWith("/") ? redirectUrl.Substring(1) : redirectUrl));
+                        Uri redirectUri = new Uri(redirectUrl.StartsWith(Uri.UriSchemeHttp, StringComparison.OrdinalIgnoreCase) ? redirectUrl : string.Format("{0}{1}{2}{3}/{4}", request.Url.Scheme, Uri.SchemeDelimiter, request.Url.Host, request.Url.Port != 80 && UrlTrackerSettings.AppendPortNumber ? string.Concat(":", request.Url.Port) : string.Empty, redirectUrl.StartsWith("/") ? redirectUrl.Substring(1) : redirectUrl));
                         if (redirectPassThroughQueryString)
                         {
                             NameValueCollection redirectQueryString = HttpUtility.ParseQueryString(redirectUri.Query);
