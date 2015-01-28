@@ -24,7 +24,7 @@
 
     <umbuic:UmbracoClientDependencyLoader runat="server" />
 
-    <% if (UmbracoHelper.IsVersion7OrNewer) { %>
+    <% if (InfoCaster.Umbraco.UrlTracker.Helpers.UmbracoHelper.IsVersion7OrNewer) { %>
     <cdc:JsInclude runat="server" FilePath="Application/NamespaceManager.js" PathNameAlias="UmbracoClient" Priority="0" />
     <cdc:JsInclude runat="server" FilePath="Application/jQuery/jquery.cookie.js" PathNameAlias="UmbracoClient" Priority="1" />
     <cdc:JsInclude runat="server" FilePath="ui/base2.js" PathNameAlias="UmbracoClient" Priority="1"  /> 
