@@ -30,7 +30,7 @@ using System.Web.UI;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("3.3.*")]
+[assembly: AssemblyVersion("3.4.*")]
 
 // SQL
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.SQL.MicrosoftSqlServer.create-table-1.sql", "text/plain")]
@@ -68,7 +68,7 @@ using System.Web.UI;
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.js.bootstrap.js", "text/javascript")]
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.js.bootstrap.min.js", "text/javascript")]
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.js.installer.js", "text/javascript")]
-[assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.js.jquery-1.10.1.min.js", "text/javascript")]
+[assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.js.jquery-1.11.2.min.js", "text/javascript")]
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.js.jquery-migrate-1.2.1.min.js", "text/javascript")]
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.js.jquery.validate.additional-methods.js", "text/javascript")]
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.UI.res.js.jquery.validate.additional-methods.min.js", "text/javascript")]

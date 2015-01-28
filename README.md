@@ -46,6 +46,11 @@ Set to true to disable tracking not found (404) requests.
 Set to false to disable appending a port number to redirect URLs
 
 ## Changelog ##
+*	3.4 [2014/01/28]
+    * [BugFix] "Remove at" not working properly ([#49](https://github.com/kipusoep/UrlTracker/issues/49))
+    * [BugFix] Error during installation: 'ASP.UmbracoHelper' does not contain a definition for 'IsVersion7OrNewer' ([#52](https://github.com/kipusoep/UrlTracker/issues/52))
+    * [BugFix] JavaScripts errors in backend in IE11 ([#31](https://github.com/kipusoep/UrlTracker/issues/31), updated jQuery)
+    * [Feature] Domain on child node with cross site/host redirects ([#40](https://github.com/kipusoep/UrlTracker/issues/40))
 *	3.3 [2014/12/11]
     * [BugFix] The UrlTracker dashboard wasn't working in some cases since v3.2
 *	3.2 [2014/11/14]

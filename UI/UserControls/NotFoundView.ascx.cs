@@ -43,7 +43,7 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.UserControls
                 lnkRootNode.ToolTip = UrlTrackerResources.SyncTree;
                 lnkRootNode.NavigateUrl = string.Format("javascript:parent.UmbClientMgr.mainTree().syncTree('{1}', false);", redirectRootNode.Id, redirectRootNode.Path);
             }
-            
+
             Uri oldUri = new Uri(UrlTrackerModel.CalculatedOldUrlWithDomain);
             lnkOldUrl.Text = string.Format("{0} <i class=\"icon-share\"></i>", oldUri.AbsolutePath.StartsWith("/") ? oldUri.AbsolutePath.Substring(1) : oldUri.AbsolutePath);
             lnkOldUrl.NavigateUrl = oldUri.ToString();

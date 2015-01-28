@@ -238,7 +238,7 @@
     <EmbeddedResource Include="UI\Installer\UrlTrackerInstallerService.asmx" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="UI\res\js\jquery-1.10.1.min.js" />
+    <EmbeddedResource Include="UI\res\js\jquery-1.11.2.min.js" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="UI\res\js\jquery-migrate-1.2.1.min.js" />

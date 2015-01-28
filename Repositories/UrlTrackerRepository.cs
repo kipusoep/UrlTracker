@@ -10,6 +10,7 @@ using umbraco.NodeFactory;
 using Umbraco.Core;
 using Umbraco.Core.Models;
 using Umbraco.Core.Persistence;
+using Umbraco.Web;
 
 namespace InfoCaster.Umbraco.UrlTracker.Repositories
 {
@@ -92,6 +93,9 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
 
         public static void AddGoneEntryByNodeId(int nodeId)
         {
+            if (UmbracoContext.Current == null) // NiceUrl will throw an exception if UmbracoContext is null, and we'll be unable to retrieve the URL of the node
+                return;
+
             string url = umbraco.library.NiceUrl(nodeId);
             if (url == "#")
                 return;
@@ -420,7 +424,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
                 ReloadForcedRedirectsCache();
         }
         #endregion
-        
+
         #region Support
         public static bool GetUrlTrackerTableExists()
         {

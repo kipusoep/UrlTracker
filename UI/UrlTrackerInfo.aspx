@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="<%= Page.ClientScript.GetWebResourceUrl(typeof(UrlTrackerResources), "InfoCaster.Umbraco.UrlTracker.UI.res.css.bootstrap.min.css") %>" />
     <link rel="stylesheet" type="text/css" href="<%= Page.ClientScript.GetWebResourceUrl(typeof(UrlTrackerResources), "InfoCaster.Umbraco.UrlTracker.UI.res.css.info.css") %>" />
 
-    <script type="text/javascript" src="<%= Page.ClientScript.GetWebResourceUrl(typeof(UrlTrackerResources), "InfoCaster.Umbraco.UrlTracker.UI.res.js.jquery-1.10.1.min.js") %>"></script>
+    <script type="text/javascript" src="<%= Page.ClientScript.GetWebResourceUrl(typeof(UrlTrackerResources), "InfoCaster.Umbraco.UrlTracker.UI.res.js.jquery-1.11.2.min.js") %>"></script>
     <script type="text/javascript" src="<%= Page.ClientScript.GetWebResourceUrl(typeof(UrlTrackerResources), "InfoCaster.Umbraco.UrlTracker.UI.res.js.jquery-migrate-1.2.1.min.js") %>"></script>
     <script type="text/javascript" src="<%= Page.ClientScript.GetWebResourceUrl(typeof(UrlTrackerResources), "InfoCaster.Umbraco.UrlTracker.UI.res.js.bootstrap.min.js") %>"></script>
 </head>
@@ -25,7 +25,7 @@
             <li><a href="#roadmap" data-toggle="tab">Roadmap</a></li>
             <li><a href="#credits" data-toggle="tab">Credits</a></li>
         </ul>
- 
+
         <div class="tab-content">
             <div class="tab-pane active" id="info">
                 <p>
@@ -87,6 +87,15 @@
             <div class="tab-pane" id="changeLog">
                 <ul>
                     <li>
+                        3.4 [2014/01/28]
+                        <ul>
+                            <li>[BugFix] "Remove at" not working properly (<a target="_blank" href="https://github.com/kipusoep/UrlTracker/issues/49">#49</a>)</li>
+                            <li>[BugFix] Error during installation: 'ASP.UmbracoHelper' does not contain a definition for 'IsVersion7OrNewer' (<a target="_blank" href="https://github.com/kipusoep/UrlTracker/issues/52">#52</a>)</li>
+                            <li>[BugFix] JavaScripts errors in backend in IE11 (<a target="_blank" href="https://github.com/kipusoep/UrlTracker/issues/31">#31</a>, updated jQuery)</li>
+                            <li>[Feature] Domain on child node with cross site/host redirects (<a target="_blank" href="https://github.com/kipusoep/UrlTracker/issues/40">#40</a>)</li>
+                        </ul>
+                    </li>
+                    <li>
                         3.3 [2014/12/11]
                         <ul>
                             <li>[BugFix] The UrlTracker dashboard wasn't working in some cases since v3.2</li>
@@ -104,7 +113,7 @@
                         3.1 [2014/11/13]
                         <ul>
                             <li>[Improvement] SQL Compact Edition is now supported thanks to Ornella Geboers and Sandro Mastronardi</li>
-                            <li>[Improvement] Versioning is now based on major.minor.build.revision (<a href="http://stackoverflow.com/questions/356543/can-i-automatically-increment-the-file-build-version-when-using-visual-studio">source</a>)</li>
+                            <li>[Improvement] Versioning is now based on major.minor.build.revision (<a target="_blank" href="http://stackoverflow.com/questions/356543/can-i-automatically-increment-the-file-build-version-when-using-visual-studio">source</a>)</li>
                         </ul>
                     </li>
                     <li>
@@ -116,14 +125,14 @@
                     <li>
                         3.0.1 [2014/07/09]
                         <ul>
-                            <li>[BugFix] Fixed an issue with the installer (table does not exist: <a href="https://github.com/kipusoep/UrlTracker/issues/14">#14</a>)</li>
+                            <li>[BugFix] Fixed an issue with the installer (table does not exist: <a target="_blank" href="https://github.com/kipusoep/UrlTracker/issues/14">#14</a>)</li>
                         </ul>
                     </li>
                     <li>
                         3.0.0 [2014/06/27]
                         <ul>
                             <li>[Upgrade] All code has been rewritten to use the new services and models of umbraco v6.1</li>
-                            <li>[BugFix] URL changes are tracked again (<a href="https://github.com/kipusoep/UrlTracker/issues/9" target="_blank">#9</a>)</li>
+                            <li>[BugFix] URL changes are tracked again (<a target="_blank" href="https://github.com/kipusoep/UrlTracker/issues/9">#9</a>)</li>
                             <li>[BugFix] 410 Gone response now gets lower priority than other response codes</li>
                             <li>[Improvement] Improved performance, removed hitting the DB for every single request, added caching instead</li>
                             <li>[Dropped] Dropped support for pre-6.1 umbraco versions</li>

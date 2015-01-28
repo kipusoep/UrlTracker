@@ -48,7 +48,7 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.UserControls
                 pnlRootNode.Visible = false;
             }
 
-            if (ddlRootNode.DataSource != null)
+            if (ddlRootNode.Items.Count > 1)
             {
                 ddlRootNode.SelectedValue = UrlTrackerModel.RedirectRootNodeId.ToString();
             }
