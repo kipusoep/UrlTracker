@@ -180,11 +180,38 @@ namespace InfoCaster.Umbraco.UrlTracker
             }
         }
 
+        /// <summary>
+        /// Returns wether or not a child node has a domain configured
+        /// </summary>
+        /// <remarks>
+        /// appSetting: 'urlTracker:hasDomainOnChildNode'
+        /// </remarks>
+        public static bool HasDomainOnChildNode
+        {
+            get
+            {
+                if (!_hasDomainOnChildNode.HasValue)
+                {
+                    var hasDomainOnChildNode = false;
+                    if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["urlTracker:hasDomainOnChildNode"]))
+                    {
+                        bool parsedAppSetting;
+                        if (bool.TryParse(ConfigurationManager.AppSettings["urlTracker:hasDomainOnChildNode"], out parsedAppSetting))
+                            hasDomainOnChildNode = parsedAppSetting;
+                    }
+                    _hasDomainOnChildNode = hasDomainOnChildNode;
+                }
+                return _hasDomainOnChildNode.Value;
+            }
+        }
+
+
         static bool? _isDisabled;
         static bool? _enableLogging;
         static string[] _notFoundUrlsToIgnore;
         static bool? _isTrackingDisabled;
         static bool? _isNotFoundTrackingDisabled;
         static bool? _appendPortNumber;
+        static bool? _hasDomainOnChildNode;
     }
 }

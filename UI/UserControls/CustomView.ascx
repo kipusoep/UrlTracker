@@ -9,7 +9,9 @@
     <asp:Panel runat="server" ID="pnlRootNode" CssClass="control-group">
         <label class="control-label" for="<%= ddlRootNode.ClientID %>"><%= UrlTrackerResources.RootNode %> <i class="icon-question-sign" data-toggle="tooltip" title="<%= UrlTrackerResources.RootNodeInfo %>"></i></label>
         <div class="controls">
-            <asp:DropDownList runat="server" ID="ddlRootNode" AppendDataBoundItems="true" DataTextField="Text" DataValueField="Value" CssClass="input-xlarge" />
+            <asp:DropDownList runat="server" ID="ddlRootNode" AppendDataBoundItems="true" DataTextField="Text" DataValueField="Value" CssClass="input-xlarge">
+                <asp:ListItem Value="-1">/</asp:ListItem>
+            </asp:DropDownList>
         </div>
     </asp:Panel>
     <asp:MultiView runat="server" ID="mvRedirectFrom" ActiveViewIndex="0">

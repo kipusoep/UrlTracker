@@ -46,8 +46,9 @@
                 <asp:Parameter Name="Id" Type="Int32" />
             </DeleteParameters>
         </asp:ObjectDataSource>
-        <asp:ObjectDataSource runat="server" ID="odsNotFoundEntries" DeleteMethod="DeleteNotFoundEntriesByOldUrl" SelectMethod="GetNotFoundEntries" TypeName="InfoCaster.Umbraco.UrlTracker.Repositories.UrlTrackerRepository" SortParameterName="sortExpression">
+        <asp:ObjectDataSource runat="server" ID="odsNotFoundEntries" DeleteMethod="DeleteNotFoundEntriesByRootAndOldUrl" SelectMethod="GetNotFoundEntries" TypeName="InfoCaster.Umbraco.UrlTracker.Repositories.UrlTrackerRepository" SortParameterName="sortExpression">
             <DeleteParameters>
+                <asp:Parameter Name="redirectRootNodeId" Type="Int32" />
                 <asp:Parameter Name="oldUrl" Type="String" />
             </DeleteParameters>
         </asp:ObjectDataSource>
@@ -175,7 +176,7 @@
                                                 <asp:View runat="server" ID="vwGridViewsNotFound">
                                                     <asp:MultiView runat="server" ID="mvNotFoundFilter" ActiveViewIndex="0">
                                                         <asp:View runat="server" ID="vwNotFoundFilterGrid">
-                                                            <asp:GridView runat="server" ID="gvNotFound" CssClass="table table-striped table-bordered table-hover" AutoGenerateColumns="False" DataSourceID="odsNotFoundEntries" AllowPaging="True" PagerSettings-Mode="NumericFirstLast" AllowSorting="true" GridLines="None" CellSpacing="-1" DataKeyNames="OldUrl"  OnSelectedIndexChanged="GridView_SelectedIndexChanged" OnRowDataBound="GridView_RowDataBound" OnRowDeleted="gvNotFound_RowDeleted">
+                                                            <asp:GridView runat="server" ID="gvNotFound" CssClass="table table-striped table-bordered table-hover" AutoGenerateColumns="False" DataSourceID="odsNotFoundEntries" AllowPaging="True" PagerSettings-Mode="NumericFirstLast" AllowSorting="true" GridLines="None" CellSpacing="-1" DataKeyNames="RedirectRootNodeId, OldUrl"  OnSelectedIndexChanged="GridView_SelectedIndexChanged" OnRowDataBound="GridView_RowDataBound" OnRowDeleted="gvNotFound_RowDeleted">
                                                                 <SortedAscendingHeaderStyle CssClass="asc" />
                                                                 <SortedDescendingHeaderStyle CssClass="desc" />
                                                                 <Columns>
