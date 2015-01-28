@@ -11,7 +11,7 @@
     <div class="installer">
         <div class="dashboardWrapper">
             <h2>Url Tracker</h2>
-            <img src="<%= Page.ClientScript.GetWebResourceUrl(typeof(UrlTrackerResources), "InfoCaster.Umbraco.UrlTracker.UI.res.img.urltracker-icon.png") %>" alt="UrlTracker" class="dashboardIcon" style="<%= UmbracoHelper.IsVersion7OrNewer ? "left: 3px; top: 5px;" : string.Empty %>" />
+            <img src="<%= Page.ClientScript.GetWebResourceUrl(typeof(UrlTrackerResources), "InfoCaster.Umbraco.UrlTracker.UI.res.img.urltracker-icon.png") %>" alt="UrlTracker" class="dashboardIcon" style="<%= InfoCaster.Umbraco.UrlTracker.Helpers.UmbracoHelper.IsVersion7OrNewer ? "left: 3px; top: 5px;" : string.Empty %>" />
             <p>Please wait while the Url Tracker executes the final installation tasks...</p>
             <div id="urlTrackerLoader">
             </div>
