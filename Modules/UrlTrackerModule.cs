@@ -443,7 +443,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
             if (forcedRedirects == null || !forcedRedirects.Any())
                 return;
 
-            foreach (UrlTrackerModel forcedRedirect in forcedRedirects.Where(x => !x.Is404 && x.RedirectRootNodeId == rootNodeId && (x.OldUrl == urlWithoutQueryString || x.OldUrl == shortestUrl)).OrderBy(x => x.RedirectHttpCode == 410 ? 2 : 1).ThenByDescending(x => x.OldUrlQueryString))
+            foreach (UrlTrackerModel forcedRedirect in forcedRedirects.Where(x => !x.Is404 && x.RedirectRootNodeId == rootNodeId && (x.OldUrl.ToLower() == urlWithoutQueryString.ToLower() || x.OldUrl.ToLower() == shortestUrl.ToLower())).OrderBy(x => x.RedirectHttpCode == 410 ? 2 : 1).ThenByDescending(x => x.OldUrlQueryString))
             {
                 LoggingHelper.LogInformation("UrlTracker HttpModule | URL match found");
                 if (forcedRedirect.RedirectNodeId.HasValue && forcedRedirect.RedirectHttpCode != (int)HttpStatusCode.Gone)
