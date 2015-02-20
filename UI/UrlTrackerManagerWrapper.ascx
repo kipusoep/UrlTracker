@@ -9,7 +9,6 @@
         <img src="<%= Page.ClientScript.GetWebResourceUrl(typeof(UrlTrackerResources), "InfoCaster.Umbraco.UrlTracker.UI.res.img.info.png") %>" alt="Info" /></a>
     <img src="<%= Page.ClientScript.GetWebResourceUrl(typeof(UrlTrackerResources), "InfoCaster.Umbraco.UrlTracker.UI.res.img.urltracker-icon.png") %>" alt="UrlTracker" class="dashboardIcon" />
     <script type="text/javascript">
-        //<![CDATA[
         var $urlTrackerIframe;
         $(function () {
             $urlTrackerIframe = $("#urlTrackerIframe");
@@ -28,7 +27,6 @@
             }
             $urlTrackerIframe.height(parseInt($heightElement.height()) - heightToSubtract);
         }
-        //]]>
     </script>
     <iframe scrolling="auto" frameborder="0" marginheight="0" marginwidth="0" id="urlTrackerIframe" seamless="seamless" name="urltracker" src="<%= UrlTrackerResources.UrlTrackerManagerUrl %>" style="width: 100%;"></iframe>
 </div>

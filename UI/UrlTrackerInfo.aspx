@@ -87,7 +87,15 @@
             <div class="tab-pane" id="changeLog">
                 <ul>
                     <li>
-                        3.4 [2014/01/28]
+                        3.5 [2015/02/20]
+                        <ul>
+                            <li>[BugFix] Date in the changelog of v3.4 was wrong</li>
+                            <li>[BugFix] Manual redirects not working with root set to / (<a target="_blank" href="https://github.com/kipusoep/UrlTracker/issues/62">#62</a>)</li>
+                            <li>[Improvement] 404 Not Found View CSS (<a target="_blank" href="https://github.com/kipusoep/UrlTracker/issues/27">#27</a>)</li>
+                        </ul>
+                    </li>
+                    <li>
+                        3.4 [2015/01/28]
                         <ul>
                             <li>[BugFix] "Remove at" not working properly (<a target="_blank" href="https://github.com/kipusoep/UrlTracker/issues/49">#49</a>)</li>
                             <li>[BugFix] Error during installation: 'ASP.UmbracoHelper' does not contain a definition for 'IsVersion7OrNewer' (<a target="_blank" href="https://github.com/kipusoep/UrlTracker/issues/52">#52</a>)</li>

@@ -53,6 +53,15 @@ table {
     word-break: break-all;
 }
 
+.table td, .table th {
+    -ms-text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 400px;
+    overflow: hidden;
+}
+
 .error, .warning, .success, .info {
     padding: 10px;
     margin-bottom: .5em;
