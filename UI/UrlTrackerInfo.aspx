@@ -87,6 +87,12 @@
             <div class="tab-pane" id="changeLog">
                 <ul>
                     <li>
+                        3.6 [2015/03/21]
+                        <ul>
+                            <li>[BugFix] Rootnode resolving bug fixed (<a target="_blank" href="https://github.com/kipusoep/UrlTracker/issues/69">#69</a>)</li>
+                        </ul>
+                    </li>
+                    <li>
                         3.5 [2015/02/20]
                         <ul>
                             <li>[BugFix] Date in the changelog of v3.4 was wrong</li>
