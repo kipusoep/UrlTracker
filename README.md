@@ -207,3 +207,7 @@ You can uninstall the Url Tracker by removing the package. The database table wi
 *   **InfoCaster** | Being able to combine 'work' with package development and thanks to colleagues for inspiration.
 *   **Richard Soeteman** | Richard came up with the idea for a package which keeps track of URLs of umbraco nodes.
 *   **The uComponents project** | For inspiring me to create a single-assembly package solution.
+
+## Donate ##
+Please follow this link if you would like to donate: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VKGMKM3NN8MSQ  
+Thanks in advance!
