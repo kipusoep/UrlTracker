@@ -136,9 +136,7 @@ namespace InfoCaster.Umbraco.UrlTracker
 #endif
         }
 
-#pragma warning disable 0618
         void content_BeforeClearDocumentCache(Document doc, DocumentCacheEventArgs e)
-#pragma warning restore
         {
 #if !DEBUG
             try

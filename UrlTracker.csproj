@@ -150,6 +150,7 @@
   <ItemGroup>
     <Compile Include="Exceptions\DashboardAlreadyInstalledException.cs" />
     <Compile Include="Helpers\ContextHelper.cs" />
+    <Compile Include="Helpers\SqlHelperCached.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\ISqlHelperExtensions.cs" />
     <Compile Include="Helpers\EmbeddedResourcesHelper.cs" />

@@ -16,9 +16,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
         static readonly object _locker = new object();
         static volatile string _reservedUrlsCache;
         static string _reservedPathsCache;
-#pragma warning disable 0618
         static StartsWithContainer _reservedList = new StartsWithContainer();
-#pragma warning restore
 
         /// <summary>
         /// Determines whether the specified URL is reserved or is inside a reserved path.
@@ -40,9 +38,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
                         _reservedUrlsCache = GlobalSettings.ReservedUrls;
 
                         // add URLs and paths to a new list
-#pragma warning disable 0618
                         StartsWithContainer _newReservedList = new StartsWithContainer();
-#pragma warning restore
                         foreach (string reservedUrl in _reservedUrlsCache.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries))
                         {
                             //resolves the url to support tilde chars
@@ -92,7 +88,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
                 lock (_locker)
                 {
                     _urlTrackerDomains = new List<UrlTrackerDomain>();
-                    ISqlHelper sqlHelper = Application.SqlHelper;
+                    ISqlHelper sqlHelper = new SqlHelperCached(Application.SqlHelper);
                     using (var dr = sqlHelper.ExecuteReader("SELECT * FROM umbracoDomains where CHARINDEX('*',domainName) < 1"))
                     {
                         while (dr.Read())

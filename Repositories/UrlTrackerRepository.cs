@@ -16,7 +16,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
 {
     public static class UrlTrackerRepository
     {
-        static ISqlHelper _sqlHelper { get { return Application.SqlHelper; } }
+        static ISqlHelper _sqlHelper { get { return new SqlHelperCached(Application.SqlHelper); } }
         static readonly Uri _baseUri = new Uri("http://www.example.org");
         static List<UrlTrackerModel> _forcedRedirectsCache;
         static readonly object _cacheLock = new object();
