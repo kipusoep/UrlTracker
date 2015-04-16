@@ -56,7 +56,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
 
                 if (!string.IsNullOrEmpty(url))
                 {
-                    string query = "SELECT 1 FROM icUrlTracker WHERE RedirectNodeId = @nodeId AND OldUrl = @url";
+                    string query = "SELECT 1 FROM icUrlTracker WITH (NOLOCK) WHERE RedirectNodeId = @nodeId AND OldUrl = @url";
                     int exists = _sqlHelper.ExecuteScalar<int>(query, _sqlHelper.CreateParameter("nodeId", content.Id), _sqlHelper.CreateStringParameter("url", url));
 
                     if (exists != 1)
@@ -107,7 +107,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
             }
             url = UrlTrackerHelper.ResolveShortestUrl(url);
 
-            string query = "SELECT 1 FROM icUrlTracker WHERE RedirectNodeId = @redirectNodeId AND OldUrl = @oldUrl AND RedirectHttpCode = 410";
+            string query = "SELECT 1 FROM icUrlTracker WITH (NOLOCK) WHERE RedirectNodeId = @redirectNodeId AND OldUrl = @oldUrl AND RedirectHttpCode = 410";
             int exists = _sqlHelper.ExecuteScalar<int>(query, _sqlHelper.CreateParameter("redirectNodeId", nodeId), _sqlHelper.CreateStringParameter("oldUrl", url));
             if (exists != 1)
             {
@@ -124,7 +124,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
         #region Delete
         public static void DeleteUrlTrackerEntriesByNodeId(int nodeId)
         {
-            string query = "SELECT 1 FROM icUrlTracker WHERE RedirectNodeId = @nodeId AND RedirectHttpCode != 410";
+            string query = "SELECT 1 FROM icUrlTracker WITH (NOLOCK) WHERE RedirectNodeId = @nodeId AND RedirectHttpCode != 410";
             int exists = _sqlHelper.ExecuteScalar<int>(query, _sqlHelper.CreateParameter("nodeId", nodeId));
             if (exists == 1)
             {
@@ -139,7 +139,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
 
         public static void DeleteNotFoundEntriesByOldUrl(string oldUrl)
         {
-            string query = "SELECT 1 FROM icUrlTracker WHERE Is404 = 1 AND OldUrl = @oldUrl";
+            string query = "SELECT 1 FROM icUrlTracker WITH (NOLOCK) WHERE Is404 = 1 AND OldUrl = @oldUrl";
             int exists = _sqlHelper.ExecuteScalar<int>(query, _sqlHelper.CreateParameter("oldUrl", oldUrl));
             if (exists == 1)
             {
@@ -183,7 +183,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
         #region Get
         public static UrlTrackerModel GetUrlTrackerEntryById(int id)
         {
-            string query = "SELECT * FROM icUrlTracker WHERE Id = @id";
+            string query = "SELECT * FROM icUrlTracker WITH (NOLOCK) WHERE Id = @id";
             using (IRecordsReader reader = _sqlHelper.ExecuteReader(query, _sqlHelper.CreateParameter("id", id)))
             {
                 if (reader.Read())
@@ -210,7 +210,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
             List<UrlTrackerModel> urlTrackerEntries = new List<UrlTrackerModel>();
             int intKeyword = 0;
 
-            string query = "SELECT * FROM icUrlTracker WHERE Is404 = @is404 AND RedirectHttpCode != @redirectHttpCode";
+            string query = "SELECT * FROM icUrlTracker WITH (NOLOCK) WHERE Is404 = @is404 AND RedirectHttpCode != @redirectHttpCode";
             if (onlyForcedRedirects)
                 query = string.Concat(query, " AND ForceRedirect = 1");
 
@@ -409,7 +409,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
 
         public static bool HasNotFoundEntries()
         {
-            string query = "SELECT 1 FROM icUrlTracker WHERE Is404 = 1";
+            string query = "SELECT 1 FROM icUrlTracker WITH (NOLOCK) WHERE Is404 = 1";
             return _sqlHelper.ExecuteScalar<int>(query) == 1;
         }
         #endregion
@@ -428,19 +428,19 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
         #region Support
         public static bool GetUrlTrackerTableExists()
         {
-            string query = "SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = @tableName";
+            string query = "SELECT 1 FROM INFORMATION_SCHEMA.TABLES WITH (NOLOCK) WHERE TABLE_NAME = @tableName";
             return _sqlHelper.ExecuteScalar<int>(query, _sqlHelper.CreateParameter("tableName", UrlTrackerSettings.TableName)) == 1;
         }
 
         public static bool GetUrlTrackeOldTableExists()
         {
-            string query = "SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = @tableName";
+            string query = "SELECT 1 FROM INFORMATION_SCHEMA.TABLES WITH (NOLOCK) WHERE TABLE_NAME = @tableName";
             return _sqlHelper.ExecuteScalar<int>(query, _sqlHelper.CreateParameter("tableName", UrlTrackerSettings.OldTableName)) == 1;
         }
 
         public static void CreateUrlTrackerTable()
         {
-            if (UrlTrackerRepository.GetUrlTrackerTableExists())
+            if (GetUrlTrackerTableExists())
                 throw new Exception("Table already exists.");
 
             var folderName = GetFolderName();
@@ -451,7 +451,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
 
         public static void UpdateUrlTrackerTable()
         {
-            if (UrlTrackerRepository.GetUrlTrackerTableExists())
+            if (GetUrlTrackerTableExists())
             {
                 var folderName = GetFolderName();
 
@@ -509,7 +509,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
 
             int newUrlTrackerEntriesCount = 0;
             List<OldUrlTrackerModel> oldUrlTrackerEntries = new List<OldUrlTrackerModel>();
-            string query = string.Format("SELECT * FROM {0}", UrlTrackerSettings.OldTableName);
+            string query = string.Format("SELECT * FROM {0} WITH (NOLOCK)", UrlTrackerSettings.OldTableName);
             IRecordsReader recordsReader = _sqlHelper.ExecuteReader(query);
             while(recordsReader.Read())
             {
@@ -577,7 +577,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
         {
             invalidRowIds = new List<int>();
             bool hasInvalidEntries = false;
-            string query = "SELECT Id FROM icUrlTracker WHERE OldUrl IS NULL AND OldRegex IS NULL";
+            string query = "SELECT Id FROM icUrlTracker WITH (NOLOCK) WHERE OldUrl IS NULL AND OldRegex IS NULL";
             using (IRecordsReader reader = _sqlHelper.ExecuteReader(query))
             {
                 while (reader.Read())

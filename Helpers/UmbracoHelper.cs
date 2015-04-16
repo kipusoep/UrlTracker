@@ -89,7 +89,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
                 {
                     _urlTrackerDomains = new List<UrlTrackerDomain>();
                     ISqlHelper sqlHelper = new SqlHelperCached(Application.SqlHelper);
-                    using (var dr = sqlHelper.ExecuteReader("SELECT * FROM umbracoDomains where CHARINDEX('*',domainName) < 1"))
+                    using (var dr = sqlHelper.ExecuteReader("SELECT * FROM umbracoDomains WITH (NOLOCK) where CHARINDEX('*',domainName) < 1"))
                     {
                         while (dr.Read())
                         {
@@ -100,7 +100,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
 
                     if (UrlTrackerSettings.HasDomainOnChildNode)
                     {
-                        using (var dr = sqlHelper.ExecuteReader("SELECT * FROM umbracoDomains where CHARINDEX('*',domainName) = 1"))
+                        using (var dr = sqlHelper.ExecuteReader("SELECT * FROM umbracoDomains WITH (NOLOCK) where CHARINDEX('*',domainName) = 1"))
                         {
                             while (dr.Read())
                             {

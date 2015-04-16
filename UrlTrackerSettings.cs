@@ -39,6 +39,57 @@ namespace InfoCaster.Umbraco.UrlTracker
             }
         }
         /// <summary>
+        /// Returns wether or not the UrlTracker is disabled
+        /// </summary>
+        /// <remarks>
+        /// appSetting: 'urlTracker:disabled'
+        /// </remarks>
+        public static bool IsCacheDisabled
+        {
+            get
+            {
+                if (!_isCacheDisabled.HasValue)
+                {
+                    bool isCacheDisabled = false;
+                    var appSetting = ConfigurationManager.AppSettings["urlTracker:cacheDisabled"];
+                    if (!string.IsNullOrEmpty(appSetting))
+                    {
+                        bool parsedAppSetting;
+                        if (bool.TryParse(appSetting, out parsedAppSetting))
+                            isCacheDisabled = parsedAppSetting;
+                    }
+                    _isCacheDisabled = isCacheDisabled;
+                }
+                return _isCacheDisabled.Value;
+            }
+        }
+        /// <summary>
+        /// Returns the URLs to ignore for 404 Not Found logging
+        /// </summary>
+        /// <remarks>
+        /// appSetting: 'urlTracker:404UrlsToIgnore'
+        /// </remarks>
+        public static int CacheDuration
+        {
+            get
+            {
+                if (!_cacheDuration.HasValue)
+                {
+                    _cacheDuration = 120;
+                    var appSetting = ConfigurationManager.AppSettings["urlTracker:cacheDuration"];
+                    if (!string.IsNullOrEmpty(appSetting))
+                    {
+                        int cacheDurationSetting;
+                        if (int.TryParse(appSetting, out cacheDurationSetting))
+                        {
+                            _cacheDuration = cacheDurationSetting;
+                        }
+                    }
+                }
+                return _cacheDuration.Value;
+            }
+        }
+        /// <summary>
         /// Returns wether or not logging for the UrlTracker is enabled
         /// </summary>
         /// <remarks>
@@ -207,6 +258,8 @@ namespace InfoCaster.Umbraco.UrlTracker
 
 
         static bool? _isDisabled;
+        static bool? _isCacheDisabled;
+        static int? _cacheDuration;
         static bool? _enableLogging;
         static string[] _notFoundUrlsToIgnore;
         static bool? _isTrackingDisabled;

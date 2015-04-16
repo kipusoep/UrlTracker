@@ -148,11 +148,15 @@
     <EmbeddedResource Include="UI\res\css\info.css" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HashHelper.cs" />
+    <Compile Include="RecordsReader.cs" />
+    <Compile Include="RecordsReaderCacheEntry.cs" />
+    <Compile Include="SqlCacheProvider.cs" />
     <Compile Include="Exceptions\DashboardAlreadyInstalledException.cs" />
     <Compile Include="Helpers\ContextHelper.cs" />
     <Compile Include="Helpers\SqlHelperCached.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Extensions\ISqlHelperExtensions.cs" />
+    <Compile Include="Extensions\SqlHelperExtensions.cs" />
     <Compile Include="Helpers\EmbeddedResourcesHelper.cs" />
     <Compile Include="Models\OldUrlTrackerModel.cs" />
     <Compile Include="Providers\EmbeddedResourcesVirtualPathProvider.cs" />
