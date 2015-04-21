@@ -16,7 +16,8 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
 {
     public static class UrlTrackerRepository
     {
-        static ISqlHelper _sqlHelper { get { return new SqlHelperCached(Application.SqlHelper); } }
+        static ISqlHelper _sqlHelper { get { return Application.SqlHelper; } }
+        static ISqlHelper _sqlHelperCached { get { return new SqlHelperCached(Application.SqlHelper); } }
         static readonly Uri _baseUri = new Uri("http://www.example.org");
         static List<UrlTrackerModel> _forcedRedirectsCache;
         static readonly object _cacheLock = new object();
@@ -181,10 +182,11 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
         #endregion
 
         #region Get
-        public static UrlTrackerModel GetUrlTrackerEntryById(int id)
+        public static UrlTrackerModel GetUrlTrackerEntryById(int id, bool useCache)
         {
+            var sqlHelper = useCache ? _sqlHelperCached : _sqlHelper;
             string query = "SELECT * FROM icUrlTracker WITH (NOLOCK) WHERE Id = @id";
-            using (IRecordsReader reader = _sqlHelper.ExecuteReader(query, _sqlHelper.CreateParameter("id", id)))
+            using (IRecordsReader reader = sqlHelper.ExecuteReader(query, _sqlHelper.CreateParameter("id", id)))
             {
                 if (reader.Read())
                 {
@@ -195,18 +197,20 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
         }
 
         [Obsolete("Remove not found entries also with root id, use other method")]
-        public static UrlTrackerModel GetNotFoundEntryByUrl(string url)
+        public static UrlTrackerModel GetNotFoundEntryByUrl(string url, bool useCache)
         {
-            return GetNotFoundEntries().Single(x => x.OldUrl.ToLower() == url.ToLower());
+            return GetNotFoundEntries(useCache).Single(x => x.OldUrl.ToLower() == url.ToLower());
         }
 
-        public static UrlTrackerModel GetNotFoundEntryByRootAndUrl(int redirectRootNodeId, string url)
+        public static UrlTrackerModel GetNotFoundEntryByRootAndUrl(int redirectRootNodeId, string url, bool useCache)
         {
-            return GetNotFoundEntries().Single(x => x.OldUrl.ToLower() == url.ToLower() && x.RedirectRootNodeId == redirectRootNodeId);
+            return GetNotFoundEntries(useCache).Single(x => x.OldUrl.ToLower() == url.ToLower() && x.RedirectRootNodeId == redirectRootNodeId);
         }
 
-        public static List<UrlTrackerModel> GetUrlTrackerEntries(int? maximumRows, int? startRowIndex, string sortExpression = "", bool _404 = false, bool include410Gone = false, bool showAutoEntries = true, bool showCustomEntries = true, bool showRegexEntries = true, string keyword = "", bool onlyForcedRedirects = false)
+        public static List<UrlTrackerModel> GetUrlTrackerEntries(bool useCache, int? maximumRows, int? startRowIndex, string sortExpression = "", bool _404 = false, bool include410Gone = false, bool showAutoEntries = true, bool showCustomEntries = true, bool showRegexEntries = true, string keyword = "", bool onlyForcedRedirects = false)
         {
+            var sqlHelper = useCache ? _sqlHelperCached : _sqlHelper;
+
             List<UrlTrackerModel> urlTrackerEntries = new List<UrlTrackerModel>();
             int intKeyword = 0;
 
@@ -223,14 +227,14 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
             }
             List<IParameter> parameters = new List<IParameter>
             {
-                _sqlHelper.CreateParameter("is404", _404 ? 1 : 0),
-                _sqlHelper.CreateParameter("redirectHttpCode", include410Gone ? 0 : 410)
+                sqlHelper.CreateParameter("is404", _404 ? 1 : 0),
+                sqlHelper.CreateParameter("redirectHttpCode", include410Gone ? 0 : 410)
             };
             if (!string.IsNullOrEmpty(keyword))
-                parameters.Add(_sqlHelper.CreateParameter("keyword", "%" + keyword + "%"));
+                parameters.Add(sqlHelper.CreateParameter("keyword", "%" + keyword + "%"));
             if (intKeyword != 0)
-                parameters.Add(_sqlHelper.CreateParameter("intKeyword", intKeyword));
-            using (IRecordsReader reader = _sqlHelper.ExecuteReader(query, parameters.ToArray()))
+                parameters.Add(sqlHelper.CreateParameter("intKeyword", intKeyword));
+            using (IRecordsReader reader = sqlHelper.ExecuteReader(query, parameters.ToArray()))
             {
                 while (reader.Read())
                 {
@@ -309,10 +313,10 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
             return urlTrackerEntries;
         }
 
-        public static List<UrlTrackerModel> GetNotFoundEntries(int? maximumRows, int? startRowIndex, string sortExpression = "", string keyword = "")
+        public static List<UrlTrackerModel> GetNotFoundEntries(bool useCache, int? maximumRows, int? startRowIndex, string sortExpression = "", string keyword = "")
         {
             List<UrlTrackerModel> notFoundEntries = new List<UrlTrackerModel>();
-            List<UrlTrackerModel> urlTrackerEntries = GetUrlTrackerEntries(maximumRows, startRowIndex, sortExpression, true);
+            List<UrlTrackerModel> urlTrackerEntries = GetUrlTrackerEntries(useCache, maximumRows, startRowIndex, sortExpression, true);
             foreach (var notFoundEntry in urlTrackerEntries.GroupBy(x => x.OldUrl).Select(x => new
             {
                 Count = x.Count(),
@@ -377,34 +381,46 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
             return notFoundEntries;
         }
 
-        public static List<UrlTrackerModel> GetUrlTrackerEntries(string sortExpression = "", bool showAutoEntries = true, bool showCustomEntries = true, bool showRegexEntries = true, string keyword = "")
+        public static List<UrlTrackerModel> GetUrlTrackerEntries(bool useCache, string sortExpression = "", bool showAutoEntries = true, bool showCustomEntries = true, bool showRegexEntries = true, string keyword = "")
         {
-            return GetUrlTrackerEntries(null, null, sortExpression, showAutoEntries: showAutoEntries, showCustomEntries: showCustomEntries, showRegexEntries: showRegexEntries, keyword: keyword);
+            return GetUrlTrackerEntries(useCache, null, null, sortExpression, showAutoEntries: showAutoEntries, showCustomEntries: showCustomEntries, showRegexEntries: showRegexEntries, keyword: keyword);
         }
 
         public static List<UrlTrackerModel> GetUrlTrackerEntries(string sortExpression)
         {
-            return GetUrlTrackerEntries(null, null, sortExpression);
+            return GetUrlTrackerEntries(false, null, null, sortExpression);
         }
 
-        public static List<UrlTrackerModel> GetNotFoundEntries(string sortExpression, string keyword = "")
+        public static List<UrlTrackerModel> GetUrlTrackerEntries(bool useCache)
         {
-            return GetNotFoundEntries(null, null, sortExpression, keyword);
-        }
-
-        public static List<UrlTrackerModel> GetNotFoundEntries(string sortExpression)
-        {
-            return GetNotFoundEntries(null, null, sortExpression);
+            return GetUrlTrackerEntries(useCache, null, null);
         }
 
         public static List<UrlTrackerModel> GetUrlTrackerEntries()
         {
-            return GetUrlTrackerEntries(null, null);
+            return GetUrlTrackerEntries(false, null, null);
+        }
+
+
+
+        public static List<UrlTrackerModel> GetNotFoundEntries(bool useCache, string sortExpression, string keyword = "")
+        {
+            return GetNotFoundEntries(useCache, null, null, sortExpression, keyword);
+        }
+
+        public static List<UrlTrackerModel> GetNotFoundEntries(string sortExpression)
+        {
+            return GetNotFoundEntries(false, null, null, sortExpression);
+        }
+
+        public static List<UrlTrackerModel> GetNotFoundEntries(bool useCache)
+        {
+            return GetNotFoundEntries(useCache, null, null);
         }
 
         public static List<UrlTrackerModel> GetNotFoundEntries()
         {
-            return GetNotFoundEntries(null, null);
+            return GetNotFoundEntries(false, null, null);
         }
 
         public static bool HasNotFoundEntries()
@@ -596,7 +612,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
             lock (_cacheLock)
             {
                 if (GetUrlTrackerTableExists())
-                    _forcedRedirectsCache = GetUrlTrackerEntries(null, null, onlyForcedRedirects: true);
+                    _forcedRedirectsCache = GetUrlTrackerEntries(false, null, null, onlyForcedRedirects: true);
             }
         }
 

@@ -403,11 +403,11 @@ namespace InfoCaster.Umbraco.UrlTracker.UI
 
             if (secondKey == null)
             {
-                UrlTrackerModel = UrlTrackerRepository.GetUrlTrackerEntryById((int)dataKey);
+                UrlTrackerModel = UrlTrackerRepository.GetUrlTrackerEntryById((int)dataKey, false);
             }
             else if (dataKey is int && !string.IsNullOrEmpty(secondKey))
             {
-                UrlTrackerModel = UrlTrackerRepository.GetNotFoundEntryByRootAndUrl((int)dataKey, secondKey);
+                UrlTrackerModel = UrlTrackerRepository.GetNotFoundEntryByRootAndUrl((int)dataKey, secondKey, false);
             }
             lbSwitchToNormalView_Click(this, EventArgs.Empty);
         }
