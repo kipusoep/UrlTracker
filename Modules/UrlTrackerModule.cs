@@ -125,7 +125,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                 string shortestUrl = UrlTrackerHelper.ResolveShortestUrl(urlWithoutQueryString);
 
                 int rootNodeId = -1;
-                List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains();
+                List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains(true);
                 if (domains.Any())
                 {
                     string fullRawUrl;
@@ -413,7 +413,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
             if (redirectUri.Host != HttpContext.Current.Request.Url.Host)
             {
                 // if site runs on other domain then current, check if the current domain is already a domain for that site (prevent unnessecary redirect to primary domain)
-                List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains();
+                List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains(true);
                 List<UrlTrackerDomain> siteDomains = domains.Where(x => x.NodeId == rootNodeId).ToList();
                 List<string> hosts =
                     siteDomains

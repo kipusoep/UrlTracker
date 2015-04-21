@@ -81,14 +81,14 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
         }
 
         static List<UrlTrackerDomain> _urlTrackerDomains;
-        internal static List<UrlTrackerDomain> GetDomains()
+        internal static List<UrlTrackerDomain> GetDomains(bool useCache)
         {
             if (_urlTrackerDomains == null)
             {
                 lock (_locker)
                 {
                     _urlTrackerDomains = new List<UrlTrackerDomain>();
-                    ISqlHelper sqlHelper = new SqlHelperCached(Application.SqlHelper);
+                    ISqlHelper sqlHelper = useCache ? new SqlHelperCached(Application.SqlHelper) : Application.SqlHelper;
                     using (var dr = sqlHelper.ExecuteReader("SELECT * FROM umbracoDomains WITH (NOLOCK) where CHARINDEX('*',domainName) < 1"))
                     {
                         while (dr.Read())

@@ -31,7 +31,7 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.UserControls
             UrlTrackerDomain domain = null;
             Node redirectRootNode = new Node(UrlTrackerModel.RedirectRootNodeId);
 
-            List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains();
+            List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains(false);
             domain = domains.FirstOrDefault(x => x.NodeId == redirectRootNode.Id);
             if (domain == null)
                 domain = new UrlTrackerDomain(-1, redirectRootNode.Id, HttpContext.Current.Request.Url.Host);

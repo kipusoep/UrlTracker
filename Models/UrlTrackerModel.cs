@@ -68,7 +68,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
                     return string.Concat("Regex: ", OldRegex);
 
                 UrlTrackerDomain domain = null;
-                List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains();
+                List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains(true);
                 domain = domains.FirstOrDefault(x => x.NodeId == RedirectRootNode.Id);
                 if (domain == null)
                     domain = new UrlTrackerDomain(-1, RedirectRootNode.Id, string.Concat(HttpContext.Current.Request.Url.Host, HttpContext.Current.Request.Url.IsDefaultPort && !UrlTrackerSettings.AppendPortNumber ? string.Empty : string.Concat(":", HttpContext.Current.Request.Url.Port)));
@@ -118,7 +118,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
                 if (!RedirectRootNode.NiceUrl.EndsWith("#") && RedirectNodeId.HasValue)
                 {
 
-                    List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains();
+                    List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains(true);
                     List<UrlTrackerDomain> siteDomains = domains.Where(x => x.NodeId == RedirectRootNode.Id).ToList();
                     List<string> hosts =
                         siteDomains

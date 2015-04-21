@@ -17,7 +17,7 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.UserControls
         {
             base.OnLoad(e);
 
-            List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains();
+            List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains(false);
             if (ddlRootNode.Items.Count == 1 && domains.Count > 1 || (domains.Count == 1 && new Uri(domains[0].UrlWithDomain).AbsolutePath != "/"))
             {
                 if (ddlRootNode.Items.Count <= 1)
@@ -53,7 +53,7 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.UserControls
 
         public void CreateNew()
         {
-            List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains();
+            List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains(false);
             int siteId = domains.Count > 1 || (domains.Count == 1 && new Uri(domains[0].UrlWithDomain).AbsolutePath != "/") ? int.Parse(ddlRootNode.SelectedValue) : domains.Any() ? domains.Single().NodeId : new Node(-1).ChildrenAsList.First().Id;
             UrlTrackerRepository.AddUrlTrackerEntry(new UrlTrackerModel(UrlTrackerHelper.ResolveShortestUrl(tbOldUrl.Text), tbOldUrlQueryString.Text, tbOldRegex.Text, siteId, !string.IsNullOrEmpty(cpRedirectNode.Value) ? (int?)int.Parse(cpRedirectNode.Value) : null, tbRedirectUrl.Text, rbPermanent.Checked ? 301 : 302, cbRedirectPassthroughQueryString.Checked, cbForceRedirect.Checked, tbNotes.Text));
 

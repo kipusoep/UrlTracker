@@ -32,7 +32,7 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.UserControls
 
         public void LoadView()
         {
-            List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains();
+            List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains(false);
             if (ddlRootNode.Items.Count == 1 && domains.Count > 1)
             {
                 ddlRootNode.DataSource = domains.Select(x => new ListItem(UrlTrackerHelper.GetName(x), x.NodeId.ToString()));
@@ -70,7 +70,7 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.UserControls
 
         public void Save()
         {
-            List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains();
+            List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains(false);
 
             UrlTrackerModel.OldUrl = UrlTrackerHelper.ResolveShortestUrl(tbOldUrl.Text);
             UrlTrackerModel.OldUrlQueryString = tbOldUrlQueryString.Text;

@@ -33,7 +33,7 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.UserControls
         /// </summary>
         public void LoadView()
         {
-            List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains();
+            List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains(false);
             if (ddlRootNode.Items.Count == 1 && domains.Count > 1 || (domains.Count==1 && new Uri(domains[0].UrlWithDomain).AbsolutePath != "/"))
             {
                 // if there is only one site, but it is not with a root domain (ie: www.site.com but instead www.site.com/corporate) then also show the dropdown
@@ -81,7 +81,7 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.UserControls
 
         public void Save()
         {
-            List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains();
+            List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains(false);
 
             UrlTrackerModel.OldUrl = UrlTrackerHelper.ResolveShortestUrl(tbOldUrl.Text);
             UrlTrackerModel.OldUrlQueryString = tbOldUrlQueryString.Text;
