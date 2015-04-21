@@ -44,6 +44,12 @@ Set to true to disable tracking not found (404) requests.
 ### urlTracker:appendPortNumber ###
 #### boolean (true) ####
 Set to false to disable appending a port number to redirect URLs
+### urlTracker:cacheDisabled ###
+#### boolean (false) ####
+Set to true to disable caching
+### urlTracker:cacheDuration ###
+#### int (120) ####
+Number of seconds the redirect data is cached for
 
 ## Changelog ##
 *	3.6 [2015/03/21]
