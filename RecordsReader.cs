@@ -6,192 +6,192 @@ using umbraco.DataLayer;
 
 namespace InfoCaster.Umbraco.UrlTracker
 {
-    public class RecordsReader : IRecordsReader
-    {
-        private readonly RecordsReaderCacheEntry _recordsReaderCacheEntry;
+	public class RecordsReader : IRecordsReader
+	{
+		private readonly RecordsReaderCacheEntry _recordsReaderCacheEntry;
 
-        private int RecordsIndex { get; set; }
-        private Dictionary<string, object> CurrentRecord
-        {
-            get { return RecordsReaderCacheEntry.Records[RecordsIndex]; }
-        }
+		private int RecordsIndex { get; set; }
+		private Dictionary<string, object> CurrentRecord
+		{
+			get { return RecordsReaderCacheEntry.Records[RecordsIndex]; }
+		}
 
-        public RecordsReaderCacheEntry RecordsReaderCacheEntry
-        {
-            get { return _recordsReaderCacheEntry; }
-        }
+		public RecordsReaderCacheEntry RecordsReaderCacheEntry
+		{
+			get { return _recordsReaderCacheEntry; }
+		}
 
-        public RecordsReader(RecordsReaderCacheEntry recordsReaderCacheEntry)
-        {
-            RecordsIndex = -1;
-            _recordsReaderCacheEntry = recordsReaderCacheEntry;
-        }
+		public RecordsReader(RecordsReaderCacheEntry recordsReaderCacheEntry)
+		{
+			RecordsIndex = -1;
+			_recordsReaderCacheEntry = recordsReaderCacheEntry;
+		}
 
-        public IEnumerator GetEnumerator()
-        {
-            return RecordsReaderCacheEntry.Records.GetEnumerator();
-        }
+		public IEnumerator GetEnumerator()
+		{
+			return RecordsReaderCacheEntry.Records.GetEnumerator();
+		}
 
-        public void Dispose()
-        {
-        }
+		public void Dispose()
+		{
+		}
 
-        public bool Read()
-        {
-            if (!HasRecords || RecordsIndex + 1 >= RecordsReaderCacheEntry.Records.Count)
-            {
-                return false;
-            }
+		public bool Read()
+		{
+			if (!HasRecords || RecordsIndex + 1 >= RecordsReaderCacheEntry.Records.Count)
+			{
+				return false;
+			}
 
-            RecordsIndex++;
+			RecordsIndex++;
 
-            return true;
-        }
+			return true;
+		}
 
-        public void Close()
-        {
-        }
+		public void Close()
+		{
+		}
 
-        public bool ContainsField(string fieldName)
-        {
-            return RecordsReaderCacheEntry.FieldNames.Contains(fieldName);
-        }
+		public bool ContainsField(string fieldName)
+		{
+			return RecordsReaderCacheEntry.FieldNames.Contains(fieldName);
+		}
 
-        public bool IsNull(string fieldName)
-        {
-            VerifyFieldExists(fieldName);
+		public bool IsNull(string fieldName)
+		{
+			VerifyFieldExists(fieldName);
 
-            return CurrentRecord[fieldName] == null;
-        }
+			return CurrentRecord[fieldName] == null;
+		}
 
-        public TFieldType Get<TFieldType>(string fieldName)
-        {
-            VerifyFieldExists(fieldName);
+		public TFieldType Get<TFieldType>(string fieldName)
+		{
+			VerifyFieldExists(fieldName);
 
-            var returnValue = (TFieldType)CurrentRecord[fieldName];
+			var returnValue = (TFieldType)CurrentRecord[fieldName];
 
-            return returnValue;
-        }
+			return returnValue;
+		}
 
-        public object GetObject(string fieldName)
-        {
-            VerifyFieldExists(fieldName);
+		public object GetObject(string fieldName)
+		{
+			VerifyFieldExists(fieldName);
 
-            var returnValue = CurrentRecord[fieldName];
+			var returnValue = CurrentRecord[fieldName];
 
-            return returnValue;
-        }
+			return returnValue;
+		}
 
-        public bool GetBoolean(string fieldName)
-        {
-            VerifyFieldExists(fieldName);
+		public bool GetBoolean(string fieldName)
+		{
+			VerifyFieldExists(fieldName);
 
-            var returnValue = (bool)CurrentRecord[fieldName];
+			var returnValue = (bool)CurrentRecord[fieldName];
 
-            return returnValue;
-        }
+			return returnValue;
+		}
 
-        public byte GetByte(string fieldName)
-        {
-            VerifyFieldExists(fieldName);
+		public byte GetByte(string fieldName)
+		{
+			VerifyFieldExists(fieldName);
 
-            var returnValue = (byte)CurrentRecord[fieldName];
+			var returnValue = (byte)CurrentRecord[fieldName];
 
-            return returnValue;
-        }
+			return returnValue;
+		}
 
-        public DateTime GetDateTime(string fieldName)
-        {
-            VerifyFieldExists(fieldName);
+		public DateTime GetDateTime(string fieldName)
+		{
+			VerifyFieldExists(fieldName);
 
-            var returnValue = (DateTime)CurrentRecord[fieldName];
+			var returnValue = (DateTime)CurrentRecord[fieldName];
 
-            return returnValue;
-        }
+			return returnValue;
+		}
 
-        public decimal GetDecimal(string fieldName)
-        {
-            VerifyFieldExists(fieldName);
+		public decimal GetDecimal(string fieldName)
+		{
+			VerifyFieldExists(fieldName);
 
-            var returnValue = (decimal)CurrentRecord[fieldName];
+			var returnValue = (decimal)CurrentRecord[fieldName];
 
-            return returnValue;
-        }
+			return returnValue;
+		}
 
-        public double GetDouble(string fieldName)
-        {
-            VerifyFieldExists(fieldName);
+		public double GetDouble(string fieldName)
+		{
+			VerifyFieldExists(fieldName);
 
-            var returnValue = (double)CurrentRecord[fieldName];
+			var returnValue = (double)CurrentRecord[fieldName];
 
-            return returnValue;
-        }
+			return returnValue;
+		}
 
-        public float GetFloat(string fieldName)
-        {
-            VerifyFieldExists(fieldName);
+		public float GetFloat(string fieldName)
+		{
+			VerifyFieldExists(fieldName);
 
-            var returnValue = (float)CurrentRecord[fieldName];
+			var returnValue = (float)CurrentRecord[fieldName];
 
-            return returnValue;
-        }
+			return returnValue;
+		}
 
-        public Guid GetGuid(string fieldName)
-        {
-            VerifyFieldExists(fieldName);
+		public Guid GetGuid(string fieldName)
+		{
+			VerifyFieldExists(fieldName);
 
-            var returnValue = (Guid)CurrentRecord[fieldName];
+			var returnValue = (Guid)CurrentRecord[fieldName];
 
-            return returnValue;
-        }
+			return returnValue;
+		}
 
-        public short GetShort(string fieldName)
-        {
-            VerifyFieldExists(fieldName);
+		public short GetShort(string fieldName)
+		{
+			VerifyFieldExists(fieldName);
 
-            var returnValue = (short)CurrentRecord[fieldName];
+			var returnValue = (short)CurrentRecord[fieldName];
 
-            return returnValue;
-        }
+			return returnValue;
+		}
 
-        public int GetInt(string fieldName)
-        {
-            VerifyFieldExists(fieldName);
+		public int GetInt(string fieldName)
+		{
+			VerifyFieldExists(fieldName);
 
-            var returnValue = (int)CurrentRecord[fieldName];
+			var returnValue = (int)CurrentRecord[fieldName];
 
-            return returnValue;
-        }
+			return returnValue;
+		}
 
-        public long GetLong(string fieldName)
-        {
-            VerifyFieldExists(fieldName);
+		public long GetLong(string fieldName)
+		{
+			VerifyFieldExists(fieldName);
 
-            var returnValue = (long)CurrentRecord[fieldName];
+			var returnValue = (long)CurrentRecord[fieldName];
 
-            return returnValue;
-        }
+			return returnValue;
+		}
 
-        public string GetString(string fieldName)
-        {
-            VerifyFieldExists(fieldName);
+		public string GetString(string fieldName)
+		{
+			VerifyFieldExists(fieldName);
 
-            var returnValue = (string)CurrentRecord[fieldName];
+			var returnValue = (string)CurrentRecord[fieldName];
 
-            return returnValue;
-        }
+			return returnValue;
+		}
 
-        public bool HasRecords
-        {
-            get { return RecordsReaderCacheEntry.Records.Any(); }
-        }
+		public bool HasRecords
+		{
+			get { return RecordsReaderCacheEntry.Records.Any(); }
+		}
 
-        private void VerifyFieldExists(string fieldName)
-        {
-            if (!ContainsField(fieldName))
-            {
-                throw new KeyNotFoundException(string.Format("The field {0} does not exist.", fieldName));
-            }
-        }
-    }
+		private void VerifyFieldExists(string fieldName)
+		{
+			if (!ContainsField(fieldName))
+			{
+				throw new KeyNotFoundException(string.Format("The field {0} does not exist.", fieldName));
+			}
+		}
+	}
 }
