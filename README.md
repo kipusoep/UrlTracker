@@ -46,6 +46,8 @@ Set to true to disable tracking not found (404) requests.
 Set to false to disable appending a port number to redirect URLs
 
 ## Changelog ##
+*	3.7 [2015/05/01]
+	* [BugFix] Exception on install ([#70](https://github.com/kipusoep/UrlTracker/issues/70))
 *	3.6 [2015/03/21]
 	* [BugFix] Rootnode resolving bug fixed ([#69](https://github.com/kipusoep/UrlTracker/issues/69))
 *	3.5 [2015/02/20]

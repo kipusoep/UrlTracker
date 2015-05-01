@@ -87,6 +87,12 @@
             <div class="tab-pane" id="changeLog">
                 <ul>
                     <li>
+                        3.7 [2015/05/01]
+                        <ul>
+                            <li>[BugFix] Exception on install (<a target="_blank" href="https://github.com/kipusoep/UrlTracker/issues/70">#70</a>)</li>
+                        </ul>
+                    </li>
+                    <li>
                         3.6 [2015/03/21]
                         <ul>
                             <li>[BugFix] Rootnode resolving bug fixed (<a target="_blank" href="https://github.com/kipusoep/UrlTracker/issues/69">#69</a>)</li>
