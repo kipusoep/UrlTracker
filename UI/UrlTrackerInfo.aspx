@@ -87,6 +87,13 @@
             <div class="tab-pane" id="changeLog">
                 <ul>
                     <li>
+                        3.8 [2015/05/22]
+                        <ul>
+                            <li>[BugFix] Redirects were not working in some cases, for example <a target="_blank" href="https://our.umbraco.org/projects/developer-tools/301-url-tracker/version-2/64883-Not-working-it-returns-404">Not working - it returns 404</a></li>
+                            <li>[Improvement] Performance improvement; no SQL queries will be performed anymore for valid requests :-)</li>
+                        </ul>
+                    </li>
+                    <li>
                         3.7 [2015/05/01]
                         <ul>
                             <li>[BugFix] Exception on install (<a target="_blank" href="https://github.com/kipusoep/UrlTracker/issues/70">#70</a>)</li>

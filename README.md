@@ -46,6 +46,9 @@ Set to true to disable tracking not found (404) requests.
 Set to false to disable appending a port number to redirect URLs
 
 ## Changelog ##
+*	3.8 [2015/05/22]
+	* [BugFix] Redirects were not working in some cases, for example ([Not working - it returns 404](https://our.umbraco.org/projects/developer-tools/301-url-tracker/version-2/64883-Not-working-it-returns-404))
+	* [Improvement] Performance improvement; no SQL queries will be performed anymore for valid requests :-)
 *	3.7 [2015/05/01]
 	* [BugFix] Exception on install ([#70](https://github.com/kipusoep/UrlTracker/issues/70))
 *	3.6 [2015/03/21]

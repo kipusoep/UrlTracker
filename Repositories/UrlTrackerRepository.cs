@@ -20,7 +20,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
         static readonly Uri _baseUri = new Uri("http://www.example.org");
         static List<UrlTrackerModel> _forcedRedirectsCache;
         static readonly object _cacheLock = new object();
-        private static readonly DatabaseProviders DatabaseProvider = ApplicationContext.Current.DatabaseContext.DatabaseProvider;
+        static readonly DatabaseProviders DatabaseProvider = ApplicationContext.Current.DatabaseContext.DatabaseProvider;
 
         #region Add
         public static bool AddUrlMapping(IContent content, int rootNodeId, string url, AutoTrackingTypes type, bool isChild = false)
