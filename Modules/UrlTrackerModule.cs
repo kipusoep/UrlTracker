@@ -105,7 +105,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
             }
 
             string url = request.RawUrl;
-            if (url.StartsWith("/"))
+            if (url.StartsWith("/") && url != "/")
                 url = url.Substring(1);
 
             LoggingHelper.LogInformation("UrlTracker HttpModule | Incoming URL is: {0}", url);
