@@ -46,8 +46,10 @@ Set to true to disable tracking not found (404) requests.
 Set to false to disable appending a port number to redirect URLs
 
 ## Changelog ##
-*	3.9 [2015/05/26]
+*	3.9 [2015/07/09]
 	* [BugFix] Not allowed root "/" in old url ([#79](https://github.com/kipusoep/UrlTracker/issues/79))
+	* [BugFix] AdvanceView is throwing an exception when having a single domain configured in umbraco ([#86](https://github.com/kipusoep/UrlTracker/pull/86))
+    * [BugFix] Fixed possible Null Reference exception while looping through the forced redirects collection
 *	3.8 [2015/05/22]
 	* [BugFix] Redirects were not working in some cases, for example ([Not working - it returns 404](https://our.umbraco.org/projects/developer-tools/301-url-tracker/version-2/64883-Not-working-it-returns-404))
 	* [Improvement] Performance improvement; no SQL queries will be performed anymore for valid requests :-)

@@ -87,9 +87,11 @@
             <div class="tab-pane" id="changeLog">
                 <ul>
                     <li>
-                        3.9 [2015/05/26]
+                        3.9 [2015/07/09]
                         <ul>
-                            <li>[BugFix] Not allowed root "/" in old url <a target="_blank" href="https://github.com/kipusoep/UrlTracker/issues/79">#79</a></li>
+                            <li>[BugFix] Not allowed root "/" in old url (<a target="_blank" href="https://github.com/kipusoep/UrlTracker/issues/79">#79</a>)</li>
+                            <li>[BugFix] AdvanceView is throwing an exception when having a single domain configured in umbraco (<a target="_blank" href="https://github.com/kipusoep/UrlTracker/pull/86">#86</a>)</li>
+                            <li>[BugFix] Fixed possible Null Reference exception while looping through the forced redirects collection</li>
                         </ul>
                     </li>
                     <li>
