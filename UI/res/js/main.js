@@ -5,7 +5,7 @@ function pageLoad() {
     $(".wrap input[type='hidden']").addClass("redirect-to").addClass("redirect-to-node");
 
     $.validator.addMethod("queryString", function (value) {
-        return value == "" || /^([\w-]+(=[\w-]*)?(&[\w-]+(=[\w-]*)?)*)?$/.test(value);
+        return value == "" || /^([A-Za-z0-9\%\+\_\-\.\*]+(=[A-Za-z0-9\%\+\_\-\.\*]*)?(&[A-Za-z0-9\%\+\_\-\.\*]+(=[A-Za-z0-9\%\+\_\-\.\*]*)?)*)?$/.test(value);
     }, "Please enter a valid query string");
 
     // Initialize validation on the entire ASP.NET form.
