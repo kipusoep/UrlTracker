@@ -133,7 +133,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                 string shortestUrl = UrlTrackerHelper.ResolveShortestUrl(urlWithoutQueryString);
 
                 int rootNodeId = -1;
-                List<UrlTrackerDomain> domains = UmbracoHelper.GetDomains();
+                var domains = UmbracoHelper.GetDomains().ToArray();
                 if (domains.Any())
                 {
                     string fullRawUrl;
@@ -166,7 +166,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                 }
                 if (rootNodeId == -1)
                 {
-                    List<INode> children = new Node(rootNodeId).ChildrenAsList;
+                    var children = new Node(rootNodeId).ChildrenAsList.ToArray();
                     if (children != null && children.Any())
                         rootNodeId = children.First().Id;
                 }
@@ -484,11 +484,20 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
 
         static void LoadUrlTrackerMatchesFromCache(HttpRequest request, string urlWithoutQueryString, bool urlHasQueryString, string shortestUrl, int rootNodeId, ref string redirectUrl, ref int? redirectHttpCode, ref bool redirectPassThroughQueryString)
         {
-            List<UrlTrackerModel> forcedRedirects = UrlTrackerRepository.GetForcedRedirects();
+            var forcedRedirects = UrlTrackerRepository.GetForcedRedirects();
             if (forcedRedirects == null || !forcedRedirects.Any())
                 return;
 
-            foreach (UrlTrackerModel forcedRedirect in forcedRedirects.Where(x => !x.Is404 && (x.RedirectRootNodeId == rootNodeId || x.RedirectRootNodeId == -1) && (string.Equals(x.OldUrl, urlWithoutQueryString, StringComparison.CurrentCultureIgnoreCase) || string.Equals(x.OldUrl, shortestUrl, StringComparison.CurrentCultureIgnoreCase))).OrderBy(x => x.RedirectHttpCode == 410 ? 2 : 1).ThenByDescending(x => x.OldUrlQueryString))
+            var redirects =
+                forcedRedirects.Where(
+                    x =>
+                    !x.Is404 && (x.RedirectRootNodeId == rootNodeId || x.RedirectRootNodeId == -1)
+                    && (string.Equals(x.OldUrl, urlWithoutQueryString, StringComparison.CurrentCultureIgnoreCase)
+                        || string.Equals(x.OldUrl, shortestUrl, StringComparison.CurrentCultureIgnoreCase)))
+                               .OrderBy(x => x.RedirectHttpCode == 410 ? 2 : 1)
+                               .ThenByDescending(x => x.OldUrlQueryString)
+                               .ToArray();
+            foreach (UrlTrackerModel forcedRedirect in redirects)
             {
                 LoggingHelper.LogInformation("UrlTracker HttpModule | URL match found");
                 if (forcedRedirect.RedirectNodeId.HasValue && forcedRedirect.RedirectHttpCode != (int)HttpStatusCode.Gone)
