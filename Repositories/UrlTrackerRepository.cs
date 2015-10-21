@@ -312,7 +312,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
         public static List<UrlTrackerModel> GetNotFoundEntries(int? maximumRows, int? startRowIndex, string sortExpression = "", string keyword = "")
         {
             List<UrlTrackerModel> notFoundEntries = new List<UrlTrackerModel>();
-            List<UrlTrackerModel> urlTrackerEntries = GetUrlTrackerEntries(maximumRows, startRowIndex, sortExpression, true);
+            List<UrlTrackerModel> urlTrackerEntries = GetUrlTrackerEntries(maximumRows, startRowIndex, sortExpression, true, keyword: keyword);
             foreach (var notFoundEntry in urlTrackerEntries.GroupBy(x => x.OldUrl).Select(x => new
             {
                 Count = x.Count(),
@@ -327,19 +327,6 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
                     notFoundEntry.UrlTrackerModel.Referrer = notFoundEntry.Referrer;
                 notFoundEntry.UrlTrackerModel.Inserted = notFoundEntry.Inserted;
                 notFoundEntries.Add(notFoundEntry.UrlTrackerModel);
-            }
-
-            if (!string.IsNullOrEmpty(keyword))
-            {
-                IEnumerable<UrlTrackerModel> filteredNotFoundEntries = notFoundEntries;
-                if (!string.IsNullOrEmpty(keyword))
-                {
-                    filteredNotFoundEntries = filteredNotFoundEntries.Where(x =>
-                        (x.CalculatedOldUrl != null && x.CalculatedOldUrl.ToLower().Contains(keyword)) ||
-                        (x.Referrer != null && x.Referrer.ToLower().Contains(keyword))
-                    );
-                }
-                notFoundEntries = filteredNotFoundEntries.ToList();
             }
 
             if (!string.IsNullOrEmpty(sortExpression))
