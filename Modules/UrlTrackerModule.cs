@@ -37,7 +37,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
         public void Init(HttpApplication context)
         {
             context.AcquireRequestState += context_AcquireRequestState;
-            context.EndRequest += context_EndRequest;
+            context.PostRequestHandlerExecute += context_PostRequestHandlerExecute;
 
             LoggingHelper.LogInformation("UrlTracker HttpModule | Subscribed to AcquireRequestState and EndRequest events");
         }
@@ -75,7 +75,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                 UrlTrackerDo("AcquireRequestState", ignoreHttpStatusCode: true);
         }
 
-        void context_EndRequest(object sender, EventArgs e)
+        void context_PostRequestHandlerExecute(object sender, EventArgs e)
         {
             if (_execute)
                 UrlTrackerDo("EndRequest");
