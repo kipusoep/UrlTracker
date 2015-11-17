@@ -148,6 +148,7 @@
     <EmbeddedResource Include="UI\res\css\info.css" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContentFinders\UrlTrackerContentFinder.cs" />
     <Compile Include="Exceptions\DashboardAlreadyInstalledException.cs" />
     <Compile Include="Helpers\ContextHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
