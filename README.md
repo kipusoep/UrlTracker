@@ -46,6 +46,10 @@ Set to true to disable tracking not found (404) requests.
 Set to false to disable appending a port number to redirect URLs
 
 ## Changelog ##
+*	3.10 [2015/11/17]
+    * [Improvement] Switched to a ContentFinder for normal URL matching
+    * [BugFix] NullReferenceException with 7.3 Beta 3 and Multiple root nodes (<a target="_blank" href="https://github.com/kipusoep/UrlTracker/issues/90">#90</a>)
+    * [BugFix] ForcedRedirects cache list didn't get updated when saving an entry
 *	3.9 [2015/07/09]
 	* [BugFix] Not allowed root "/" in old url ([#79](https://github.com/kipusoep/UrlTracker/issues/79))
 	* [BugFix] AdvanceView is throwing an exception when having a single domain configured in umbraco ([#86](https://github.com/kipusoep/UrlTracker/pull/86))

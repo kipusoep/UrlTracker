@@ -87,6 +87,14 @@
             <div class="tab-pane" id="changeLog">
                 <ul>
                     <li>
+                        3.10 [2015/11/17]
+                        <ul>
+                            <li>[Improvement][Breaking] Switched to a ContentFinder for normal URL matching</li>
+                            <li>[BugFix] NullReferenceException with 7.3 Beta 3 and Multiple root nodes (<a target="_blank" href="https://github.com/kipusoep/UrlTracker/issues/90">#90</a>)</li>
+                            <li>[BugFix] ForcedRedirects cache list didn't get updated when saving an entry</li>
+                        </ul>
+                    </li>
+                    <li>
                         3.9 [2015/07/09]
                         <ul>
                             <li>[BugFix] Not allowed root "/" in old url (<a target="_blank" href="https://github.com/kipusoep/UrlTracker/issues/79">#79</a>)</li>
