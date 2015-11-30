@@ -1,5 +1,4 @@
-﻿using InfoCaster.Umbraco.UrlTracker.ContentFinders;
-using InfoCaster.Umbraco.UrlTracker.Extensions;
+﻿using InfoCaster.Umbraco.UrlTracker.Extensions;
 using InfoCaster.Umbraco.UrlTracker.Helpers;
 using InfoCaster.Umbraco.UrlTracker.Models;
 using InfoCaster.Umbraco.UrlTracker.Repositories;
@@ -19,7 +18,6 @@ using Umbraco.Core.Events;
 using Umbraco.Core.Models;
 using Umbraco.Core.Publishing;
 using Umbraco.Core.Services;
-using Umbraco.Web.Routing;
 using Umbraco.Web.UI.Pages;
 
 namespace InfoCaster.Umbraco.UrlTracker
@@ -35,13 +33,6 @@ namespace InfoCaster.Umbraco.UrlTracker
                     return new ClientTools(page);
                 return null;
             }
-        }
-
-        protected override void ApplicationStarting(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
-        {
-            base.ApplicationStarting(umbracoApplication, applicationContext);
-
-            ContentFinderResolver.Current.InsertTypeBefore<ContentFinderByNotFoundHandlers, UrlTrackerContentFinder>();
         }
 
         protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
