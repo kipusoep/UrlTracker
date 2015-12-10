@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Reflection;
 using System.Web;
@@ -8,6 +9,7 @@ using umbraco;
 using umbraco.BusinessLogic;
 using umbraco.DataLayer;
 using Umbraco.Core.IO;
+using Umbraco.Web;
 
 namespace InfoCaster.Umbraco.UrlTracker.Helpers
 {
@@ -132,15 +134,38 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
             return !GlobalSettings.UseDirectoryUrls ? ".aspx" : UmbracoSettings.AddTrailingSlash ? "/" : string.Empty;
         }
 
-        internal static string GetUrl(int nodeId)
-        {
-            using (ContextHelper.EnsureHttpContext())
-            {
-                return umbraco.library.NiceUrl(nodeId);
-            }
-        }
+		internal static string GetUrl(int nodeId)
+		{
+			using (ContextHelper.EnsureHttpContext())
+			{
+				//return umbraco.library.NiceUrl(nodeId);  // Now fails due to Umbraco Context failing to evaluate the UrlName due to a threading issue.
 
-        public static bool IsVersion7OrNewer
+				// Workaround using the Path value on a node
+				var url = "";
+				var node = UmbracoContext.Current.ContentCache.GetById(nodeId);
+				var umbracoHideTopLevelNodeFromPath = true;
+				bool.TryParse(ConfigurationManager.AppSettings.Get("umbracoHideTopLevelNodeFromPath"), out umbracoHideTopLevelNodeFromPath);
+
+				var path = node.Path.Split(',');
+				foreach (var id in path)
+				{
+					int pathId;
+					int.TryParse(id, out pathId);
+
+					if (pathId > 0)
+					{
+						var pathNode = UmbracoContext.Current.ContentCache.GetById(pathId);
+						if (pathNode.Parent != null || (pathNode.Parent == null && !umbracoHideTopLevelNodeFromPath))
+						{
+							url += "/" + pathNode.UrlName;
+						}
+					}
+				}
+				return url;
+			}
+		}
+
+		public static bool IsVersion7OrNewer
         {
             get
             {
