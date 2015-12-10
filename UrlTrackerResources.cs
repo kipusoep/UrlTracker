@@ -46,7 +46,7 @@ namespace InfoCaster.Umbraco.UrlTracker
         public const string RedirectUrl = "<b>or</b> redirect URL";
         public const string RedirectUrlStandalone = "Redirect URL";
         public static readonly string RedirectUrlWatermark = string.Concat("/some/page", !GlobalSettings.UseDirectoryUrls ? ".aspx" : UmbracoSettings.AddTrailingSlash ? "/" : string.Empty);
-        public const string RedirectUrlInfo = "The URL to redirect to";
+        public const string RedirectUrlInfo = "The URL to redirect to (you can use capturing groups backreferences when using Regex; $1, $2 etc.)";
         public const string RedirectType = "Redirect type";
         public const string RedirectTypeInfo = "Permanent redirects will be cached by browsers and search engines will update old entries with the new URL";
         public const string RedirectType301 = "Permanent (301)";
