@@ -43,7 +43,7 @@ namespace InfoCaster.Umbraco.UrlTracker
         public const string RedirectNode = "Redirect node";
         public const string RedirectNodeUnpublished = "The redirect node is unpublished";
         public const string RedirectNodeInfo = "The node to redirect to";
-        public const string RedirectUrl = "<b>or</b> redirect URL";
+        public const string RedirectUrl = "<b>or</b> redirect URL (you can use capturing groups backreferences when using Regex; $1, $2 etc.)";
         public const string RedirectUrlStandalone = "Redirect URL";
         public static readonly string RedirectUrlWatermark = string.Concat("/some/page", !GlobalSettings.UseDirectoryUrls ? ".aspx" : UmbracoSettings.AddTrailingSlash ? "/" : string.Empty);
         public const string RedirectUrlInfo = "The URL to redirect to";
