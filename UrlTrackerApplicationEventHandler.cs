@@ -2,6 +2,7 @@
 using InfoCaster.Umbraco.UrlTracker.Helpers;
 using InfoCaster.Umbraco.UrlTracker.Models;
 using InfoCaster.Umbraco.UrlTracker.Repositories;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -101,6 +102,28 @@ namespace InfoCaster.Umbraco.UrlTracker
 
                             if (ClientTools != null)
                                 ClientTools.ChangeContentFrameUrl(string.Concat("/umbraco/editContent.aspx?id=", content.Id));
+                        }
+                    }
+                    if (UrlTrackerSettings.SEOMetadataInstalled && content.HasProperty(UrlTrackerSettings.SEOMetadataPropertyName))
+                    {
+                        string contentSEOMetadataValue = content.GetValue(UrlTrackerSettings.SEOMetadataPropertyName) != null ? content.GetValue(UrlTrackerSettings.SEOMetadataPropertyName).ToString() : string.Empty;
+                        string nodeSEOMetadataValue = node.GetProperty(UrlTrackerSettings.SEOMetadataPropertyName) != null ? node.GetProperty(UrlTrackerSettings.SEOMetadataPropertyName).Value : string.Empty;
+                        if (contentSEOMetadataValue != nodeSEOMetadataValue)
+                        {
+                            dynamic contentJson = JObject.Parse(contentSEOMetadataValue);
+                            string contentUrlName = contentJson.urlName;
+
+                            dynamic nodeJson = JObject.Parse(nodeSEOMetadataValue);
+                            string nodeUrlName = nodeJson.urlName;
+
+                            if (contentUrlName != nodeUrlName)
+                            {
+                                // SEOMetadata UrlName property value added/changed
+                                UrlTrackerRepository.AddUrlMapping(content, node.GetDomainRootNode().Id, node.NiceUrl, AutoTrackingTypes.UrlOverwrittenSEOMetadata);
+
+                                if (ClientTools != null)
+                                    ClientTools.ChangeContentFrameUrl(string.Concat("/umbraco/editContent.aspx?id=", content.Id));
+                            }
                         }
                     }
                 }

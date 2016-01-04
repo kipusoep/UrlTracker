@@ -87,6 +87,13 @@
             <div class="tab-pane" id="changeLog">
                 <ul>
                     <li>
+                        3.10 [2016/01/04]
+                        <ul>
+                            <li>Happy new year! \o/</li>
+                            <li>[Improvement] Added support for the excellent <a target="_blank" href="https://our.umbraco.org/projects/backoffice-extensions/seo-metadata-for-umbraco/">SEO Metadata for Umbraco plug-in by Epiphany</a> (altering a URL gets tracked)</li>
+                        </ul>
+                    </li>
+                    <li>
                         3.9 [2015/07/09]
                         <ul>
                             <li>[BugFix] Not allowed root "/" in old url (<a target="_blank" href="https://github.com/kipusoep/UrlTracker/issues/79">#79</a>)</li>

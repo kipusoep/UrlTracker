@@ -39,6 +39,9 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
                     case AutoTrackingTypes.UrlOverwritten:
                         notes += "'s property 'umbracoUrlName' changed";
                         break;
+                    case AutoTrackingTypes.UrlOverwrittenSEOMetadata:
+                        notes += string.Format("'s property '{0}' changed", UrlTrackerSettings.SEOMetadataPropertyName);
+                        break;
                 }
 
                 url = UrlTrackerHelper.ResolveShortestUrl(url);

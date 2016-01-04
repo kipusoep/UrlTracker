@@ -49,6 +49,9 @@ Set to true to disable tracking not found (404) requests.
 Set to false to disable appending a port number to redirect URLs
 
 ## Changelog ##
+*	3.10 [2016/01/04]
+    * Happy new year! \o/
+    * [Improvement] Added support for the excellent ([SEO Metadata for Umbraco plug-in by Epiphany](https://our.umbraco.org/projects/backoffice-extensions/seo-metadata-for-umbraco/)) (altering a URL gets tracked)
 *	3.9 [2015/07/09]
 	* [BugFix] Not allowed root "/" in old url ([#79](https://github.com/kipusoep/UrlTracker/issues/79))
 	* [BugFix] AdvanceView is throwing an exception when having a single domain configured in umbraco ([#86](https://github.com/kipusoep/UrlTracker/pull/86))

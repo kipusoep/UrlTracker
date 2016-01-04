@@ -5,10 +5,11 @@ using System.Web;
 
 namespace InfoCaster.Umbraco.UrlTracker.Models
 {
-	public enum AutoTrackingTypes
-	{
-		Renamed,
-		Moved,
-		UrlOverwritten
-	}
+    public enum AutoTrackingTypes
+    {
+        Renamed,
+        Moved,
+        UrlOverwritten,
+        UrlOverwrittenSEOMetadata
+    }
 }

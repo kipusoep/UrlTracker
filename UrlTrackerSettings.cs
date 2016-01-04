@@ -13,6 +13,26 @@ namespace InfoCaster.Umbraco.UrlTracker
         public const string TableName = "icUrlTracker";
         public const string OldTableName = "infocaster301";
         public const string HttpModuleCheck = "890B748D-E226-49FA-A0D7-9AFD3A359F88";
+        public static bool SEOMetadataInstalled
+        {
+            get
+            {
+                if (!_seoMetadataInstalled.HasValue)
+                {
+                    _seoMetadataInstalled = AppDomain.CurrentDomain.GetAssemblies().Any(x => x.FullName.Contains("Epiphany.SeoMetadata"));
+                }
+                return _seoMetadataInstalled.Value;
+            }
+        }
+        public static string SEOMetadataPropertyName
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(ConfigurationManager.AppSettings["SeoMetadata.PropertyName"]) ? ConfigurationManager.AppSettings["SeoMetadata.PropertyName"] : "metadata";
+            }
+        }
+
+        static bool? _seoMetadataInstalled;
 
         /// <summary>
         /// Returns wether or not the UrlTracker is disabled
@@ -160,22 +180,14 @@ namespace InfoCaster.Umbraco.UrlTracker
                 if (!_appendPortNumber.HasValue)
                 {
                     bool appendPortNumber = true;
-
                     if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["urlTracker:appendPortNumber"]))
                     {
                         bool parsedAppSetting;
-
-                        if (bool.TryParse(
-                            ConfigurationManager.AppSettings["urlTracker:appendPortNumber"],
-                            out parsedAppSetting))
-                        {
+                        if (bool.TryParse(ConfigurationManager.AppSettings["urlTracker:appendPortNumber"], out parsedAppSetting))
                             appendPortNumber = parsedAppSetting;
-                        }
                     }
-
                     _appendPortNumber = appendPortNumber;
                 }
-
                 return _appendPortNumber.Value;
             }
         }
