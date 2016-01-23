@@ -4,12 +4,11 @@ UrlTracker
 The Url Tracker is used to manage URLs within umbraco. It automatically tracks URL changes, for instance when a node is renamed, and makes sure the old URL will redirect to the new location. This is great for SEO and great for people visiting your website via this old URL. Search engines will update the indexed URL and people won't visit the old, broken URL.<br />
 You can also create your own redirects, based on a simple URL or using a Regex pattern. You can redirect to an existing node or a manually entered URL. This is great for migrating existing indexed URLs to your new website!
 
-## Umbraco 7.3.x ##
-**Umbraco 7.3.x** has known issues with the Url Tracker. These are resolved in Umbraco 7.4, so please don't use 7.3.x in combination with the Url Tracker.
-
 ## Versioning ##
 **Version 2** has reached it's end-of-life status and won't be supported anymore. For umbraco versions **4.6 - 6.0** version 2 will remain available as well as the source of v2.  
-**Version 3** is the current version and supports umbraco versions **6.1, 7.0, 7.1 and up** if possible. 
+**Version 3** supports umbraco versions **6.1, 7.0, 7.1 and 7.2**.  
+**Version 4** supports umbraco versions **>= 7.0**, *except for 7.3.0 - 7.3.5*.  
+So if you're using Umbraco 7.0 or higher, I'd recommend to use version 4.
 
 ## Issues / feature requests ##
 If you'd like to report a bug or request a new feature, please use [the Github issue tracker](https://github.com/kipusoep/UrlTracker/issues), please don't use Twitter for example, because I won't be able to deal with requests outside Github (will become a mess sooner or later).
@@ -49,6 +48,8 @@ Set to true to disable tracking not found (404) requests.
 Set to false to disable appending a port number to redirect URLs
 
 ## Changelog ##
+*	4.0 [2016/01/23]
+	* [Upgrade] All code has been rewritten to use the new services and models of umbraco v7.0
 *	3.10 [2016/01/04]
     * Happy new year! \o/
     * [Improvement] Added support for the excellent ([SEO Metadata for Umbraco plug-in by Epiphany](https://our.umbraco.org/projects/backoffice-extensions/seo-metadata-for-umbraco/)) (altering a URL gets tracked)
