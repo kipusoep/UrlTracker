@@ -5,11 +5,16 @@ using System.Web;
 using umbraco.cms.businesslogic.web;
 using umbraco.interfaces;
 using umbraco.NodeFactory;
+using Umbraco.Core;
+using Umbraco.Core.Models;
+using Umbraco.Core.Services;
 
 namespace InfoCaster.Umbraco.UrlTracker.Extensions
 {
     public static class INodeExtensions
     {
+        static IDomainService _domainService { get { return ApplicationContext.Current.Services.DomainService; } }
+
         /// <summary>
         /// Retrieve the root node
         /// </summary>
@@ -46,7 +51,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Extensions
             INode deepNode = node;
             while (parent != null)
             {
-                Domain[] domains = Domain.GetDomainsById(parent.Id);
+                List<IDomain> domains = _domainService.GetAssignedDomains(parent.Id, true).ToList(); // Not sure about the includeWildcards param
                 if (domains != null && domains.Any()){
                     node= (Node)parent;
                     break;
@@ -57,7 +62,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Extensions
             if(UrlTrackerSettings.HasDomainOnChildNode){
                 while (deepParent != null && deepParent.Parent != null)
                 {
-                    Domain[] domains = Domain.GetDomainsById(deepParent.Parent.Id);
+                    List<IDomain> domains = _domainService.GetAssignedDomains(deepParent.Parent.Id, true).ToList(); // Not sure about the includeWildcards param
                     if (domains != null && domains.Any()){
                         deepNode = (Node)deepParent;
                         break;

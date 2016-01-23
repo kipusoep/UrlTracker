@@ -8,6 +8,7 @@ using umbraco;
 using umbraco.BusinessLogic;
 using umbraco.DataLayer;
 using Umbraco.Core.IO;
+using Umbraco.Core.Configuration;
 
 namespace InfoCaster.Umbraco.UrlTracker.Helpers
 {
@@ -129,7 +130,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
 
         internal static string GetUmbracoUrlSuffix()
         {
-            return !GlobalSettings.UseDirectoryUrls ? ".aspx" : UmbracoSettings.AddTrailingSlash ? "/" : string.Empty;
+            return !GlobalSettings.UseDirectoryUrls ? ".aspx" : UmbracoConfig.For.UmbracoSettings().RequestHandler.AddTrailingSlash ? "/" : string.Empty;
         }
 
         internal static string GetUrl(int nodeId)

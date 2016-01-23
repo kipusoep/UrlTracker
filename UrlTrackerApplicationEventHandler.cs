@@ -48,9 +48,8 @@ namespace InfoCaster.Umbraco.UrlTracker
                 ContentService.Publishing += ContentService_Publishing;
                 ContentService.Deleting += ContentService_Deleting;
                 content.BeforeClearDocumentCache += content_BeforeClearDocumentCache;
-                Domain.AfterDelete += Domain_AfterDelete;
-                Domain.AfterSave += Domain_AfterSave;
-                Domain.New += Domain_New;
+                DomainService.Deleted += DomainService_Deleted;
+                DomainService.Saved += DomainService_Saved;
             }
         }
 
@@ -138,25 +137,28 @@ namespace InfoCaster.Umbraco.UrlTracker
 
         void ContentService_Moving(IContentService sender, MoveEventArgs<IContent> e)
         {
-            IContent content = e.Entity;
+            foreach (MoveEventInfo<IContent> moveEventInfo in e.MoveInfoCollection)
+            {
+                IContent content = moveEventInfo.Entity;
 #if !DEBUG
             try
 #endif
-            {
-                if (content != null)
                 {
-                    Node node = new Node(content.Id);
+                    if (content != null)
+                    {
+                        Node node = new Node(content.Id);
 
-                    if (node != null && !string.IsNullOrEmpty(node.NiceUrl) && !content.Path.StartsWith("-1,-20")) // -1,-20 == Recycle bin | Not moved to recycle bin
-                        UrlTrackerRepository.AddUrlMapping(content, node.GetDomainRootNode().Id, node.NiceUrl, AutoTrackingTypes.Moved);
+                        if (node != null && !string.IsNullOrEmpty(node.NiceUrl) && !content.Path.StartsWith("-1,-20")) // -1,-20 == Recycle bin | Not moved to recycle bin
+                            UrlTrackerRepository.AddUrlMapping(content, node.GetDomainRootNode().Id, node.NiceUrl, AutoTrackingTypes.Moved);
+                    }
                 }
-            }
 #if !DEBUG
             catch (Exception ex)
             {
                 ex.LogException();
             }
 #endif
+            }
         }
 
 #pragma warning disable 0618
@@ -177,17 +179,12 @@ namespace InfoCaster.Umbraco.UrlTracker
 #endif
         }
 
-        void Domain_New(Domain sender, NewEventArgs e)
+        void DomainService_Saved(IDomainService sender, SaveEventArgs<IDomain> e)
         {
             UmbracoHelper.ClearDomains();
         }
 
-        void Domain_AfterSave(Domain sender, SaveEventArgs e)
-        {
-            UmbracoHelper.ClearDomains();
-        }
-
-        void Domain_AfterDelete(Domain sender, umbraco.cms.businesslogic.DeleteEventArgs e)
+        void DomainService_Deleted(IDomainService sender, DeleteEventArgs<IDomain> e)
         {
             UmbracoHelper.ClearDomains();
         }

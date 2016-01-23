@@ -5,10 +5,9 @@ The Url Tracker is used to manage URLs within umbraco. It automatically tracks U
 You can also create your own redirects, based on a simple URL or using a Regex pattern. You can redirect to an existing node or a manually entered URL. This is great for migrating existing indexed URLs to your new website!
 
 ## Versioning ##
-**Version 2** has reached it's end-of-life status and won't be supported anymore. For umbraco versions **4.6 - 6.0** version 2 will remain available as well as the source of v2.  
-**Version 3** supports umbraco versions **6.1, 7.0, 7.1 and 7.2**.  
-**Version 4** supports umbraco versions **>= 7.0**, *except for 7.3.0 - 7.3.5*.  
-So if you're using Umbraco 7.0 or higher, I'd recommend to use version 4.
+**Version 4** supports umbraco from version **7.3.6**.  
+**Version 3** has reached it's end-of-life status and won't be supported anymore. For umbraco versions ****6.1, 7.0 - 7.2**** version 3 will remain available as well as the source of v3.  
+**Version 2** has reached it's end-of-life status and won't be supported anymore. For umbraco versions **4.6 - 6.0** version 2 will remain available as well as the source of v2.
 
 ## Issues / feature requests ##
 If you'd like to report a bug or request a new feature, please use [the Github issue tracker](https://github.com/kipusoep/UrlTracker/issues), please don't use Twitter for example, because I won't be able to deal with requests outside Github (will become a mess sooner or later).

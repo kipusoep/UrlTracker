@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
 using umbraco;
+using Umbraco.Core.Configuration;
 
 namespace InfoCaster.Umbraco.UrlTracker.Helpers
 {
@@ -45,7 +46,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
             {
                 if (!GlobalSettings.UseDirectoryUrls && !url.EndsWith(".aspx"))
                     url += ".aspx";
-                else if (UmbracoSettings.AddTrailingSlash && !url.EndsWith("/"))
+                else if (UmbracoConfig.For.UmbracoSettings().RequestHandler.AddTrailingSlash && !url.EndsWith("/"))
                     url += "/";
             }
 
