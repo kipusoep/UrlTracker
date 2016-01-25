@@ -4,8 +4,8 @@ UrlTracker
 The Url Tracker is used to manage URLs within umbraco. It automatically tracks URL changes, for instance when a node is renamed, and makes sure the old URL will redirect to the new location. This is great for SEO and great for people visiting your website via this old URL. Search engines will update the indexed URL and people won't visit the old, broken URL.<br />
 You can also create your own redirects, based on a simple URL or using a Regex pattern. You can redirect to an existing node or a manually entered URL. This is great for migrating existing indexed URLs to your new website!
 
-## Umbraco 7.3.x ##
-**Umbraco 7.3.x** has known issues with the Url Tracker. These are resolved in Umbraco 7.4, so please don't use 7.3.x in combination with the Url Tracker.
+## Umbraco 7.3.5 and lower ##
+**Umbraco 7.3.5 and lower** has known issues with the Url Tracker. These are resolved in Umbraco 7.3.6 and 7.4, so please don't use 7.3.5 or lower in combination with the Url Tracker.
 
 ## Versioning ##
 **Version 2** has reached it's end-of-life status and won't be supported anymore. For umbraco versions **4.6 - 6.0** version 2 will remain available as well as the source of v2.  
