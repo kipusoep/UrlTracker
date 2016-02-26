@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using umbraco.NodeFactory;
+using Umbraco.Core.Persistence;
 using Umbraco.Web;
 
 namespace InfoCaster.Umbraco.UrlTracker.Models
 {
+    [TableName("umbracoDomains")]
     public class UrlTrackerDomain
     {
         public int Id { get; set; }
+        [Column("domainRootStructureID")]
         public int NodeId { get; set; }
+        [Column("domainName")]
         public string Name { get; set; }
 
         public Node Node { get { return new Node(NodeId); } }

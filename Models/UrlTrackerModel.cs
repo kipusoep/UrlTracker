@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using umbraco.NodeFactory;
+using Umbraco.Core.Persistence;
 
 namespace InfoCaster.Umbraco.UrlTracker.Models
 {
@@ -16,10 +17,11 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
     }
 
     [Serializable]
-    [DebuggerDisplay("OUrl = {OldUrl} | Rgx = {OldRegex} | Qs = {OldUrlQueryString} | Root = {RedirectRootNodeId}")]
+    [DebuggerDisplay("OldUrl = {OldUrl} | OldRegex = {OldRegex} | OldUrlQueryString = {OldUrlQueryString} | RedirectRootNodeId = {RedirectRootNodeId}")]
+    [TableName("icUrlTracker")]
     public class UrlTrackerModel
     {
-        #region Data fields
+        #region SQL fields
         public int Id { get; set; }
         public string OldUrl { get; set; }
         public string OldUrlQueryString { get; set; }
@@ -29,12 +31,15 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
         public string RedirectUrl { get; set; }
         public int RedirectHttpCode { get; set; }
         public bool RedirectPassThroughQueryString { get; set; }
+        public bool ForceRedirect { get; set; }
         public string Notes { get; set; }
         public bool Is404 { get; set; }
         public string Referrer { get; set; }
-        public int? NotFoundCount { get; set; }
         public DateTime Inserted { get; set; }
-        public bool ForceRedirect { get; set; }
+        #endregion
+
+        #region Data fields
+        public int? NotFoundCount { get; set; }
         #endregion
 
         #region Calculated properties
@@ -156,7 +161,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
                         return newUri.AbsolutePath + newUri.Fragment;
                     }
                 }
-                
+
                 if (RedirectNodeId.HasValue)
                 {
                     return umbraco.library.NiceUrl(RedirectNodeId.Value);

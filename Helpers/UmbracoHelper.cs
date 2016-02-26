@@ -1,19 +1,18 @@
-﻿using System;
+﻿using InfoCaster.Umbraco.UrlTracker.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Web;
-using InfoCaster.Umbraco.UrlTracker.Models;
 using umbraco;
-using umbraco.BusinessLogic;
-using umbraco.DataLayer;
-using Umbraco.Core.IO;
+using Umbraco.Core;
 using Umbraco.Core.Configuration;
+using Umbraco.Core.IO;
+using Umbraco.Core.Persistence;
 
 namespace InfoCaster.Umbraco.UrlTracker.Helpers
 {
     public static class UmbracoHelper
     {
+        static UmbracoDatabase _umbracoDatabase { get { return ApplicationContext.Current.DatabaseContext.Database; } }
         static readonly object _locker = new object();
         static volatile string _reservedUrlsCache;
         static string _reservedPathsCache;
@@ -92,26 +91,11 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
             {
                 lock (_locker)
                 {
-                    _urlTrackerDomains = new List<UrlTrackerDomain>();
-                    ISqlHelper sqlHelper = Application.SqlHelper;
-                    using (var dr = sqlHelper.ExecuteReader("SELECT * FROM umbracoDomains where CHARINDEX('*',domainName) < 1"))
-                    {
-                        while (dr.Read())
-                        {
-                            _urlTrackerDomains.Add(new UrlTrackerDomain(dr.GetInt("id"), dr.GetInt("domainRootStructureID"), dr.GetString("domainName")));
-                        }
-                    }
-                    _urlTrackerDomains = _urlTrackerDomains.OrderBy(x => x.Name).ToList();
+                    _urlTrackerDomains = _umbracoDatabase.Fetch<UrlTrackerDomain>(new Sql().Select("*").From("umbracoDomains").Where("CHARINDEX('*',domainName) < 1").OrderBy("domainName"));
 
                     if (UrlTrackerSettings.HasDomainOnChildNode)
                     {
-                        using (var dr = sqlHelper.ExecuteReader("SELECT * FROM umbracoDomains where CHARINDEX('*',domainName) = 1"))
-                        {
-                            while (dr.Read())
-                            {
-                                _urlTrackerDomains.Add(new UrlTrackerDomain(dr.GetInt("id"), dr.GetInt("domainRootStructureID"), dr.GetString("domainName")));
-                            }
-                        }
+                        _urlTrackerDomains.AddRange(_umbracoDatabase.Fetch<UrlTrackerDomain>(new Sql().Select("*").From("umbracoDomains").Where("CHARINDEX('*',domainName) = 1").OrderBy("domainName")));
                     }
 
                     _urlTrackerDomains = _urlTrackerDomains.OrderBy(x => x.Name).ToList();
@@ -137,25 +121,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
         {
             using (ContextHelper.EnsureHttpContext())
             {
-                return umbraco.library.NiceUrl(nodeId);
-            }
-        }
-
-        public static bool IsVersion7OrNewer
-        {
-            get
-            {
-                bool isVersion7OrNewer = true;
-                try
-                {
-                    typeof(umbraco.uicontrols.CodeArea).InvokeMember("Menu", BindingFlags.GetField, null, new umbraco.uicontrols.CodeArea(), null);
-                }
-                catch (MissingFieldException)
-                {
-                    isVersion7OrNewer = false;
-                }
-
-                return isVersion7OrNewer;
+                return library.NiceUrl(nodeId);
             }
         }
     }

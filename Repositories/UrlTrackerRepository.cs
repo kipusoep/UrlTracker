@@ -11,12 +11,13 @@ using Umbraco.Core;
 using Umbraco.Core.Models;
 using Umbraco.Core.Persistence;
 using Umbraco.Web;
+using System.Net;
 
 namespace InfoCaster.Umbraco.UrlTracker.Repositories
 {
     public static class UrlTrackerRepository
     {
-        static ISqlHelper _sqlHelper { get { return Application.SqlHelper; } }
+        static UmbracoDatabase _umbracoDatabase { get { return ApplicationContext.Current.DatabaseContext.Database; } }
         static readonly Uri _baseUri = new Uri("http://www.example.org");
         static List<UrlTrackerModel> _forcedRedirectsCache;
         static readonly object _cacheLock = new object();
@@ -59,15 +60,23 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
 
                 if (!string.IsNullOrEmpty(url))
                 {
-                    string query = "SELECT 1 FROM icUrlTracker WHERE RedirectNodeId = @nodeId AND OldUrl = @url";
-                    int exists = _sqlHelper.ExecuteScalar<int>(query, _sqlHelper.CreateParameter("nodeId", content.Id), _sqlHelper.CreateStringParameter("url", url));
+                    //string query = "SELECT 1 FROM icUrlTracker WHERE RedirectNodeId = @nodeId AND OldUrl = @url";
 
+                    int exists = _umbracoDatabase.ExecuteScalar<int>(new Sql().Select("1").From("icUrlTracker").Where<UrlTrackerModel>(x => x.RedirectNodeId.HasValue && x.RedirectNodeId.Value == content.Id && x.OldUrl == url));
                     if (exists != 1)
                     {
                         LoggingHelper.LogInformation("UrlTracker Repository | Adding mapping for node id: {0} and url: {1}", new string[] { content.Id.ToString(), url });
 
-                        query = "INSERT INTO icUrlTracker (RedirectRootNodeId, RedirectNodeId, OldUrl, Notes) VALUES (@rootNodeId, @nodeId, @url, @notes)";
-                        _sqlHelper.ExecuteNonQuery(query, _sqlHelper.CreateParameter("rootNodeId", rootNodeId), _sqlHelper.CreateParameter("nodeId", content.Id), _sqlHelper.CreateStringParameter("url", url), _sqlHelper.CreateStringParameter("notes", notes));
+                        //query = "INSERT INTO icUrlTracker (RedirectRootNodeId, RedirectNodeId, OldUrl, Notes) VALUES (@rootNodeId, @nodeId, @url, @notes)";
+
+                        AddMappingModel addMappingModel = new AddMappingModel()
+                        {
+                            RedirectRootNodeId = rootNodeId,
+                            RedirectNodeId = content.Id,
+                            OldUrl = url,
+                            Notes = notes
+                        };
+                        _umbracoDatabase.Insert(addMappingModel);
 
                         if (content.Children().Any())
                         {
@@ -87,8 +96,9 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
 
         public static void AddUrlTrackerEntry(UrlTrackerModel urlTrackerModel)
         {
-            string query = "INSERT INTO icUrlTracker (OldUrl, OldUrlQueryString, OldRegex, RedirectRootNodeId, RedirectNodeId, RedirectUrl, RedirectHttpCode, RedirectPassThroughQueryString, ForceRedirect, Notes) VALUES (@oldUrl, @oldUrlQueryString, @oldRegex, @redirectRootNodeId, @redirectNodeId, @redirectUrl, @redirectHttpCode, @redirectPassThroughQueryString, @forceRedirect, @notes)";
-            _sqlHelper.ExecuteNonQuery(query, _sqlHelper.CreateStringParameter("oldUrl", urlTrackerModel.OldUrl), _sqlHelper.CreateStringParameter("oldUrlQueryString", urlTrackerModel.OldUrlQueryString), _sqlHelper.CreateStringParameter("oldRegex", urlTrackerModel.OldRegex), _sqlHelper.CreateParameter("redirectRootNodeId", urlTrackerModel.RedirectRootNodeId), _sqlHelper.CreateNullableParameter("redirectNodeId", urlTrackerModel.RedirectNodeId), _sqlHelper.CreateStringParameter("redirectUrl", urlTrackerModel.RedirectUrl), _sqlHelper.CreateParameter("redirectHttpCode", urlTrackerModel.RedirectHttpCode), _sqlHelper.CreateParameter("redirectPassThroughQueryString", urlTrackerModel.RedirectPassThroughQueryString), _sqlHelper.CreateParameter("forceRedirect", urlTrackerModel.ForceRedirect), _sqlHelper.CreateStringParameter("notes", urlTrackerModel.Notes));
+            //string query = "INSERT INTO icUrlTracker (OldUrl, OldUrlQueryString, OldRegex, RedirectRootNodeId, RedirectNodeId, RedirectUrl, RedirectHttpCode, RedirectPassThroughQueryString, ForceRedirect, Notes) VALUES (@oldUrl, @oldUrlQueryString, @oldRegex, @redirectRootNodeId, @redirectNodeId, @redirectUrl, @redirectHttpCode, @redirectPassThroughQueryString, @forceRedirect, @notes)";
+
+            _umbracoDatabase.Insert(urlTrackerModel);
 
             if (urlTrackerModel.ForceRedirect)
                 ReloadForcedRedirectsCache();
@@ -110,14 +120,23 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
             }
             url = UrlTrackerHelper.ResolveShortestUrl(url);
 
-            string query = "SELECT 1 FROM icUrlTracker WHERE RedirectNodeId = @redirectNodeId AND OldUrl = @oldUrl AND RedirectHttpCode = 410";
-            int exists = _sqlHelper.ExecuteScalar<int>(query, _sqlHelper.CreateParameter("redirectNodeId", nodeId), _sqlHelper.CreateStringParameter("oldUrl", url));
+            //string query = "SELECT 1 FROM icUrlTracker WHERE RedirectNodeId = @redirectNodeId AND OldUrl = @oldUrl AND RedirectHttpCode = 410";
+
+            int exists = _umbracoDatabase.ExecuteScalar<int>(new Sql().Select("1").From("icUrlTracker").Where<UrlTrackerModel>(x => x.RedirectNodeId == nodeId && x.OldUrl == url && x.RedirectHttpCode == (int)HttpStatusCode.Gone));
             if (exists != 1)
             {
                 LoggingHelper.LogInformation("UrlTracker Repository | Inserting 410 Gone mapping for node with id: {0}", nodeId);
 
-                query = "INSERT INTO icUrlTracker (RedirectNodeId, OldUrl, RedirectHttpCode, Notes) VALUES (@redirectNodeId, @oldUrl, 410, @notes)";
-                _sqlHelper.ExecuteNonQuery(query, _sqlHelper.CreateParameter("redirectNodeId", nodeId), _sqlHelper.CreateStringParameter("oldUrl", url), _sqlHelper.CreateStringParameter("notes", "Node removed"));
+                //query = "INSERT INTO icUrlTracker (RedirectNodeId, OldUrl, RedirectHttpCode, Notes) VALUES (@redirectNodeId, @oldUrl, 410, @notes)";
+
+                AddMappingModel addMappingModel = new AddMappingModel()
+                {
+                    RedirectNodeId = nodeId,
+                    OldUrl = url,
+                    RedirectHttpCode = (int)HttpStatusCode.Gone,
+                    Notes = "Node removed"
+                };
+                _umbracoDatabase.Insert(addMappingModel);
             }
             else
                 LoggingHelper.LogInformation("UrlTracker Repository | Skipping 410 Gone mapping for node with id: {0} (already exists)", nodeId);
