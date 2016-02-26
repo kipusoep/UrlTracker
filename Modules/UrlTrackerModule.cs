@@ -36,14 +36,30 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
 
         public void Init(HttpApplication context)
         {
-            context.AcquireRequestState += context_AcquireRequestState;
+            context.PostResolveRequestCache += Context_PostResolveRequestCache;
             context.EndRequest += context_EndRequest;
 
             LoggingHelper.LogInformation("UrlTracker HttpModule | Subscribed to AcquireRequestState and EndRequest events");
         }
+
+        void Context_PostResolveRequestCache(object sender, EventArgs e)
+        {
+            CheckUrlTrackerInstalled();
+
+            if (_execute)
+                UrlTrackerDo("AcquireRequestState", ignoreHttpStatusCode: true);
+        }
         #endregion
 
-        void context_AcquireRequestState(object sender, EventArgs e)
+        void context_EndRequest(object sender, EventArgs e)
+        {
+            CheckUrlTrackerInstalled();
+
+            if (_execute)
+                UrlTrackerDo("EndRequest");
+        }
+
+        static void CheckUrlTrackerInstalled()
         {
             try
             {
@@ -70,15 +86,6 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
             {
                 _execute = false;
             }
-
-            if (_execute)
-                UrlTrackerDo("AcquireRequestState", ignoreHttpStatusCode: true);
-        }
-
-        void context_EndRequest(object sender, EventArgs e)
-        {
-            if (_execute)
-                UrlTrackerDo("EndRequest");
         }
 
         static void UrlTrackerDo(string callingEventName, bool ignoreHttpStatusCode = false)

@@ -87,6 +87,12 @@
             <div class="tab-pane" id="changeLog">
                 <ul>
                     <li>
+                        3.11 [2016/02/26]
+                        <ul>
+                            <li>[BugFix] Changed the force redirect event handler to PostResolveRequestCache instead of AcquireRequestState (Simple Redirect doesn't work <a target="_blank" href="https://github.com/kipusoep/UrlTracker/issues/117">#117</a>)</li>
+                        </ul>
+                    </li>
+                    <li>
                         3.10 [2016/01/04]
                         <ul>
                             <li>Happy new year! \o/</li>

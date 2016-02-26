@@ -49,6 +49,8 @@ Set to true to disable tracking not found (404) requests.
 Set to false to disable appending a port number to redirect URLs
 
 ## Changelog ##
+*	3.11 [2016/02/26]
+	* [BugFix] Changed the force redirect event handler to PostResolveRequestCache instead of AcquireRequestState (Simple Redirect doesn't work ([#117](https://github.com/kipusoep/UrlTracker/issues/117))
 *	3.10 [2016/01/04]
     * Happy new year! \o/
     * [Improvement] Added support for the excellent ([SEO Metadata for Umbraco plug-in by Epiphany](https://our.umbraco.org/projects/backoffice-extensions/seo-metadata-for-umbraco/)) (altering a URL gets tracked)
