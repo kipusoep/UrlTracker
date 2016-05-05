@@ -1,7 +1,9 @@
-﻿using InfoCaster.Umbraco.UrlTracker.Extensions;
+﻿using InfoCaster.Umbraco.UrlTracker.Exceptions;
+using InfoCaster.Umbraco.UrlTracker.Extensions;
 using InfoCaster.Umbraco.UrlTracker.Helpers;
 using InfoCaster.Umbraco.UrlTracker.Models;
 using InfoCaster.Umbraco.UrlTracker.Repositories;
+using InfoCaster.Umbraco.UrlTracker.UI.Installer;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -10,16 +12,13 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Web;
 using umbraco.BusinessLogic;
-using umbraco.cms.businesslogic.web;
-using Umbraco.Core;
-using Umbraco.Core.Persistence;
 using umbraco.DataLayer;
 using umbraco.interfaces;
 using umbraco.NodeFactory;
+using Umbraco.Core;
+using Umbraco.Core.Persistence;
 using Umbraco.Web;
 using UmbracoHelper = InfoCaster.Umbraco.UrlTracker.Helpers.UmbracoHelper;
-using InfoCaster.Umbraco.UrlTracker.UI.Installer;
-using InfoCaster.Umbraco.UrlTracker.Exceptions;
 
 namespace InfoCaster.Umbraco.UrlTracker.Modules
 {
@@ -271,7 +270,9 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                         if (forcedRedirects == null || !forcedRedirects.Any())
                             return;
 
-                        foreach (var match in forcedRedirects.Select(x => new { UrlTrackerModel = x, Regex = new Regex(x.OldRegex) }).Where(x => x.Regex.IsMatch(url)))
+                        foreach (var match in forcedRedirects.Where(x => x.RedirectRootNodeId == -1 || x.RedirectRootNodeId == rootNodeId)
+                            .Select(x => new { UrlTrackerModel = x, Regex = new Regex(x.OldRegex) })
+                            .Where(x => x.Regex.IsMatch(url)))
                         {
                             LoggingHelper.LogInformation("UrlTracker HttpModule | Regex match found");
                             if (match.UrlTrackerModel.RedirectNodeId.HasValue)
