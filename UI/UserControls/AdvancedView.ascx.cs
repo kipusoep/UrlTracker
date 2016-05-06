@@ -48,22 +48,17 @@ namespace InfoCaster.Umbraco.UrlTracker.UI.UserControls
                 ddlRootNode.SelectedValue = UrlTrackerModel.RedirectRootNodeId.ToString();
             }
 
-            if (!string.IsNullOrEmpty(UrlTrackerModel.OldRegex) && string.IsNullOrEmpty(UrlTrackerModel.OldUrl))
-            {
-                tbOldRegex.Text = UrlTrackerModel.OldRegex;
-            }
-            else
-            {
-                tbOldUrl.Text = UrlTrackerModel.OldUrl;
-                tbOldUrlQueryString.Text = UrlTrackerModel.OldUrlQueryString;
-            }
+            tbOldRegex.Text = UrlTrackerModel.OldRegex;
+            tbOldUrl.Text = UrlTrackerModel.OldUrl;
+            tbOldUrlQueryString.Text = UrlTrackerModel.OldUrlQueryString;
+            
             if (UrlTrackerModel.RedirectNodeId.HasValue)
                 cpRedirectNode.Value = UrlTrackerModel.RedirectNodeId.Value.ToString();
             tbRedirectUrl.Text = UrlTrackerModel.RedirectUrl;
-            if (UrlTrackerModel.RedirectHttpCode == 301)
-                rbPermanent.Checked = true;
-            else if (UrlTrackerModel.RedirectHttpCode == 302)
-                rbTemporary.Checked = true;
+            
+            rbPermanent.Checked = UrlTrackerModel.RedirectHttpCode == 301;
+            rbTemporary.Checked = UrlTrackerModel.RedirectHttpCode == 302;
+
             cbRedirectPassthroughQueryString.Checked = UrlTrackerModel.RedirectPassThroughQueryString;
             cbForceRedirect.Checked = UrlTrackerModel.ForceRedirect;
             tbNotes.Text = UrlTrackerModel.Notes;
