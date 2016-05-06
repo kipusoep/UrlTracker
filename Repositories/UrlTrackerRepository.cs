@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using InfoCaster.Umbraco.UrlTracker.Extensions;
 using InfoCaster.Umbraco.UrlTracker.Helpers;
 using InfoCaster.Umbraco.UrlTracker.Models;
@@ -19,7 +20,9 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
         static ISqlHelper _sqlHelper { get { return Application.SqlHelper; } }
         static readonly Uri _baseUri = new Uri("http://www.example.org");
         static List<UrlTrackerModel> _forcedRedirectsCache;
+        static DateTime LastForcedRedirectCacheRefreshTime = DateTime.UtcNow;
         static readonly object _cacheLock = new object();
+        static readonly object _timeoutCacheLock = new object();
         static readonly DatabaseProviders DatabaseProvider = ApplicationContext.Current.DatabaseContext.DatabaseProvider;
 
         #region Add
@@ -599,14 +602,38 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
             lock (_cacheLock)
             {
                 if (GetUrlTrackerTableExists())
+                {
                     _forcedRedirectsCache = GetUrlTrackerEntries(null, null, onlyForcedRedirects: true);
+                    LastForcedRedirectCacheRefreshTime = DateTime.UtcNow;
+                }
             }
         }
 
         public static List<UrlTrackerModel> GetForcedRedirects()
         {
             if (_forcedRedirectsCache == null)
+            {
                 ReloadForcedRedirectsCache();
+            }
+            else if (UrlTrackerSettings.ForcedRedirectCacheTimeoutEnabled
+                     && LastForcedRedirectCacheRefreshTime.AddSeconds(UrlTrackerSettings.ForcedRedirectCacheTimeoutSeconds) < DateTime.UtcNow)
+            {
+                // Allow continued access to the existing cache when one thread is already reloading it
+                if (Monitor.TryEnter(_timeoutCacheLock))
+                {
+                    try
+                    {
+                        if (LastForcedRedirectCacheRefreshTime.AddSeconds(UrlTrackerSettings.ForcedRedirectCacheTimeoutSeconds) < DateTime.UtcNow)
+                        {
+                            ReloadForcedRedirectsCache();
+                        }
+                    }
+                    finally
+                    {
+                        Monitor.Exit(_timeoutCacheLock);
+                    }
+                }
+            }
             return _forcedRedirectsCache;
         }
         #endregion
