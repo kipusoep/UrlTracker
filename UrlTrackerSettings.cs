@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Web;
 using umbraco;
 
 namespace InfoCaster.Umbraco.UrlTracker
@@ -32,7 +30,7 @@ namespace InfoCaster.Umbraco.UrlTracker
             }
         }
 
-        static bool? _seoMetadataInstalled;
+        private static bool? _seoMetadataInstalled;
 
         /// <summary>
         /// Returns wether or not the UrlTracker is disabled
@@ -275,16 +273,42 @@ namespace InfoCaster.Umbraco.UrlTracker
                 return _forcedRedirectCacheTimeoutSeconds.Value;
             }
         }
-        
 
-        static bool? _isDisabled;
-        static bool? _enableLogging;
-        static string[] _notFoundUrlsToIgnore;
-        static bool? _isTrackingDisabled;
-        static bool? _isNotFoundTrackingDisabled;
-        static bool? _appendPortNumber;
-        static bool? _hasDomainOnChildNode;
-        static bool? _forcedRedirectCacheTimeoutEnabled;
-        static int? _forcedRedirectCacheTimeoutSeconds;
+        /// <summary>
+        /// Returns whether or not removed content (410) tracking is disabled.
+        /// Set to true when you want content unpublishes and deletions to result in 404 instead of 410.
+        /// </summary>
+        /// <remarks>
+        /// appSetting: 'urlTracker:removedContentTrackingDisabled'
+        /// </remarks>
+        public static bool IsRemovedContentTrackingDisabled
+        {
+            get
+            {
+                if (!_isRemovedContentTrackingDisabled.HasValue)
+                {
+                    bool isDisabled = false;
+                    if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["urlTracker:removedContentTrackingDisabled"]))
+                    {
+                        bool parsedAppSetting;
+                        if (bool.TryParse(ConfigurationManager.AppSettings["urlTracker:removedContentTrackingDisabled"], out parsedAppSetting))
+                            isDisabled = parsedAppSetting;
+                    }
+                    _isRemovedContentTrackingDisabled = isDisabled;
+                }
+                return _isRemovedContentTrackingDisabled.Value;
+            }
+        }
+
+        private static bool? _isDisabled;
+        private static bool? _enableLogging;
+        private static string[] _notFoundUrlsToIgnore;
+        private static bool? _isTrackingDisabled;
+        private static bool? _isNotFoundTrackingDisabled;
+        private static bool? _appendPortNumber;
+        private static bool? _hasDomainOnChildNode;
+        private static bool? _forcedRedirectCacheTimeoutEnabled;
+        private static int? _forcedRedirectCacheTimeoutSeconds;
+        private static bool? _isRemovedContentTrackingDisabled;
     }
 }

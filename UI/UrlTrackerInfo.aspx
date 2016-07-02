@@ -49,35 +49,49 @@
             </div>
             <div class="tab-pane" id="settings">
                 <p>The Url Tracker supports a few settings, which you can use in the <a href="http://msdn.microsoft.com/en-us/library/aa903313(v=vs.71).aspx" target="_blank">appSettings section of your web.config</a>. Below you'll find these settings, with the type and default value mentioned below the setting name:</p>
+                
                 <h4>urlTracker:disabled</h4>
                 <h5>boolean (false)</h5>
                 <p>Set to true to disable the HTTP Module of the Url Tracker, so it won't redirect requests anymore.</p>
+                
                 <h4>urlTracker:enableLogging</h4>
                 <h5>boolean (false)</h5>
                 <p>
                     Set to true to enable logging debug information of the Url Tracker. Uses umbraco's built-in logging mechanism with LogType set to 'debug'.<br />
                     <b>umbracoDebugMode</b> needs to be enabled too.
                 </p>
+                
                 <h4>urlTracker:404UrlsToIgnore</h4>
                 <h5>comma-seperated string (empty)</h5>
                 <p>The Url Tracker logs requests resulting in a 404 Not Found status. Some URLs shouldn't be logged and can be set here. One URL is always ignored by default: 'favicon.ico'.</p>
                 <p>You can also ignore logging a 404 Not Found entry for certain requests, by adding an HTTP header 'X-UrlTracker-Ignore404' with value '1'</p>
+                
                 <h4>urlTracker:trackingDisabled</h4>
                 <h5>boolean (false)</h5>
                 <p>Set to true to disable tracking URL changes.</p>
+                
                 <h4>urlTracker:notFoundTrackingDisabled</h4>
                 <h5>boolean (false)</h5>
                 <p>Set to true to disable tracking not found (404) requests.</p>
+                
+                <h4>urlTracker:removedContentTrackingDisabled</h4>
+                <h5>boolean (false)</h5>
+                <p>Set to true to disable removed content (410) tracking.</p>
+                <p>When disabled, existing tracked 410 records will still result in 410 responses. Content removed after disabling will result in 404 responses</p>
+                
                 <h4>urlTracker:appendPortNumber</h4>
                 <h5>boolean (true)</h5>
                 <p>Set to false to disable appending a port number to redirect URLs</p>
+                
                 <h4>urlTracker:hasDomainOnChildNode</h4>
                 <h5>boolean (false)</h5>
                 <p>Set to true if a childnode has a domain</p>
+                
                 <h4>urlTracker:forcedRedirectCacheTimeoutEnabled</h4>
                 <h5>boolean (false)</h5>
                 <p>Set to true to cache forced redirects for a period of time.</p>
                 <p>Setting this to true will enabled forced redirect updates and additions to propagate to all servers in a multi-server environment</p>
+                
                 <h4>urlTracker:forcedRedirectCacheTimeoutSeconds</h4>
                 <h5>int (14400)</h5>
                 <p>Amount of time, in seconds, that the forced redirects will be cached for. Default is 14400 seconds (4 hours). The default value will be used when the app setting is less than 1.</p>

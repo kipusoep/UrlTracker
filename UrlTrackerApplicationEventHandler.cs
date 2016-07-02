@@ -1,18 +1,13 @@
-﻿using InfoCaster.Umbraco.UrlTracker.Extensions;
+﻿using System.Web;
+using System.Web.UI;
+using InfoCaster.Umbraco.UrlTracker.Extensions;
 using InfoCaster.Umbraco.UrlTracker.Helpers;
 using InfoCaster.Umbraco.UrlTracker.Models;
 using InfoCaster.Umbraco.UrlTracker.Repositories;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using umbraco;
-using umbraco.BusinessLogic;
 using umbraco.cms.businesslogic;
 using umbraco.cms.businesslogic.web;
-using umbraco.DataLayer;
 using umbraco.NodeFactory;
 using Umbraco.Core;
 using Umbraco.Core.Events;
@@ -54,7 +49,7 @@ namespace InfoCaster.Umbraco.UrlTracker
             }
         }
 
-        void ContentService_Deleting(IContentService sender, DeleteEventArgs<IContent> e)
+        private void ContentService_Deleting(IContentService sender, DeleteEventArgs<IContent> e)
         {
             foreach (IContent content in e.DeletedEntities)
             {
@@ -73,7 +68,7 @@ namespace InfoCaster.Umbraco.UrlTracker
             }
         }
 
-        void ContentService_Publishing(IPublishingStrategy sender, PublishEventArgs<IContent> e)
+        private void ContentService_Publishing(IPublishingStrategy sender, PublishEventArgs<IContent> e)
         {
             // When content is renamed or 'umbracoUrlName' property value is added/updated
             foreach (IContent content in e.PublishedEntities)
@@ -136,7 +131,7 @@ namespace InfoCaster.Umbraco.UrlTracker
             }
         }
 
-        void ContentService_Moving(IContentService sender, MoveEventArgs<IContent> e)
+        private void ContentService_Moving(IContentService sender, MoveEventArgs<IContent> e)
         {
             IContent content = e.Entity;
 #if !DEBUG
@@ -160,14 +155,18 @@ namespace InfoCaster.Umbraco.UrlTracker
         }
 
 #pragma warning disable 0618
-        void content_BeforeClearDocumentCache(Document doc, DocumentCacheEventArgs e)
+
+        private void content_BeforeClearDocumentCache(Document doc, DocumentCacheEventArgs e)
 #pragma warning restore
         {
 #if !DEBUG
             try
 #endif
             {
-                UrlTrackerRepository.AddGoneEntryByNodeId(doc.Id);
+                if (!UrlTrackerSettings.IsRemovedContentTrackingDisabled)
+                {
+                    UrlTrackerRepository.AddGoneEntryByNodeId(doc.Id);
+                }
             }
 #if !DEBUG
             catch (Exception ex)
@@ -177,17 +176,17 @@ namespace InfoCaster.Umbraco.UrlTracker
 #endif
         }
 
-        void Domain_New(Domain sender, NewEventArgs e)
+        private void Domain_New(Domain sender, NewEventArgs e)
         {
             UmbracoHelper.ClearDomains();
         }
 
-        void Domain_AfterSave(Domain sender, SaveEventArgs e)
+        private void Domain_AfterSave(Domain sender, SaveEventArgs e)
         {
             UmbracoHelper.ClearDomains();
         }
 
-        void Domain_AfterDelete(Domain sender, umbraco.cms.businesslogic.DeleteEventArgs e)
+        private void Domain_AfterDelete(Domain sender, umbraco.cms.businesslogic.DeleteEventArgs e)
         {
             UmbracoHelper.ClearDomains();
         }
