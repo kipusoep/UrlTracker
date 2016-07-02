@@ -217,6 +217,65 @@ namespace InfoCaster.Umbraco.UrlTracker
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether or not forced redirects should be cached for a period of time. Default is false.
+        /// Setting this to true will enabled forced redirect updates and additions to propagate to all servers in a multi-server environment
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if we are to cache forced redirects for a period of time; otherwise, <c>false</c>.
+        /// </value>
+        /// <remarks>
+        /// appSetting: 'urlTracker:forcedRedirectCacheTimeoutEnabled'
+        /// </remarks>
+        public static bool ForcedRedirectCacheTimeoutEnabled
+        {
+            get
+            {
+                if (!_forcedRedirectCacheTimeoutEnabled.HasValue)
+                {
+                    bool forcedRedirectCacheTimeoutEnabled = false;
+                    if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["urlTracker:forcedRedirectCacheTimeoutEnabled"]))
+                    {
+                        bool parsedAppSetting;
+                        if (bool.TryParse(ConfigurationManager.AppSettings["urlTracker:forcedRedirectCacheTimeoutEnabled"], out parsedAppSetting))
+                            forcedRedirectCacheTimeoutEnabled = parsedAppSetting;
+                    }
+                    _forcedRedirectCacheTimeoutEnabled = forcedRedirectCacheTimeoutEnabled;
+                }
+                return _forcedRedirectCacheTimeoutEnabled.Value;
+            }
+        }
+
+        /// <summary>
+        /// Amount of time, in seconds, that the forced redirects will be cached for. Default is 14400 (4 hours).
+        /// The default value will be used when the app setting is less than 1.
+        /// This setting does nothing unless urlTracker:forcedRedirectCacheTimeoutEnabled is true
+        /// </summary>
+        /// <remarks>
+        /// appSetting: 'urlTracker:forcedRedirectCacheTimeoutSeconds'
+        /// </remarks>
+        public static int ForcedRedirectCacheTimeoutSeconds
+        {
+            get
+            {
+                if (!_forcedRedirectCacheTimeoutSeconds.HasValue)
+                {
+                    int forcedRedirectCacheTimeoutSeconds = 14400; // 4 hours
+                    if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["urlTracker:forcedRedirectCacheTimeoutSeconds"]))
+                    {
+                        int parsedAppSetting;
+                        if (int.TryParse(ConfigurationManager.AppSettings["urlTracker:forcedRedirectCacheTimeoutSeconds"], out parsedAppSetting)
+                            && parsedAppSetting > 0)
+                        {
+                            forcedRedirectCacheTimeoutSeconds = parsedAppSetting;
+                        }
+                    }
+                    _forcedRedirectCacheTimeoutSeconds = forcedRedirectCacheTimeoutSeconds;
+                }
+                return _forcedRedirectCacheTimeoutSeconds.Value;
+            }
+        }
+        
 
         static bool? _isDisabled;
         static bool? _enableLogging;
@@ -225,5 +284,7 @@ namespace InfoCaster.Umbraco.UrlTracker
         static bool? _isNotFoundTrackingDisabled;
         static bool? _appendPortNumber;
         static bool? _hasDomainOnChildNode;
+        static bool? _forcedRedirectCacheTimeoutEnabled;
+        static int? _forcedRedirectCacheTimeoutSeconds;
     }
 }
