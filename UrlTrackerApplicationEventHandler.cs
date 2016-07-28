@@ -3,22 +3,18 @@ using InfoCaster.Umbraco.UrlTracker.Helpers;
 using InfoCaster.Umbraco.UrlTracker.Models;
 using InfoCaster.Umbraco.UrlTracker.Repositories;
 using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.UI;
 using umbraco;
-using umbraco.BusinessLogic;
 using umbraco.cms.businesslogic;
 using umbraco.cms.businesslogic.web;
-using umbraco.DataLayer;
 using umbraco.NodeFactory;
 using Umbraco.Core;
 using Umbraco.Core.Events;
 using Umbraco.Core.Models;
 using Umbraco.Core.Publishing;
 using Umbraco.Core.Services;
+using Umbraco.Web.Cache;
 using Umbraco.Web.UI.Pages;
 
 namespace InfoCaster.Umbraco.UrlTracker
@@ -48,9 +44,7 @@ namespace InfoCaster.Umbraco.UrlTracker
                 ContentService.Publishing += ContentService_Publishing;
                 ContentService.Deleting += ContentService_Deleting;
                 content.BeforeClearDocumentCache += content_BeforeClearDocumentCache;
-                Domain.AfterDelete += Domain_AfterDelete;
-                Domain.AfterSave += Domain_AfterSave;
-                Domain.New += Domain_New;
+                DomainCacheRefresher.CacheUpdated += (s, e) => UmbracoHelper.ClearDomains();
             }
         }
 
@@ -175,21 +169,6 @@ namespace InfoCaster.Umbraco.UrlTracker
                 ex.LogException();
             }
 #endif
-        }
-
-        void Domain_New(Domain sender, NewEventArgs e)
-        {
-            UmbracoHelper.ClearDomains();
-        }
-
-        void Domain_AfterSave(Domain sender, SaveEventArgs e)
-        {
-            UmbracoHelper.ClearDomains();
-        }
-
-        void Domain_AfterDelete(Domain sender, umbraco.cms.businesslogic.DeleteEventArgs e)
-        {
-            UmbracoHelper.ClearDomains();
         }
     }
 }
