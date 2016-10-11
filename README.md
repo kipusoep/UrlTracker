@@ -1,5 +1,8 @@
 UrlTracker
 ==========
+[![Build status](https://ci.appveyor.com/api/projects/status/wi5qr3gepwjiyeeh?svg=true)](https://ci.appveyor.com/project/granthughes/urltracker)
+[![Nuget](https://img.shields.io/nuget/v/UrlTracker.svg)](https://www.nuget.org/packages/UrlTracker/)
+[![MyGet](https://img.shields.io/myget/urltracker-ci/v/UrlTracker.svg?maxAge=2592000)](https://www.myget.org/feed/urltracker-ci/package/nuget/UrlTracker)
 
 The Url Tracker is used to manage URLs within umbraco. It automatically tracks URL changes, for instance when a node is renamed, and makes sure the old URL will redirect to the new location. This is great for SEO and great for people visiting your website via this old URL. Search engines will update the indexed URL and people won't visit the old, broken URL.<br />
 You can also create your own redirects, based on a simple URL or using a Regex pattern. You can redirect to an existing node or a manually entered URL. This is great for migrating existing indexed URLs to your new website!
