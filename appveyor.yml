@@ -1,0 +1,56 @@
+version: '{build}'
+
+pull_requests:
+    do_not_increment_build_number: true
+
+nuget:  
+    disable_publish_on_pr: true
+
+configuration: Release
+
+install:
+    ps: >-
+        $assembly_version = & .\build\GetAssemblyVersion.ps1;
+        Update-AppveyorBuild -Version "$($assembly_version).$($env:APPVEYOR_BUILD_NUMBER).0";
+
+assembly_info:
+    patch: true
+    file: '**\AssemblyInfo.*'
+    assembly_version: '{version}'
+    assembly_file_version: '{version}'
+    assembly_informational_version: '{version}-{APPVEYOR_REPO_COMMIT}'
+
+before_build:
+    # make sure the artifacts output folder is clear and restore NuGet packages before running MSBuild
+    ps: >-
+        if(Test-Path .\artifacts) { Remove-Item .\artifacts -Force -Recurse } else { mkdir artifacts } 
+        nuget restore UrlTracker.sln -verbosity detailed
+
+build:
+    verbosity: minimal
+    project: UrlTracker.sln
+
+after_build:
+    nuget pack UrlTracker.csproj -Build -Properties Configuration=Release -OutputDirectory .\artifacts -Exclude **\*.config -Verbosity detailed
+
+artifacts:
+    path: .\artifacts\**\*.nupkg
+
+deploy:
+  - provider: NuGet
+    server: https://www.myget.org/F/urltracker-ci/api/v2/package
+    api_key:
+        secure: gLwlkXSVjf3c7C/xEoy+SqX4yC+xlcvTUgn6jDgExZYM9sTmV4LwHm2kyw8F5XOy
+    skip_symbols: true
+    artifact: /.*\.nupkg/
+    on:
+        branch: master
+  - provider: NuGet
+    name: production
+    api_key:
+        secure: UdrehZOgDzkQsD9vrVWjZ70trv6qln9mS5+fOAcBmJKiuqdpNAr/e8HGbvZqHOco
+    skip_symbols: true
+    artifact: /.*\.nupkg/
+    on:
+        branch: master
+        appveyor_repo_tag: true

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>UrlTracker</id>
+    <version>$version$-pre</version>
+    <title>UrlTracker</title>
+    <authors>Stefan Kip</authors>
+    <owners>Stefan Kip</owners>
+    <licenseUrl>https://opensource.org/licenses/mit-license.php</licenseUrl>
+    <projectUrl>https://our.umbraco.org/projects/developer-tools/301-url-tracker</projectUrl>
+    <iconUrl>http://our.umbraco.org/media/wiki/8046/635072564424992426_urltracker.png</iconUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+	<summary>The Url Tracker is used to manage URLs within Umbraco</summary>
+    <description>The Url Tracker is used to manage URLs within umbraco. It automatically tracks URL changes, for instance when a node is renamed, and makes sure the old URL will redirect to the new location. This is great for SEO and great for people visiting your website via this old URL. Search engines will update the indexed URL and people won't visit the old, broken URL.
+You can also create your own redirects, based on a simple URL or using a Regex pattern. You can redirect to an existing node or a manually entered URL. This is great for migrating existing indexed URLs to your new website!</description>
+    <releaseNotes>[BugFix] Changed the force redirect handler to PostResolveRequestCache instead of AcquireRequestState (Simple Redirect doesn't work ([#117](#117)
+	Fixed #117</releaseNotes>
+    <tags>urltracker umbraco</tags>
+  </metadata>
+  <files>
+    <file src="readme.txt" target="" />
+	<file src="bin\InfoCaster.Umbraco.UrlTracker.dll" target="lib" />
+  </files>
+</package>
