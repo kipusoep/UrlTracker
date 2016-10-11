@@ -13,8 +13,11 @@
 	<summary>The Url Tracker is used to manage URLs within Umbraco</summary>
     <description>The Url Tracker is used to manage URLs within umbraco. It automatically tracks URL changes, for instance when a node is renamed, and makes sure the old URL will redirect to the new location. This is great for SEO and great for people visiting your website via this old URL. Search engines will update the indexed URL and people won't visit the old, broken URL.
 You can also create your own redirects, based on a simple URL or using a Regex pattern. You can redirect to an existing node or a manually entered URL. This is great for migrating existing indexed URLs to your new website!</description>
-    <releaseNotes>[BugFix] Changed the force redirect handler to PostResolveRequestCache instead of AcquireRequestState (Simple Redirect doesn't work ([#117](#117)
-	Fixed #117</releaseNotes>
+    <releaseNotes>404 keyword search performance improvements
+	[Bugfix] Forced regex redirect for a domain is applied to all domains
+	[Bugfix] Edit pages can save values from previously viewed redirect
+	[Bugfix] Forced redirect cache not updated in multi-server environment
+	[Bugfix] Fix Collection was modified error</releaseNotes>
     <tags>urltracker umbraco</tags>
   </metadata>
   <files>

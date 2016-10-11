@@ -77,7 +77,7 @@
                 <h4>urlTracker:forcedRedirectCacheTimeoutEnabled</h4>
                 <h5>boolean (false)</h5>
                 <p>Set to true to cache forced redirects for a period of time.</p>
-                <p>Setting this to true will enabled forced redirect updates and additions to propagate to all servers in a multi-server environment</p>
+                <p>Setting this to true will enable forced redirect updates and additions to propagate to all servers in a multi-server environment</p>
                 <h4>urlTracker:forcedRedirectCacheTimeoutSeconds</h4>
                 <h5>int (14400)</h5>
                 <p>Amount of time, in seconds, that the forced redirects will be cached for. Default is 14400 seconds (4 hours). The default value will be used when the app setting is less than 1.</p>

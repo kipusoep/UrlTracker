@@ -50,8 +50,22 @@ Set to true to disable tracking not found (404) requests.
 ### urlTracker:appendPortNumber ###
 #### boolean (true) ####
 Set to false to disable appending a port number to redirect URLs
+### urlTracker:forcedRedirectCacheTimeoutEnabled ###
+#### boolean(false) ####
+Set to true to cache forced redirects for a period of time.
+Setting this to true will enable forced redirect updates and additions to propagate to all servers in a multi-server environment.
+### urlTracker:forcedRedirectCacheTimeoutSeconds ###
+#### int (14400) ####
+Amount of time, in seconds, that the forced redirects will be cached for. Default is 14400 seconds (4 hours). The default value will be used when the app setting is less than 1.
+This setting does nothing unless **urlTracker:forcedRedirectCacheTimeoutEnabled** is true.
 
 ## Changelog ##
+*	3.12 [2016/10/11]
+	* 404 keyword search performance improvements ([#102](https://github.com/kipusoep/UrlTracker/pull/102))
+	* [Bugfix] Forced regex redirect for a domain is applied to all domains ([#125](https://github.com/kipusoep/UrlTracker/pull/125))
+	* [Bugfix] Edit pages can save values from previously viewed redirect ([#127](https://github.com/kipusoep/UrlTracker/pull/127))
+	* [Bugfix] Forced redirect cache not updated in multi-server environment ([#130](https://github.com/kipusoep/UrlTracker/pull/130))
+	* [Bugfix] Fix Collection was modified error ([#100](https://github.com/kipusoep/UrlTracker/pull/100))
 *	3.11 [2016/02/26]
 	* [BugFix] Changed the force redirect event handler to PostResolveRequestCache instead of AcquireRequestState (Simple Redirect doesn't work ([#117](https://github.com/kipusoep/UrlTracker/issues/117))
 *	3.10 [2016/01/04]
