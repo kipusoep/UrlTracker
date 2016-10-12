@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>UrlTracker</id>
-    <version>$version$-pre</version>
+    <version>$version$</version>
     <title>UrlTracker</title>
     <authors>Stefan Kip</authors>
     <owners>Stefan Kip</owners>
