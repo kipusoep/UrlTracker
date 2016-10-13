@@ -53,4 +53,4 @@ deploy:
     artifact: /.*\.nupkg/
     on:
         branch: master
-        # appveyor_repo_tag: true
+        appveyor_repo_tag: true
