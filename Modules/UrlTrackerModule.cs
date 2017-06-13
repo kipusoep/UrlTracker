@@ -334,7 +334,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                             LoggingHelper.LogInformation("UrlTracker HttpModule | Redirect URL is the same as Request.RawUrl; don't redirect");
                             return;
                         }
-                        if (request.Url.Host.Equals(redirectUri.Host, StringComparison.OrdinalIgnoreCase))
+                        if (!UrlTrackerSettings.AbsoluteRedirectLocation && request.Url.Host.Equals(redirectUri.Host, StringComparison.OrdinalIgnoreCase))
                         {
                             redirectLocation = redirectUri.PathAndQuery + redirectUri.Fragment;
                         }

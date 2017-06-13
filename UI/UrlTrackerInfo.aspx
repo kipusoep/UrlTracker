@@ -82,6 +82,9 @@
                 <h5>int (14400)</h5>
                 <p>Amount of time, in seconds, that the forced redirects will be cached for. Default is 14400 seconds (4 hours). The default value will be used when the app setting is less than 1.</p>
                 <p>This setting does nothing unless urlTracker:forcedRedirectCacheTimeoutEnabled is true</p>
+                <h4>urlTracker:absoluteRedirectLocation</h4>
+                <h5>boolean (false)</h5>
+                <p>Set to true to use absolute redirect URLs</p>
             </div>
             <div class="tab-pane" id="qa">
                 <p>Some questions and answers. This section will be expanded when people start asking more questions on the forum ;-)</p>

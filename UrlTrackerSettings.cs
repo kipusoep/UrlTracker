@@ -275,6 +275,31 @@ namespace InfoCaster.Umbraco.UrlTracker
                 return _forcedRedirectCacheTimeoutSeconds.Value;
             }
         }
+
+        /// <summary>
+        /// Gets a value indicating whether or not to use absolute redirect URLs. Default is false.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if we are to use absolute URLs; otherwise, <c>false</c>.
+        /// </value>
+        public static bool AbsoluteRedirectLocation
+        {
+            get
+            {
+                if (!_absoluteRedirectLocation.HasValue)
+                {
+                    bool absoluteRedirectLocation = false;
+                    if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["urlTracker:absoluteRedirectLocation"]))
+                    {
+                        bool parsedAppSetting;
+                        if (bool.TryParse(ConfigurationManager.AppSettings["urlTracker:absoluteRedirectLocation"], out parsedAppSetting))
+                            absoluteRedirectLocation = parsedAppSetting;
+                    }
+                    _absoluteRedirectLocation = absoluteRedirectLocation;
+                }
+                return _absoluteRedirectLocation.Value;
+            }
+        }
         
 
         static bool? _isDisabled;
@@ -286,5 +311,6 @@ namespace InfoCaster.Umbraco.UrlTracker
         static bool? _hasDomainOnChildNode;
         static bool? _forcedRedirectCacheTimeoutEnabled;
         static int? _forcedRedirectCacheTimeoutSeconds;
+        static bool? _absoluteRedirectLocation;
     }
 }
