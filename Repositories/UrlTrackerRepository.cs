@@ -5,8 +5,6 @@ using System.Threading;
 using InfoCaster.Umbraco.UrlTracker.Extensions;
 using InfoCaster.Umbraco.UrlTracker.Helpers;
 using InfoCaster.Umbraco.UrlTracker.Models;
-using umbraco.BusinessLogic;
-using umbraco.DataLayer;
 using umbraco.NodeFactory;
 using Umbraco.Core;
 using Umbraco.Core.Models;
@@ -15,6 +13,8 @@ using Umbraco.Web;
 
 namespace InfoCaster.Umbraco.UrlTracker.Repositories
 {
+    using System.Web;
+
     public static class UrlTrackerRepository
     {
         static readonly Uri _baseUri = new Uri("http://www.example.org");
@@ -51,7 +51,11 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
                 if (UrlTrackerSettings.HasDomainOnChildNode)
                 {
                     var rootNode = new Node(rootNodeId);
-                    var rootUri = new Uri(rootNode.NiceUrl);
+                    var rootUrl = !rootNode.Url.StartsWith("/")
+                        ? rootNode.NiceUrl
+                        : string.Format("{0}{1}{2}", Uri.UriSchemeHttp, Uri.SchemeDelimiter, HttpContext.Current.Request.Url.Host) + rootNode.NiceUrl;
+                    
+                    var rootUri = new Uri(rootUrl);
                     var shortRootUrl = UrlTrackerHelper.ResolveShortestUrl(rootUri.AbsolutePath);
                     if (url.StartsWith(shortRootUrl, StringComparison.OrdinalIgnoreCase))
                     {
@@ -178,7 +182,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
             LoggingHelper.LogInformation("UrlTracker Repository | Deleting Url Tracker entry with id: {0}", id);
 
             var query = "DELETE FROM icUrlTracker WHERE Id = @id";
-            ApplicationContext.Current.DatabaseContext.Database.Execute(query, new object[] { new { Id = id } });
+            ApplicationContext.Current.DatabaseContext.Database.Execute(query, new object[] { new { id = id } });
 
             ReloadForcedRedirectsCache();
         }
@@ -208,7 +212,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
         {
             var query = "SELECT * FROM icUrlTracker WHERE Id = @id";
 
-            return ApplicationContext.Current.DatabaseContext.Database.FirstOrDefault<UrlTrackerModel>(query, new object[] { new { Id = id } });
+            return ApplicationContext.Current.DatabaseContext.Database.FirstOrDefault<UrlTrackerModel>(query, new object[] { new { id = id } });
         }
 
         [Obsolete("Remove not found entries also with root id, use other method")]
