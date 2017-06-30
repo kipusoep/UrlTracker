@@ -11,6 +11,9 @@ using Umbraco.Core.IO;
 
 namespace InfoCaster.Umbraco.UrlTracker.Helpers
 {
+    using global::Umbraco.Core;
+    using global::Umbraco.Core.Configuration;
+
     public static class UmbracoHelper
     {
         static readonly object _locker = new object();
@@ -92,25 +95,12 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
                 lock (_locker)
                 {
                     _urlTrackerDomains = new List<UrlTrackerDomain>();
-                    ISqlHelper sqlHelper = Application.SqlHelper;
-                    using (var dr = sqlHelper.ExecuteReader("SELECT * FROM umbracoDomains where CHARINDEX('*',domainName) < 1"))
-                    {
-                        while (dr.Read())
-                        {
-                            _urlTrackerDomains.Add(new UrlTrackerDomain(dr.GetInt("id"), dr.GetInt("domainRootStructureID"), dr.GetString("domainName")));
-                        }
-                    }
-                    _urlTrackerDomains = _urlTrackerDomains.OrderBy(x => x.Name).ToList();
 
-                    if (UrlTrackerSettings.HasDomainOnChildNode)
+                    var domains = ApplicationContext.Current.Services.DomainService.GetAll(UrlTrackerSettings.HasDomainOnChildNode);
+
+                    foreach (var domain in domains)
                     {
-                        using (var dr = sqlHelper.ExecuteReader("SELECT * FROM umbracoDomains where CHARINDEX('*',domainName) = 1"))
-                        {
-                            while (dr.Read())
-                            {
-                                _urlTrackerDomains.Add(new UrlTrackerDomain(dr.GetInt("id"), dr.GetInt("domainRootStructureID"), dr.GetString("domainName")));
-                            }
-                        }
+                        _urlTrackerDomains.Add(new UrlTrackerDomain(domain.Id, domain.RootContentId.Value, domain.DomainName));
                     }
 
                     _urlTrackerDomains = _urlTrackerDomains.OrderBy(x => x.Name).ToList();
@@ -129,7 +119,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
 
         internal static string GetUmbracoUrlSuffix()
         {
-            return !GlobalSettings.UseDirectoryUrls ? ".aspx" : UmbracoSettings.AddTrailingSlash ? "/" : string.Empty;
+            return !GlobalSettings.UseDirectoryUrls ? ".aspx" : UmbracoConfig.For.UmbracoSettings().RequestHandler.AddTrailingSlash ? "/" : string.Empty;
         }
 
         internal static string GetUrl(int nodeId)
