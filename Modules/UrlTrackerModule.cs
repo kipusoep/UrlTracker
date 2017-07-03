@@ -5,18 +5,14 @@ using InfoCaster.Umbraco.UrlTracker.Models;
 using InfoCaster.Umbraco.UrlTracker.Repositories;
 using InfoCaster.Umbraco.UrlTracker.UI.Installer;
 using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Web;
-using umbraco.BusinessLogic;
-using umbraco.DataLayer;
-using umbraco.interfaces;
 using umbraco.NodeFactory;
 using Umbraco.Core;
-using Umbraco.Core.Persistence;
+
 using Umbraco.Web;
 using UmbracoHelper = InfoCaster.Umbraco.UrlTracker.Helpers.UmbracoHelper;
 
@@ -91,6 +87,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                             {
                             }
                         }
+                        
                         UrlTrackerRepository.UpdateUrlTrackerTable();
                     }
                 }

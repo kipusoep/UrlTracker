@@ -215,12 +215,6 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
             return ApplicationContext.Current.DatabaseContext.Database.FirstOrDefault<UrlTrackerModel>(query, new object[] { new { id = id } });
         }
 
-        [Obsolete("Remove not found entries also with root id, use other method")]
-        public static UrlTrackerModel GetNotFoundEntryByUrl(string url)
-        {
-            return GetNotFoundEntries().Single(x => x.OldUrl.ToLower() == url.ToLower());
-        }
-
         public static UrlTrackerModel GetNotFoundEntryByRootAndUrl(int redirectRootNodeId, string url)
         {
             return GetNotFoundEntries().Single(x => x.OldUrl.ToLower() == url.ToLower() && x.RedirectRootNodeId == redirectRootNodeId);

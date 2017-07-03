@@ -23,8 +23,6 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
     [TableName("icUrlTracker")]
     public class UrlTrackerModel
     {
-        #region Data fields
-
         [Column("Id")]
         [PrimaryKeyColumn(AutoIncrement = true)]
         public int Id { get; set; }
@@ -70,9 +68,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
 
         [Column]
         public bool ForceRedirect { get; set; }
-        #endregion
 
-        #region Calculated properties
         public string CalculatedOldUrlWithoutQuery
         {
             get
@@ -84,6 +80,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
                 return CalculatedOldUrl.Contains('?') ? CalculatedOldUrl.Substring(0, CalculatedOldUrl.IndexOf('?')) : CalculatedOldUrl;
             }
         }
+        
         public string CalculatedOldUrl
         {
             get
@@ -97,6 +94,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
                 return !pathAndQuery.StartsWith("/") ? string.Concat("/", pathAndQuery.Substring(1)) : pathAndQuery;
             }
         }
+        
         public string CalculatedOldUrlWithDomain
         {
             get
@@ -105,6 +103,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
                 {
                     throw new InvalidOperationException("Both OldRegex and OldUrl are empty, which is invalid. Please correct this by removing any entries where the OldUrl and OldRegex columns are empty.");
                 }
+                
                 if (!string.IsNullOrEmpty(OldRegex) && string.IsNullOrEmpty(OldUrl))
                 {
                     return string.Concat("Regex: ", OldRegex);
@@ -115,49 +114,63 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
                 domain = domains.FirstOrDefault(x => x.NodeId == RedirectRootNode.Id);
                 if (domain == null)
                 {
-                    domain = new UrlTrackerDomain(-1, RedirectRootNode.Id, string.Concat(HttpContext.Current.Request.Url.Host, HttpContext.Current.Request.Url.IsDefaultPort && !UrlTrackerSettings.AppendPortNumber ? string.Empty : string.Concat(":", HttpContext.Current.Request.Url.Port)));
+                    domain = new UrlTrackerDomain(
+                        -1,
+                        RedirectRootNode.Id,
+                        string.Concat(
+                            HttpContext.Current.Request.Url.Host,
+                            HttpContext.Current.Request.Url.IsDefaultPort && !UrlTrackerSettings.AppendPortNumber
+                                ? string.Empty
+                                : string.Concat(":", HttpContext.Current.Request.Url.Port)));
                 }
 
                 var domainUri = new Uri(domain.UrlWithDomain);
-                var domainOnly = string.Format("{0}{1}{2}{3}", domainUri.Scheme, Uri.SchemeDelimiter, domainUri.Host, domainUri.IsDefaultPort && !UrlTrackerSettings.AppendPortNumber ? string.Empty : string.Concat(":", domainUri.Port));
+                var domainOnly = string.Format(
+                    "{0}{1}{2}{3}",
+                    domainUri.Scheme,
+                    Uri.SchemeDelimiter,
+                    domainUri.Host,
+                    domainUri.IsDefaultPort && !UrlTrackerSettings.AppendPortNumber ? string.Empty : string.Concat(":", domainUri.Port));
 
                 if (UrlTrackerSettings.HasDomainOnChildNode)
                 {
-                    return string.Format("{0}{1}{2}", new Uri(string.Concat(domain.UrlWithDomain, !domain.UrlWithDomain.EndsWith("/") && !OldUrl.StartsWith("/") ? "/" : string.Empty, UrlTrackerHelper.ResolveUmbracoUrl(OldUrl))), !string.IsNullOrEmpty(OldUrlQueryString) ? "?" : string.Empty, OldUrlQueryString);
+                    return string.Format(
+                        "{0}{1}{2}",
+                        new Uri(
+                            string.Concat(
+                                domain.UrlWithDomain,
+                                !domain.UrlWithDomain.EndsWith("/") && !OldUrl.StartsWith("/") ? "/" : string.Empty,
+                                UrlTrackerHelper.ResolveUmbracoUrl(OldUrl))),
+                        !string.IsNullOrEmpty(OldUrlQueryString) ? "?" : string.Empty,
+                        OldUrlQueryString);
                 }
-                else
-                {
-                    return string.Format("{0}{1}{2}", new Uri(string.Concat(domainOnly, !domainOnly.EndsWith("/") && !OldUrl.StartsWith("/") ? "/" : string.Empty, UrlTrackerHelper.ResolveUmbracoUrl(OldUrl))), !string.IsNullOrEmpty(OldUrlQueryString) ? "?" : string.Empty, OldUrlQueryString);
-                }
+
+                return string.Format(
+                    "{0}{1}{2}",
+                    new Uri(
+                        string.Concat(
+                            domainOnly,
+                            !domainOnly.EndsWith("/") && !OldUrl.StartsWith("/") ? "/" : string.Empty,
+                            UrlTrackerHelper.ResolveUmbracoUrl(OldUrl))),
+                    !string.IsNullOrEmpty(OldUrlQueryString) ? "?" : string.Empty,
+                    OldUrlQueryString);
             }
         }
+        
         public string CalculatedRedirectUrl
         {
             get
             {
-                /*string calculatedRedirectUrl = !string.IsNullOrEmpty(RedirectUrl) ?
-                    RedirectUrl :
-                    !RedirectRootNode.NiceUrl.EndsWith("#") && RedirectNodeId.HasValue ?
-                        new Uri(umbraco.library.NiceUrl(RedirectNodeId.Value).StartsWith("http") ? umbraco.library.NiceUrl(RedirectNodeId.Value) :
-                            string.Format("{0}://{1}{2}{3}", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Host, HttpContext.Current.Request.Url.Port != 80 && UrlTrackerSettings.AppendPortNumber ?
-                                string.Concat(":", HttpContext.Current.Request.Url.Port) :
-                                string.Empty, umbraco.library.NiceUrl(RedirectNodeId.Value)
-                            )
-                        ).AbsolutePath :
-                        string.Empty;
-                return !calculatedRedirectUrl.StartsWith("/") ? string.Concat("/", calculatedRedirectUrl) : calculatedRedirectUrl;
-                 * */
                 var calculatedRedirectUri = !string.IsNullOrEmpty(RedirectUrl) ? RedirectUrl : null;
                 if (calculatedRedirectUri != null)
                 {
-                    if (calculatedRedirectUri.StartsWith(Uri.UriSchemeHttp + Uri.SchemeDelimiter) || calculatedRedirectUri.StartsWith(Uri.UriSchemeHttps + Uri.SchemeDelimiter))
+                    if (calculatedRedirectUri.StartsWith(Uri.UriSchemeHttp + Uri.SchemeDelimiter)
+                        || calculatedRedirectUri.StartsWith(Uri.UriSchemeHttps + Uri.SchemeDelimiter))
                     {
                         return calculatedRedirectUri;
                     }
-                    else
-                    {
-                        return !calculatedRedirectUri.StartsWith("/") ? string.Concat("/", calculatedRedirectUri) : calculatedRedirectUri;
-                    }
+
+                    return !calculatedRedirectUri.StartsWith("/") ? string.Concat("/", calculatedRedirectUri) : calculatedRedirectUri;
                 }
 
                 if (!RedirectRootNode.NiceUrl.EndsWith("#") && RedirectNodeId.HasValue)
@@ -169,16 +182,19 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
                         siteDomains
                         .Select(n => new Uri(n.UrlWithDomain).Host)
                         .ToList();
+                    
                     if (hosts.Count == 0)
                     {
                         return umbraco.library.NiceUrl(RedirectNodeId.Value);
                     }
+                    
                     var sourceUrl = new Uri(siteDomains.First().UrlWithDomain);
                     var targetUrl = new Uri(sourceUrl, umbraco.library.NiceUrl(RedirectNodeId.Value));
                     if (!targetUrl.Host.Equals(sourceUrl.Host, StringComparison.OrdinalIgnoreCase))
                     {
                         return targetUrl.AbsoluteUri;
                     }
+                    
                     if (hosts.Any(n => n.Equals(sourceUrl.Host, StringComparison.OrdinalIgnoreCase)))
                     {
                         var url = umbraco.library.NiceUrl(RedirectNodeId.Value);
@@ -189,17 +205,17 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
                             var uri = new Uri(url);
                             return uri.AbsolutePath + uri.Fragment;
                         }
+                        
                         return url;
                     }
+                    
                     var newUri = new Uri(sourceUrl, umbraco.library.NiceUrl(RedirectNodeId.Value));
                     if (sourceUrl.Host != newUri.Host)
                     {
                         return newUri.AbsoluteUri;
                     }
-                    else
-                    {
-                        return newUri.AbsolutePath + newUri.Fragment;
-                    }
+                    
+                    return newUri.AbsolutePath + newUri.Fragment;
                 }
 
                 if (RedirectNodeId.HasValue)
@@ -207,10 +223,12 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
                     return umbraco.library.NiceUrl(RedirectNodeId.Value);
                     //calculatedRedirectUri = new Uri();
                 }
+                
                 return string.Empty;
 
             }
         }
+        
         public Node RedirectRootNode
         {
             get
@@ -227,6 +245,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
                 return redirectRootNode;
             }
         }
+        
         public string RedirectRootNodeName
         {
             get
@@ -243,21 +262,27 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
                 }
             }
         }
+        
         public UrlTrackerViewTypes ViewType
         {
             get
             {
-                if (RedirectNodeId.HasValue && ((Notes.StartsWith("A parent") || Notes.StartsWith("An ancestor") || Notes.StartsWith("This page") || Notes.StartsWith("This document")) && (Notes.EndsWith(" was moved") || Notes.EndsWith(" was renamed") || Notes.EndsWith("'s property 'umbracoUrlName' changed"))))
+                if (RedirectNodeId.HasValue
+                    && ((Notes.StartsWith("A parent") || Notes.StartsWith("An ancestor") || Notes.StartsWith("This page") || Notes.StartsWith("This document"))
+                        && (Notes.EndsWith(" was moved") || Notes.EndsWith(" was renamed") || Notes.EndsWith("'s property 'umbracoUrlName' changed"))))
                 {
                     return UrlTrackerViewTypes.Auto;
                 }
+
                 if (Is404)
                 {
                     return UrlTrackerViewTypes.NotFound;
                 }
+
                 return UrlTrackerViewTypes.Custom;
             }
         }
+        
         public bool RedirectNodeIsPublished
         {
             get
@@ -270,14 +295,26 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
                         return false;
                     }
                 }
+
                 return true;
             }
         }
-        #endregion
 
-        public UrlTrackerModel() { }
+        public UrlTrackerModel()
+        {
+        }
 
-        public UrlTrackerModel(string oldUrl, string oldUrlQueryString, string oldRegex, int redirectRootNodeId, int? redirectNodeId, string redirectUrl, int redirectHttpCode, bool redirectPassThroughQueryString, bool forceRedirect, string notes)
+        public UrlTrackerModel(
+            string oldUrl,
+            string oldUrlQueryString,
+            string oldRegex,
+            int redirectRootNodeId,
+            int? redirectNodeId,
+            string redirectUrl,
+            int redirectHttpCode,
+            bool redirectPassThroughQueryString,
+            bool forceRedirect,
+            string notes)
         {
             OldUrl = oldUrl;
             OldUrlQueryString = oldUrlQueryString;
@@ -291,8 +328,32 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
             Notes = notes ?? string.Empty;
         }
 
-        public UrlTrackerModel(int id, string oldUrl, string oldUrlQueryString, string oldRegex, int redirectRootNodeId, int? redirectNodeId, string redirectUrl, int redirectHttpCode, bool redirectPassThroughQueryString, bool forceRedirect, string notes, bool is404, string referrer, DateTime inserted)
-            : this(oldUrl, oldUrlQueryString, oldRegex, redirectRootNodeId, redirectNodeId, redirectUrl, redirectHttpCode, redirectPassThroughQueryString, forceRedirect, notes)
+        public UrlTrackerModel(
+            int id,
+            string oldUrl,
+            string oldUrlQueryString,
+            string oldRegex,
+            int redirectRootNodeId,
+            int? redirectNodeId,
+            string redirectUrl,
+            int redirectHttpCode,
+            bool redirectPassThroughQueryString,
+            bool forceRedirect,
+            string notes,
+            bool is404,
+            string referrer,
+            DateTime inserted)
+            : this(
+                oldUrl,
+                oldUrlQueryString,
+                oldRegex,
+                redirectRootNodeId,
+                redirectNodeId,
+                redirectUrl,
+                redirectHttpCode,
+                redirectPassThroughQueryString,
+                forceRedirect,
+                notes)
         {
             Id = id;
             Is404 = is404;
