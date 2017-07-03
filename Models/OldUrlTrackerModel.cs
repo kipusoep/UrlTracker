@@ -5,13 +5,27 @@ using System.Web;
 
 namespace InfoCaster.Umbraco.UrlTracker.Models
 {
-	public class OldUrlTrackerModel
-	{
-		public int NodeId { get;set;}
-		public string OldUrl { get;set;}
-		public bool IsCustom { get;set;}
-		public string Message { get;set;}
-		public DateTime Inserted { get;set;}
-		public bool IsRegex { get; set; }
-	}
+    using global::Umbraco.Core.Persistence;
+
+    [TableName("infocaster301")]
+    public class OldUrlTrackerModel
+    {
+        [Column("NodeId")]
+        public int NodeId { get; set; }
+
+        [Column("OldUrl")]
+        public string OldUrl { get; set; }
+
+        [Column("IsCustom")]
+        public bool IsCustom { get; set; }
+
+        [Column("Message")]
+        public string Message { get; set; }
+
+        [Column("Inserted")]
+        public DateTime Inserted { get; set; }
+
+        [Column("IsRegex")]
+        public bool IsRegex { get; set; }
+    }
 }

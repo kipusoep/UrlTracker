@@ -23,13 +23,15 @@ using Umbraco.Web.UI.Pages;
 
 namespace InfoCaster.Umbraco.UrlTracker
 {
+    using global::Umbraco.Web.Cache;
+
     public class UrlTrackerApplicationEventHandler : ApplicationEventHandler
     {
         protected ClientTools ClientTools
         {
             get
             {
-                Page page = HttpContext.Current.CurrentHandler as Page;
+                var page = HttpContext.Current.CurrentHandler as Page;
                 if (page != null)
                     return new ClientTools(page);
                 return null;
@@ -48,15 +50,13 @@ namespace InfoCaster.Umbraco.UrlTracker
                 ContentService.Publishing += ContentService_Publishing;
                 ContentService.Deleting += ContentService_Deleting;
                 content.BeforeClearDocumentCache += content_BeforeClearDocumentCache;
-                Domain.AfterDelete += Domain_AfterDelete;
-                Domain.AfterSave += Domain_AfterSave;
-                Domain.New += Domain_New;
+                DomainCacheRefresher.CacheUpdated += (s, e) => UmbracoHelper.ClearDomains();
             }
         }
 
         void ContentService_Deleting(IContentService sender, DeleteEventArgs<IContent> e)
         {
-            foreach (IContent content in e.DeletedEntities)
+            foreach (var content in e.DeletedEntities)
             {
 #if !DEBUG
                 try
@@ -76,13 +76,13 @@ namespace InfoCaster.Umbraco.UrlTracker
         void ContentService_Publishing(IPublishingStrategy sender, PublishEventArgs<IContent> e)
         {
             // When content is renamed or 'umbracoUrlName' property value is added/updated
-            foreach (IContent content in e.PublishedEntities)
+            foreach (var content in e.PublishedEntities)
             {
 #if !DEBUG
                 try
 #endif
                 {
-                    Node node = new Node(content.Id);
+                    var node = new Node(content.Id);
                     if (node.Name != content.Name && !string.IsNullOrEmpty(node.Name)) // If name is null, it's a new document
                     {
                         // Rename occurred
@@ -93,8 +93,8 @@ namespace InfoCaster.Umbraco.UrlTracker
                     }
                     if (content.HasProperty("umbracoUrlName"))
                     {
-                        string contentUmbracoUrlNameValue = content.GetValue("umbracoUrlName") != null ? content.GetValue("umbracoUrlName").ToString() : string.Empty;
-                        string nodeUmbracoUrlNameValue = node.GetProperty("umbracoUrlName") != null ? node.GetProperty("umbracoUrlName").Value : string.Empty;
+                        var contentUmbracoUrlNameValue = content.GetValue("umbracoUrlName") != null ? content.GetValue("umbracoUrlName").ToString() : string.Empty;
+                        var nodeUmbracoUrlNameValue = node.GetProperty("umbracoUrlName") != null ? node.GetProperty("umbracoUrlName").Value : string.Empty;
                         if (contentUmbracoUrlNameValue != nodeUmbracoUrlNameValue)
                         {
                             // 'umbracoUrlName' property value added/changed
@@ -106,8 +106,8 @@ namespace InfoCaster.Umbraco.UrlTracker
                     }
                     if (UrlTrackerSettings.SEOMetadataInstalled && content.HasProperty(UrlTrackerSettings.SEOMetadataPropertyName))
                     {
-                        string contentSEOMetadataValue = content.GetValue(UrlTrackerSettings.SEOMetadataPropertyName) != null ? content.GetValue(UrlTrackerSettings.SEOMetadataPropertyName).ToString() : string.Empty;
-                        string nodeSEOMetadataValue = node.GetProperty(UrlTrackerSettings.SEOMetadataPropertyName) != null ? node.GetProperty(UrlTrackerSettings.SEOMetadataPropertyName).Value : string.Empty;
+                        var contentSEOMetadataValue = content.GetValue(UrlTrackerSettings.SEOMetadataPropertyName) != null ? content.GetValue(UrlTrackerSettings.SEOMetadataPropertyName).ToString() : string.Empty;
+                        var nodeSEOMetadataValue = node.GetProperty(UrlTrackerSettings.SEOMetadataPropertyName) != null ? node.GetProperty(UrlTrackerSettings.SEOMetadataPropertyName).Value : string.Empty;
                         if (contentSEOMetadataValue != nodeSEOMetadataValue)
                         {
                             dynamic contentJson = JObject.Parse(contentSEOMetadataValue);
@@ -138,14 +138,14 @@ namespace InfoCaster.Umbraco.UrlTracker
 
         void ContentService_Moving(IContentService sender, MoveEventArgs<IContent> e)
         {
-            IContent content = e.Entity;
+            var content = e.Entity;
 #if !DEBUG
             try
 #endif
             {
                 if (content != null)
                 {
-                    Node node = new Node(content.Id);
+                    var node = new Node(content.Id);
 
                     if (node != null && !string.IsNullOrEmpty(node.NiceUrl) && !content.Path.StartsWith("-1,-20")) // -1,-20 == Recycle bin | Not moved to recycle bin
                         UrlTrackerRepository.AddUrlMapping(content, node.GetDomainRootNode().Id, node.NiceUrl, AutoTrackingTypes.Moved);
@@ -175,21 +175,6 @@ namespace InfoCaster.Umbraco.UrlTracker
                 ex.LogException();
             }
 #endif
-        }
-
-        void Domain_New(Domain sender, NewEventArgs e)
-        {
-            UmbracoHelper.ClearDomains();
-        }
-
-        void Domain_AfterSave(Domain sender, SaveEventArgs e)
-        {
-            UmbracoHelper.ClearDomains();
-        }
-
-        void Domain_AfterDelete(Domain sender, umbraco.cms.businesslogic.DeleteEventArgs e)
-        {
-            UmbracoHelper.ClearDomains();
         }
     }
 }

@@ -275,7 +275,7 @@ namespace InfoCaster.Umbraco.UrlTracker
                 return _forcedRedirectCacheTimeoutSeconds.Value;
             }
         }
-        
+
 
         static bool? _isDisabled;
         static bool? _enableLogging;
