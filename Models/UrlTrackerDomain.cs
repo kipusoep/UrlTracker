@@ -29,8 +29,14 @@
 
         public Node Node
         {
-            get => node ?? (node = new Node(NodeId));
-            private set => node = value;
+            get
+            {
+                return node ?? (node = new Node(NodeId));
+            }
+            private set
+            {
+                node = value;
+            }
         }
 
         public int NodeId { get; set; }

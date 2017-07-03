@@ -8,7 +8,7 @@ foreach($content in $fileContent)
     $match = [System.Text.RegularExpressions.Regex]::Match($content, $RegularExpression)
     if($match.Success) {
         $nugetVersion = $match.groups[1].value.TrimEnd('*').TrimEnd('.')
-		$nugetVersion
+        $nugetVersion
     }
 }
 
