@@ -1,5 +1,5 @@
-<?xml version="1.0"?>
-<package >
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>UrlTracker</id>
     <version>$version$</version>
@@ -10,18 +10,19 @@
     <projectUrl>https://our.umbraco.org/projects/developer-tools/301-url-tracker</projectUrl>
     <iconUrl>http://our.umbraco.org/media/wiki/8046/635072564424992426_urltracker.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
-	<summary>The Url Tracker is used to manage URLs within Umbraco</summary>
-    <description>The Url Tracker is used to manage URLs within umbraco. It automatically tracks URL changes, for instance when a node is renamed, and makes sure the old URL will redirect to the new location. This is great for SEO and great for people visiting your website via this old URL. Search engines will update the indexed URL and people won't visit the old, broken URL.
-You can also create your own redirects, based on a simple URL or using a Regex pattern. You can redirect to an existing node or a manually entered URL. This is great for migrating existing indexed URLs to your new website!</description>
-    <releaseNotes>404 keyword search performance improvements
-	[Bugfix] Forced regex redirect for a domain is applied to all domains
-	[Bugfix] Edit pages can save values from previously viewed redirect
-	[Bugfix] Forced redirect cache not updated in multi-server environment
-	[Bugfix] Fix Collection was modified error</releaseNotes>
+    <description>
+      The Url Tracker is used to manage URLs within umbraco. It automatically tracks URL changes, for instance when a node is renamed, and makes sure the old URL will redirect to the new location. This is great for SEO and great for people visiting your website via this old URL. Search engines will update the indexed URL and people won't visit the old, broken URL.
+      You can also create your own redirects, based on a simple URL or using a Regex pattern. You can redirect to an existing node or a manually entered URL. This is great for migrating existing indexed URLs to your new website!
+    </description>
+    <summary>The Url Tracker is used to manage URLs within Umbraco</summary>
+    <releaseNotes>
+      Umbraco 7.6.x compatibility
+      .net 4.5
+    </releaseNotes>
     <tags>urltracker umbraco</tags>
   </metadata>
   <files>
-    <file src="readme.txt" target="" />
-	<file src="bin\InfoCaster.Umbraco.UrlTracker.dll" target="lib" />
+    <file src="bin\InfoCaster.Umbraco.UrlTracker.dll" target="lib\net45\InfoCaster.Umbraco.UrlTracker.dll" />
+    <file src="readme.txt" target="readme.txt" />
   </files>
 </package>
