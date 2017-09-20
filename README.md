@@ -60,6 +60,8 @@ Amount of time, in seconds, that the forced redirects will be cached for. Defaul
 This setting does nothing unless **urlTracker:forcedRedirectCacheTimeoutEnabled** is true.
 
 ## Changelog ##
+*	3.13 [2017/09/05]
+	* Switched to Umbraco's EndRequest event to prevent MetaData Reader error ([#146](https://github.com/kipusoep/UrlTracker/issues/146)) ([#163](https://github.com/kipusoep/UrlTracker/issues/163))
 *	3.12 [2016/10/11]
 	* 404 keyword search performance improvements ([#102](https://github.com/kipusoep/UrlTracker/pull/102))
 	* [Bugfix] Forced regex redirect for a domain is applied to all domains ([#125](https://github.com/kipusoep/UrlTracker/pull/125))
