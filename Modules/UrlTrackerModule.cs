@@ -31,27 +31,51 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
         static bool _urlTrackerInstalled;
         static bool _execute = true;
 
+        private static bool _urlTrackerSubscribed = false;
+        private static readonly object _urlTrackerSubscribeLock = new object();
+
         #region IHttpModule Members
         public void Dispose() { }
 
-        public void Init(HttpApplication context)
+        public void Init(HttpApplication app)
         {
-            context.PostResolveRequestCache += Context_PostResolveRequestCache;
-            UmbracoModule.EndRequest += umbraco_EndRequest;
+            if (!_urlTrackerSubscribed)
+            {
+                lock (_urlTrackerSubscribeLock)
+                {
+                    if (!_urlTrackerSubscribed)
+                    {
+						// YSOD when running in integrated mode :(
+						// app.PostResolveRequestCache += Context_PostResolveRequestCache;
 
-            LoggingHelper.LogInformation("UrlTracker HttpModule | Subscribed to AcquireRequestState and EndRequest events");
+						UmbracoModule.EndRequest += UmbracoModule_EndRequest;
+
+                        LoggingHelper.LogInformation("UrlTracker HttpModule | Subscribed to EndRequest events");
+
+                        _urlTrackerSubscribed = true;
+                    }
+                }
+            }
+
+			// Prevent YSOD crash
+			// https://stackoverflow.com/questions/3712598/httpmodule-init-safely-add-httpapplication-beginrequest-handler-in-iis7-integr
+			app.PostResolveRequestCache -= Context_PostResolveRequestCache;
+			app.PostResolveRequestCache -= Context_PostResolveRequestCache;
+
+			LoggingHelper.LogInformation("UrlTracker HttpModule | Subscribed to AcquireRequestState events");
+
         }
 
-        void Context_PostResolveRequestCache(object sender, EventArgs e)
-        {
-            CheckUrlTrackerInstalled();
+		void Context_PostResolveRequestCache(object sender, EventArgs e)
+		{
+			CheckUrlTrackerInstalled();
 
-            if (_execute)
-                UrlTrackerDo("AcquireRequestState", ignoreHttpStatusCode: true);
-        }
-        #endregion
+			if (_execute)
+				UrlTrackerDo("AcquireRequestState", ignoreHttpStatusCode: true, context: HttpContext.Current);
+		}
+		#endregion
 
-        void umbraco_EndRequest(object sender, UmbracoRequestEventArgs args)
+		void UmbracoModule_EndRequest(object sender, UmbracoRequestEventArgs args)
         {
             CheckUrlTrackerInstalled();
 
@@ -90,8 +114,9 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
 
         static void UrlTrackerDo(string callingEventName, bool ignoreHttpStatusCode = false, HttpContext context = null)
         {
-            if (context == null) {
-                LoggingHelper.LogInformation("UrlTracker HttpModule | No HttpContext has been passed");
+            if (context == null)
+            {
+                LoggingHelper.LogInformation("UrlTracker HttpModule | No HttpContext has been passed by {0}", callingEventName);
                 context = HttpContext.Current;
             }
 
