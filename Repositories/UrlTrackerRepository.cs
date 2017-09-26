@@ -416,6 +416,12 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
             if (urlTrackerModel.ForceRedirect)
                 ReloadForcedRedirectsCache();
         }
+
+		public static void Convert410To301(int nodeId)
+		{
+			string query = "UPDATE icUrlTracker SET RedirectHttpCode = 301 WHERE RedirectHttpCode = 410 AND RedirectNodeId = @redirectNodeId";
+			_sqlHelper.ExecuteNonQuery(query, _sqlHelper.CreateParameter("redirectNodeId", nodeId));
+		}
         #endregion
 
         #region Support

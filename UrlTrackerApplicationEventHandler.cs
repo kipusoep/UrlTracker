@@ -46,6 +46,7 @@ namespace InfoCaster.Umbraco.UrlTracker
 
                 ContentService.Moving += ContentService_Moving;
                 ContentService.Publishing += ContentService_Publishing;
+				ContentService.Published += ContentService_Published;
                 ContentService.Deleting += ContentService_Deleting;
                 content.BeforeClearDocumentCache += content_BeforeClearDocumentCache;
                 Domain.AfterDelete += Domain_AfterDelete;
@@ -54,7 +55,7 @@ namespace InfoCaster.Umbraco.UrlTracker
             }
         }
 
-        void ContentService_Deleting(IContentService sender, DeleteEventArgs<IContent> e)
+		void ContentService_Deleting(IContentService sender, DeleteEventArgs<IContent> e)
         {
             foreach (IContent content in e.DeletedEntities)
             {
@@ -136,7 +137,15 @@ namespace InfoCaster.Umbraco.UrlTracker
             }
         }
 
-        void ContentService_Moving(IContentService sender, MoveEventArgs<IContent> e)
+		void ContentService_Published(IPublishingStrategy sender, PublishEventArgs<IContent> e)
+		{
+			foreach(IContent content in e.PublishedEntities)
+			{
+				UrlTrackerRepository.Convert410To301(content.Id);
+			}
+		}
+
+		void ContentService_Moving(IContentService sender, MoveEventArgs<IContent> e)
         {
             IContent content = e.Entity;
 #if !DEBUG
