@@ -13,7 +13,19 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
         public int NodeId { get; set; }
         public string Name { get; set; }
 
-        public Node Node { get { return new Node(NodeId); } }
+		private Node _node = null;
+		public Node Node
+		{
+			get
+			{
+				if (_node == null)
+				{
+					_node = new Node(NodeId);
+				}
+
+				return _node;
+			}
+		}
         public string UrlWithDomain
         {
             get

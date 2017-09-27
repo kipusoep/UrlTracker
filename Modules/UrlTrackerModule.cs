@@ -175,7 +175,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                     string fullRawUrl;
                     string previousFullRawUrlTest;
                     string fullRawUrlTest;
-                    fullRawUrl = previousFullRawUrlTest = fullRawUrlTest = string.Format("{0}{1}{2}{3}", request.Url.Scheme, Uri.SchemeDelimiter, request.Url.Host, request.RawUrl);
+                    fullRawUrl = previousFullRawUrlTest = fullRawUrlTest = string.Format("{0}{1}{2}{3}", request.Url.Scheme, Uri.SchemeDelimiter, request.Url.Host, request.Url.AbsolutePath);
 
                     UrlTrackerDomain urlTrackerDomain;
                     do
