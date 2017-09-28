@@ -30,7 +30,7 @@ using System.Web.UI;
 //      Revision
 //
 [assembly: AssemblyVersion("3.14.*")]
-[assembly: AssemblyInformationalVersion("3.14.0-beta")]
+[assembly: AssemblyInformationalVersion("3.14.0-beta2")]
 
 // SQL
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.SQL.MicrosoftSqlServer.create-table-1.sql", "text/plain")]

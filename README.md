@@ -60,6 +60,9 @@ Amount of time, in seconds, that the forced redirects will be cached for. Defaul
 This setting does nothing unless **urlTracker:forcedRedirectCacheTimeoutEnabled** is true.
 
 ## Changelog ##
+*	3.14-beta2 [2017/09/27]
+	* [Bugfix] Removed excessive logging ([#172](https://github.com/kipusoep/UrlTracker/pull/172))
+	* [Bugfix] Performance fixes for multiple domains ([#105](https://github.com/kipusoep/UrlTracker/issues/105))
 *	3.14-beta [2017/09/26]
 	* [Bugfix] Only subscribe to each event once. This should help with performance ([#169](https://github.com/kipusoep/UrlTracker/issues/169), [#167](https://github.com/kipusoep/UrlTracker/issues/167), [#166](https://github.com/kipusoep/UrlTracker/issues/166))
 	* [Bugfix] Convert 410 entries to 301 when a node is republished ([#168](https://github.com/kipusoep/UrlTracker/issues/168))
