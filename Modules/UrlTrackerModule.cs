@@ -60,7 +60,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
 			// Prevent YSOD crash
 			// https://stackoverflow.com/questions/3712598/httpmodule-init-safely-add-httpapplication-beginrequest-handler-in-iis7-integr
 			app.PostResolveRequestCache -= Context_PostResolveRequestCache;
-			app.PostResolveRequestCache -= Context_PostResolveRequestCache;
+			app.PostResolveRequestCache += Context_PostResolveRequestCache;
 
 			LoggingHelper.LogInformation("UrlTracker HttpModule | Subscribed to AcquireRequestState events");
 

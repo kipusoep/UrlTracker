@@ -7,17 +7,14 @@
     <authors>Stefan Kip</authors>
     <owners>Stefan Kip</owners>
     <licenseUrl>https://opensource.org/licenses/mit-license.php</licenseUrl>
-    <projectUrl>https://our.umbraco.org/projects/developer-tools/301-url-tracker</projectUrl>
+    <projectUrl>https://github.com/kipusoep/UrlTracker</projectUrl>
     <iconUrl>http://our.umbraco.org/media/wiki/8046/635072564424992426_urltracker.png</iconUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
 	<summary>The Url Tracker is used to manage URLs within Umbraco</summary>
     <description>The Url Tracker is used to manage URLs within umbraco. It automatically tracks URL changes, for instance when a node is renamed, and makes sure the old URL will redirect to the new location. This is great for SEO and great for people visiting your website via this old URL. Search engines will update the indexed URL and people won't visit the old, broken URL.
 You can also create your own redirects, based on a simple URL or using a Regex pattern. You can redirect to an existing node or a manually entered URL. This is great for migrating existing indexed URLs to your new website!</description>
     <releaseNotes>
-		[Bugfix] Removed excessive logging
-		[Bugfix] Performance fixes for multiple domains
-		[Bugfix] Only subscribe to each event once
-		[Enhancement] Convert 410 entries to 301 when a node is republished
+		[Bugfix] Fixed a bug where forced redirects were ignored
 	</releaseNotes>
     <tags>urltracker umbraco</tags>
   </metadata>
