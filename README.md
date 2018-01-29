@@ -59,7 +59,42 @@ Setting this to true will enable forced redirect updates and additions to propag
 Amount of time, in seconds, that the forced redirects will be cached for. Default is 14400 seconds (4 hours). The default value will be used when the app setting is less than 1.
 This setting does nothing unless **urlTracker:forcedRedirectCacheTimeoutEnabled** is true.
 
+## Events ##
+You can customise the HttpResponse object from the Url Tracker, should you need to change the status code or other types of output.
+
+The following code sample will detect if we're a 410 response, and if so attempt to render the 404 template as defined in [umbracoSettings](https://our.umbraco.org/documentation/reference/config/umbracosettings/#errors). If it fails it will simply return a 404 status code.
+This code should be placed within the [Umbraco startup events](https://our.umbraco.org/documentation/reference/events/application-startup#application-startup-events-event-registration)
+s
+```c#
+public void OnApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
+{
+	InfoCaster.Umbraco.UrlTracker.Modules.UrlTrackerModule.PreUrlTracker += UrlTrackerModule_PreUrlTracker;
+
+	private void UrlTrackerModule_PreUrlTracker(object sender, HttpResponse e)
+	{
+
+		var errorPage = UmbracoConfig.For.UmbracoSettings().Content.Error404Collection.FirstOrDefault();
+
+		if (errorPage != null && errorPage.HasContentId && errorPage.ContentId != 1)
+		{
+			var template = new UmbracoHelper(UmbracoContext.Current).RenderTemplate(errorPage.ContentId);
+			e.Write(template);
+		}
+		else
+		{
+			if (e.StatusCode == 410)
+			{
+				e.StatusCode = 404;
+			}
+		}
+	}
+}
+```
+
 ## Changelog ##
+*	3.15 [2018/01/28]
+	* [Enhancement] Added [custom events](#events) ([#91](https://github.com/kipusoep/UrlTracker/issues/91))
+	* [Bugfix] Checked if a reserved path/URL has a value ([#183](https://github.com/kipusoep/UrlTracker/issues/183))
 *	3.14.1 [2017/11/11]
 	* [Bugfix] Fixed a bug where forced redirects were ignored ([#176](https://github.com/kipusoep/UrlTracker/issues/176))
 *	3.14 [2017/11/06]

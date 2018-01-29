@@ -29,8 +29,8 @@ using System.Web.UI;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("3.14.*")]
-[assembly: AssemblyInformationalVersion("3.14.1")]
+[assembly: AssemblyVersion("3.15.*")]
+[assembly: AssemblyInformationalVersion("3.15.0")]
 
 // SQL
 [assembly: WebResource("InfoCaster.Umbraco.UrlTracker.SQL.MicrosoftSqlServer.create-table-1.sql", "text/plain")]

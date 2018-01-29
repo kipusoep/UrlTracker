@@ -49,6 +49,8 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
 #pragma warning restore
                         foreach (string reservedUrl in _reservedUrlsCache.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries))
                         {
+							if (String.IsNullOrWhiteSpace(reservedUrl)) continue;
+
                             //resolves the url to support tilde chars
                             string reservedUrlTrimmed = IOHelper.ResolveUrl(reservedUrl).Trim().ToLower();
                             if (reservedUrlTrimmed.Length > 0)
@@ -57,7 +59,9 @@ namespace InfoCaster.Umbraco.UrlTracker.Helpers
 
                         foreach (string reservedPath in _reservedPathsCache.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries))
                         {
-                            bool trimEnd = !reservedPath.EndsWith("/");
+							if (String.IsNullOrWhiteSpace(reservedPath)) continue;
+
+							bool trimEnd = !reservedPath.EndsWith("/");
                             //resolves the url to support tilde chars
                             string reservedPathTrimmed = IOHelper.ResolveUrl(reservedPath).Trim().ToLower();
 

@@ -83,7 +83,13 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                 UrlTrackerDo("EndRequest", context: args.HttpContext.ApplicationInstance.Context);
         }
 
-        static void CheckUrlTrackerInstalled()
+		#region Events
+
+		public static event EventHandler<HttpResponse> PreUrlTracker;
+
+		#endregion
+
+		static void CheckUrlTrackerInstalled()
         {
             try
             {
@@ -376,6 +382,12 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                     response.Clear();
                     response.StatusCode = redirectHttpCode.Value;
                     LoggingHelper.LogInformation("UrlTracker HttpModule | Response statuscode set to: {0}", response.StatusCode);
+
+					if (PreUrlTracker != null)
+					{
+						PreUrlTracker(null, response);
+						LoggingHelper.LogInformation("UrlTracker HttpModule | Custom event has been called: {0}", PreUrlTracker.Method.Name);
+					}
 
                     if (!string.IsNullOrEmpty(redirectLocation))
                     {
