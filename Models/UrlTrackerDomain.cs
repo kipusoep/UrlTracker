@@ -40,7 +40,10 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
                         {
                             /*var url = new Node(node.Id).Url;
                             return url;*/
-                            return Node.Url; // do not re-instantiate
+                            var url = !Node.Url.StartsWith("/")
+                                ? Node.Url
+                                : string.Format("{0}{1}{2}", Uri.UriSchemeHttp, Uri.SchemeDelimiter, HttpContext.Current.Request.Url.Host) + Node.Url;
+                            return url.TrimEnd('/'); // do not re-instantiate
                         }
                         else
                         {

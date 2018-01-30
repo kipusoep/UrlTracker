@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Web;
 using InfoCaster.Umbraco.UrlTracker.Extensions;
 using InfoCaster.Umbraco.UrlTracker.Helpers;
 using InfoCaster.Umbraco.UrlTracker.Models;
@@ -52,7 +53,10 @@ namespace InfoCaster.Umbraco.UrlTracker.Repositories
                 if (UrlTrackerSettings.HasDomainOnChildNode)
                 {
                     var rootNode = new Node(rootNodeId);
-                    var rootUri = new Uri(rootNode.NiceUrl);
+                    var rootUrl = !rootNode.Url.StartsWith("/")
+                        ? rootNode.NiceUrl
+                        : string.Format("{0}{1}{2}", Uri.UriSchemeHttp, Uri.SchemeDelimiter, HttpContext.Current.Request.Url.Host) + rootNode.NiceUrl;
+                    var rootUri = new Uri(rootUrl);
                     var shortRootUrl = UrlTrackerHelper.ResolveShortestUrl(rootUri.AbsolutePath);
                     if (url.StartsWith(shortRootUrl, StringComparison.OrdinalIgnoreCase))
                     {
