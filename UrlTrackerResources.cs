@@ -60,7 +60,7 @@ namespace InfoCaster.Umbraco.UrlTracker
         public const string Notes = "Notes";
         public const string NotesWatermark = "Notes";
         public const string SyncTree = "Click to sync the tree on the left to this node";
-        public const string ErrorMessageOldUrlAndOldRegexEmpty = "There are entries without one of the two mandatory properties (OldUrl & OldRegex) set. Please delete the row(s) with the following Id('s): {0}";
+        public const string ErrorMessageOldUrlAndOldRegexEmpty = "There are entries without one of the two mandatory properties (OldUrl & OldRegex) set. Please delete the row(s) with the following Id(s): {0}";
         public const string ErrorMessageOldUrlAndOldRegexEmptyButton = "Or click here to delete these rows automatically and reload the page";
     }
 }
