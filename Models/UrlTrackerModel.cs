@@ -200,7 +200,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Models
         {
             get
             {
-                if (RedirectNodeId.HasValue && ((Notes.StartsWith("A parent") || Notes.StartsWith("An ancestor") || Notes.StartsWith("This page") || Notes.StartsWith("This document")) && (Notes.EndsWith(" was moved") || Notes.EndsWith(" was renamed") || Notes.EndsWith("'s property 'umbracoUrlName' changed"))))
+                if (RedirectNodeId.HasValue && ((Notes.Contains("Node removed") || Notes.StartsWith("A parent") || Notes.StartsWith("An ancestor") || Notes.StartsWith("This page") || Notes.StartsWith("This document")) && (Notes.EndsWith(" was moved") || Notes.EndsWith(" was renamed") || Notes.EndsWith("'s property 'umbracoUrlName' changed"))))
                     return UrlTrackerViewTypes.Auto;
                 if (Is404)
                     return UrlTrackerViewTypes.NotFound;
