@@ -181,7 +181,7 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                     string fullRawUrl;
                     string previousFullRawUrlTest;
                     string fullRawUrlTest;
-                    fullRawUrl = previousFullRawUrlTest = fullRawUrlTest = string.Format("{0}{1}{2}{3}", request.Url.Scheme, Uri.SchemeDelimiter, request.Url.Host, request.Url.AbsolutePath);
+                    fullRawUrl = previousFullRawUrlTest = fullRawUrlTest = string.Format("{0}{1}{2}{3}", request.Url.Scheme, Uri.SchemeDelimiter, request.IsLocal ? request.Url.Authority : request.Url.Host, request.Url.AbsolutePath);
 
                     UrlTrackerDomain urlTrackerDomain;
                     do
@@ -359,8 +359,15 @@ namespace InfoCaster.Umbraco.UrlTracker.Modules
                             NameValueCollection newQueryString = HttpUtility.ParseQueryString(request.Url.Query);
                             if (redirectQueryString.HasKeys())
                                 newQueryString = newQueryString.Merge(redirectQueryString);
-                            string pathAndQuery = Uri.UnescapeDataString(redirectUri.PathAndQuery) + redirectUri.Fragment;
-                            redirectUri = new Uri(string.Format("{0}{1}{2}{3}/{4}{5}", redirectUri.Scheme, Uri.SchemeDelimiter, redirectUri.Host, redirectUri.Port != 80 && UrlTrackerSettings.AppendPortNumber ? string.Concat(":", redirectUri.Port) : string.Empty, pathAndQuery.Contains('?') ? pathAndQuery.Substring(0, pathAndQuery.IndexOf('?')) : pathAndQuery.StartsWith("/") ? pathAndQuery.Substring(1) : pathAndQuery, newQueryString.HasKeys() ? string.Concat("?", newQueryString.ToQueryString()) : string.Empty));
+                            string pathAndQuery = Uri.UnescapeDataString(redirectUri.PathAndQuery.EnsureStartsWith("/")) + redirectUri.Fragment;
+                            // Determine if we need to include the port number
+                            string port = redirectUri.Port != 80 && UrlTrackerSettings.AppendPortNumber ? string.Concat(":", redirectUri.Port) : string.Empty;
+                            //  Extract the Uri path without any querystring
+                            string path = pathAndQuery.Contains('?') ? pathAndQuery.Substring(0, pathAndQuery.IndexOf('?')) : pathAndQuery.StartsWith("/") ? pathAndQuery.Substring(1) : pathAndQuery;
+                            // Assemble the new querystring but only if there are key/values to pass through
+                            string querystring = newQueryString.HasKeys() ? string.Concat("?", newQueryString.ToQueryString()) : string.Empty;
+
+                            redirectUri = new Uri(string.Format("{0}{1}{2}{3}{4}{5}", redirectUri.Scheme, Uri.SchemeDelimiter, redirectUri.Host, port, path.EnsureStartsWith("/"), querystring));
                         }
 
                         if (redirectUri == new Uri(string.Format("{0}{1}{2}{3}/{4}", request.Url.Scheme, Uri.SchemeDelimiter, request.Url.Host, request.Url.Port != 80 && UrlTrackerSettings.AppendPortNumber ? string.Concat(":", request.Url.Port) : string.Empty, request.RawUrl.StartsWith("/") ? request.RawUrl.Substring(1) : request.RawUrl)))
